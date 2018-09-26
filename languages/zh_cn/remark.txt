@@ -1,0 +1,2 @@
+accumulatepoints.php                                     我的积分
+member_myinformation.php                                 我的信息

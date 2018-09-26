@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$shop_name}触屏版首页</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">
+<link href="css/home.css" rel="stylesheet" type="text/css" />
+<link href="css/foot.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.lazyload.js"></script>
+<script type="text/javascript" src="js/fbi.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$(".row_list img").lazyload({
+		placeholder: "images/img_bg4.png",
+		effect: "fadeIn"
+	});
+	$("#submit").click(function() {
+		if($("#search_word").val()){
+			$("#searchForm").submit();
+		} else {
+			alert("请输入关键词！");
+			return false;
+		}
+	});
+});
+</script>
+</head>
+<body style="">
+<div class="header">
+  <div class="left"> <a href="index.php" class="home"> <span> {$shop_name} </span> </a> </div>
+  <div class="tit">
+    <h2> <span class="title"> {$shop_name} </span> </h2>
+  </div>
+  <div class="right">
+    <ul>
+      <li class="user"> <a href="user.php?act=user_center" title="个人中心"> <span class="ico"> </span> </a> </li>
+      <li class="cart"> <a href="cart.php" title="购物车"> <span class="ico"> </span> <span id="ShoppingCartNum" class="tip hide"> </span> </a> </li>
+    </ul>
+  </div>
+</div>
+<div id="viewport" class="viewport">
+  <div class="slider card card-nomb" style="visibility: visible;">
+    <!-- banner轮播Start -->
+    <script type="text/javascript" src="js/TouchSlide.1.1.js"></script>
+    <div id="focus" class="focus">
+      <div class="hd">
+        <ul>
+        </ul>
+      </div>
+      <div class="bd">
+        <ul>
+        <li><a href="goods.php?id=8" target="_blank"><img src="images/br1.jpg" /></a></li>
+        <li><a href="goods.php?id=8" target="_blank"><img src="images/br2.jpg" /></a></li>
+        <li><a href="goods.php?id=8" target="_blank"><img src="images/br3.jpg" /></a></li>
+        <li><a href="goods.php?id=8" target="_blank"><img src="images/br4.jpg" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <script type="text/javascript">
+	TouchSlide({ 
+		slideCell:"#focus",
+		titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+		mainCell:".bd ul",
+		delayTime:600,
+		interTime:4000,
+		effect:"leftLoop", 
+		autoPlay:true,//自动播放
+		autoPage:true, //自动分页
+		switchLoad:"_src" //切换加载，真实图片路径为"_src" 
+	});
+	</script>
+    <!-- banner轮播End -->
+  </div>
+  <div class="header-search">
+      <form class="form" action="search.php" id="searchForm" name="searchForm">
+        <div class="search-word">
+          <input type="text" class="input" autocomplete="off" name="keywords" id="search_word" placeholder="{if $search_keywords}{$search_keywords|escape}{else}请输入关键词{/if}">
+        </div>
+        <a class="submit" href="javascript:;" id="submit"><span class="ico-search"></span></a>
+      </form>
+    </div>
+  <div class="nav-index card">
+    <ul>
+      <li> <a href="category.php"> <span class="ico icon_indexn_01"> </span> <span class="t"> <span> 全部商品 </span> </span> </a> </li>
+      <li> <a href="goods_list.php?type=promote"> <span class="ico icon_indexn_02"> </span> <span class="t"> <span> 促销活动 </span> </span> </a> </li>
+      <li> <a href="goods_list.php?type=new"> <span class="ico icon_indexn_03"> </span> <span class="t"> <span> 新品上市 </span> </span> </a> </li>
+      <li> <a href="brands.php"> <span class="ico icon_indexn_04"> </span> <span class="t"> <span> 品牌馆 </span> </span> </a> </li>
+    </ul>
+    <ul>
+      <li> <a href="cart.php"> <span class="ico icon_indexn_05"> </span> <span class="t"> <span> 购物车 </span> </span> </a> </li>
+      <li> <a href="user.php?act=user_center"> <span class="ico icon_indexn_06"> </span> <span class="t"> <span> 会员中心 </span> </span> </a> </li>
+      <li> <a href="exchange.php"> <span class="ico icon_indexn_10"> </span> <span class="t"> <span> 积分商城 </span> </span> </a> </li>
+      <li> <a href="kefu.php"> <span class="ico icon_indexn_08"> </span> <span class="t"> <span> 客服中心 </span> </span> </a> </li>
+    </ul>
+  </div>
+  <div class="card show_big">
+    <div class="col2">
+      <div class="row2 mg-bor-right"> <a href="goods.php?id=8" target="_blank" class="img"> <span class="imgurl"> <img data-original="images/ad1.jpg" style="display: inline;" src="images/ad1.jpg"> </span> </a> </div>
+      <div class="rows">
+        <div class="row1"> <a href="goods.php?id=8" target="_blank" class="img"> <span class="imgurl"> <img data-original="images/ad2.jpg" style="display: inline;" src="images/ad2.jpg"> </span> </a> </div>
+        <div class="row1 mg-bor-no-left mg-bor-top"> <a href="goods.php?id=8" target="_blank" class="img"> <span class="imgurl"> <img data-original="images/ad3.jpg" style="display: inline;" src="images/ad3.jpg"> </span> </a> </div>
+      </div>
+    </div>
+    <div class="col2">
+      <div class="row1 mg-bor-right"> <a href="goods.php?id=8" target="_blank" class="img"> <span class="imgurl"> <img data-original="images/ad4.jpg" style="display: inline;" src="images/ad4.jpg"> </span> </a> </div>
+      <div class="row1"> <a href="goods.php?id=8" target="_blank" class="img"> <span class="imgurl"> <img data-original="images/ad5.jpg" style="display: inline;" src="images/ad5.jpg"> </span> </a> </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="topic">
+      <div class="bg">
+        <div class="imgurl"> <img data-original="images/ad6.jpg" style="display: inline;" src="images/ad6.jpg"> </div>
+      </div>
+      <a href="goods_list.php?type=promote" class="targeturl"></a>
+      <div class="item-lay">
+      	<!--{foreach from=$promote_goods item=goods name=goods}-->
+        <!--{if $smarty.foreach.goods.index <= 1}-->
+        <div class="item-l"> <a href="{$goods.url}"> <span class="imgurl"> <img data-original="./../{$goods.goods_img}"
+                  style="display: inline;" src="./../{$goods.goods_img}"> </span>
+          <p> <span>{$goods.short_name}</span> </p>
+          <p> <span>{if $goods.promote_price neq ""}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span> </p>
+          </a> </div>
+        <!--{/if}-->
+        <!--{/foreach}-->
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="topic">
+      <div class="bg">
+        <div class="imgurl"> <img data-original="images/ad7.jpg" style="display: inline;" src="images/ad7.jpg"> </div>
+      </div>
+      <a href="goods_list.php?type=new" class="targeturl"></a>
+      <div class="item-lay">
+      	<!--{foreach from=$new_goods item=goods name=goods}-->
+        <!--{if $smarty.foreach.goods.index <= 1}-->
+        <div class="item-l"> <a href="{$goods.url}"> <span class="imgurl"> <img data-original="./../{$goods.original_img}"
+                  style="display: inline;" src="./../{$goods.original_img}"> </span>
+          <p> <span>{$goods.name}</span> </p>
+          <p> <span>{if $goods.promote_price neq ""}{$goods.promote_price}{else}{$goods.shop_price}{/if}</span> </p>
+          </a> </div>
+        <!--{/if}-->
+        <!--{/foreach}-->
+      </div>
+    </div>
+  </div>
+  <!--第1个分类调用开始-->
+  <div class="card card-list">
+    <div class="col1 more_top"> <a href="category.php?c_id=1">
+      <span> 推荐商品1 </span> </a> </div>
+    <div class="col3">
+    	<!--{foreach from=get_cat_goods_wap(1,2) item=row}-->
+      <div class="row1"> <a href="{$row.url}"> <span class="imgurl"> <img data-original="./../{$row.thumb}" style="display: inline;" src="./../{$row.thumb}"> </span> <span class="p"> <span>{$row.name}</span> </span> <span class="p"> <span>{if $row.promote_price neq ""}{$row.promote_price}{else}{$row.shop_price}{/if}</span> </span> </a> </div>
+      <!--{/foreach}-->
+    </div>
+    <div style="clear:both;"></div>
+    <div class="col3">
+    	<!--{foreach from=get_cat_goods_wap(1,4) item=row name=cat_goods_wap}-->
+      <!--{if $smarty.foreach.cat_goods_wap.index>1}-->
+      <div class="row1"> <a href="{$row.url}"> <span class="imgurl"> <img data-original="./../{$row.thumb}" style="display: inline;" src="./../{$row.thumb}"> </span> <span class="p"> <span>{$row.name}</span> </span> <span class="p"> <span>{if $row.promote_price neq ""}{$row.promote_price}{else}{$row.shop_price}{/if}</span> </span> </a> </div>
+      <!--{/if}-->
+      <!--{/foreach}-->
+    </div>
+    <div style="clear:both;"></div>
+    <div class="col1 more"> <a href="category.php?c_id=1">
+      <span> 查看更多&nbsp;&gt;&gt; </span> </a> </div>
+  </div>
+  <!--第1个分类调用结束-->
+  <!--第2个分类调用开始-->
+    <div class="card card-list">
+    <div class="col1 more_top"> <a href="category.php?c_id=10">
+      <span> 推荐商品2 </span> </a> </div>
+    <div class="col3">
+    	<!--{foreach from=get_cat_goods_wap(10,2) item=row}-->
+      <div class="row1"> <a href="{$row.url}"> <span class="imgurl"> <img data-original="./../{$row.thumb}" style="display: inline;" src="./../{$row.thumb}"> </span> <span class="p"> <span>{$row.name}</span> </span> <span class="p"> <span>{if $row.promote_price neq ""}{$row.promote_price}{else}{$row.shop_price}{/if}</span> </span> </a> </div>
+      <!--{/foreach}-->
+    </div>
+    <div style="clear:both;"></div>
+    <div class="col3">
+    	<!--{foreach from=get_cat_goods_wap(10,4) item=row name=cat_goods_wap}-->
+      <!--{if $smarty.foreach.cat_goods_wap.index>1}-->
+      <div class="row1"> <a href="{$row.url}"> <span class="imgurl"> <img data-original="./../{$row.thumb}" style="display: inline;" src="./../{$row.thumb}"> </span> <span class="p"> <span>{$row.name}</span> </span> <span class="p"> <span>{if $row.promote_price neq ""}{$row.promote_price}{else}{$row.shop_price}{/if}</span> </span> </a> </div>
+      <!--{/if}-->
+      <!--{/foreach}-->
+    </div>
+    <div style="clear:both;"></div>
+    <div class="col1 more"> <a href="category.php?c_id=10">
+      <span> 查看更多&nbsp;&gt;&gt; </span> </a> </div>
+  </div>
+
+  <!--第2个分类调用结束-->
+</div>
+
+<!--页面底部-->
+{include file='foot.dwt'}
+<!--页面底部-->
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z cfang $ -->
+{include file="engrave_pageheader.htm"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<div class="main-div">
+    <form method="post" action="cost.php?id={$ids}" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+        <table cellspacing="1" cellpadding="3" width="100%">
+            <tr>
+                <td class="label">支付时间</td>
+                <td>
+                    <input type="text" name="pay_time"
+                           onclick="return showCalendar(this, '%Y-%m-%d', false, false, this);"
+                            value="{$costInfo.cost_pay_time}"
+                           class="time send_time"
+                           size="30" />
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">备注</td>
+                <td><textarea name="memo" id="memo" cols="40" rows="5"
+
+                >{$costInfo.cost_pay_memo}</textarea>
+
+                {if $costInfo.cost_pay_admin_name}<br>
+                    上次修改时间: {$costInfo.cost_pay_change_time}<br>
+                    上次修改人 : {$costInfo.cost_pay_admin_name}
+
+                    {/if}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><br />
+                    <input type="submit" class="button" value="确定支付" />
+                    <input type="button" onclick="history.back();" class="button" value="取消" />
+                    <input type="hidden" name="act" value="edit-submit" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+    <!--
+
+    onload = function()
+    {
+        startCheckOrder();
+    }
+    /**
+     * 验证
+     */
+    function validate()
+    {
+        validator = new Validator("theForm");
+        validator.required("pay_time",  "支付时间必填");
+        validator.required("memo",  "备注必填");
+        return validator.passed();
+    }
+    //-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

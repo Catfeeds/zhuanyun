@@ -1,0 +1,125 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start currecys list -->
+<div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('EnumId'); ">{$lang.record_id}</a>{$sort_EnumId}
+    </th>
+    <th><a>{$lang.Item_Name}</a>{$sort_ItemName}</th>
+	<th><a href="javascript:listTable.sort('ItemValue'); ">{$lang.Item_Value}</a>{$sort_ItemValue}</th>
+	<th><a href="javascript:listTable.sort('SortId'); ">{$lang.Sort_Id}</a>{$sort_SortId}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$dictionary_group_list item=dictionary_group}
+  <tr>
+    <td style="width:50px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$dictionary_group.EnumId}" />{$dictionary_group.EnumId}
+    </td>
+    <td align="center">
+    	<span>{$dictionary_group.ItemName}</span>
+    </td>
+	<td align="center">
+    	<span>{$dictionary_group.ItemValue}</span>
+    </td>
+    <td align="center">
+    	<span>{$dictionary_group.SortId}</span>
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_dictionary_manage.php?act=editgroup&amp;id={$dictionary_group.EnumId}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:void(0);" onclick="listTable.removegroup({$dictionary_group.EnumId},{$dictionary_group.GroupId},'{$lang.drop_confirm}')" title="{$lang.remove}">
+      	<img src="images/icon_drop.gif" border="0" height="16" width="16" />
+      </a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+  /**
+   * @param: bool ext 
+   */
+  function confirmSubmit(frm, ext)
+  {
+      if (frm.elements['type'].value == 'trash')
+      {
+          return confirm(batch_trash_confirm);
+      }
+      else if (frm.elements['type'].value == 'not_on_sale')
+      {
+          return confirm(batch_no_on_sale);
+      }
+      else if (frm.elements['type'].value == 'move_to')
+      {
+          ext = (ext == undefined) ? true : ext;
+          return ext && frm.elements['target_cat'].value != 0;
+      }
+      else if (frm.elements['type'].value == '')
+      {
+          return false;
+      }
+      else
+      {
+          return true;
+      }
+  }
+
+  function changeAction()
+  {
+      var frm = document.forms['listForm'];
+
+      frm.elements['target_cat'].style.display = frm.elements['type'].value == 'move_to' ? '' : 'none';
+			
+			{if $suppliers_list > 0}
+      frm.elements['suppliers_id'].style.display = frm.elements['type'].value == 'suppliers_move_to' ? '' : 'none';
+			{/if}
+
+      if (!document.getElementById('btnSubmit').disabled &&
+          confirmSubmit(frm, false))
+      {
+          frm.submit();
+      }
+  }
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

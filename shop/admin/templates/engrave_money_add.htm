@@ -1,0 +1,106 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+{include file="engrave_tip.htm"}
+<div class="main-div">
+<form method="post" action="engrave_money_manage.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.Name}</td>
+    <td><input type="text" name="Name" maxlength="60" value="{$currecy.Name}" />{$lang.require_name} <input type="checkbox" onclick="selectDefault();" id="IsDefault" name="IsDefault" value="1" {if $currecy.IsDefault}checked="checked"{/if} />{$lang.IsDefault}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Code}</td>
+    <td><input type="text" name="Code" style="width:80px" maxlength="40" value="{$currecy.Code}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Symbol}</td>
+    <td><input type="text" name="Symbol" style="width:60px" maxlength="40" value="{$currecy.Symbol}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.ExchageRate}</td>
+    <td><input type="text" name="ExchageRate" id="ExchageRate" style="width:60px" maxlength="40" value="{$currecy.ExchageRate}" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="id" value="{$currecy.CId}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+function selectDefault()
+{
+	var isDefault = document.getElementById("IsDefault");
+	if(isDefault.checked)
+	{
+		Ajax.call('engrave_money_manage.php?act=getisdefault',"",act_calisdefault,"GET","TEXT",false,true);
+	}
+	else
+	{
+		document.getElementById("exchagerate").value = '';
+		document.getElementById("exchagerate").disabled = "";
+	}
+}
+
+function act_calisdefault(result)
+{
+    var obj = eval('(' + result + ')');
+	if(obj.length>=1)
+	{
+		alert('货币只能设置一个默认货币！');
+	    document.getElementById("IsDefault").checked = '';
+	}
+	else
+	{
+	    document.getElementById("exchagerate").value = '1';
+		document.getElementById("exchagerate").disabled = "disabled";
+	}
+}
+
+if(document.all) 
+{ 
+	window.attachEvent('onload', load); 
+}
+else 
+{ 
+	window.addEventListener('load', load);
+}
+
+/**
+ * 初始化加载
+ */
+function load()
+{
+	var isDefault = document.getElementById("IsDefault");
+	if(isDefault.checked)
+	{
+		document.getElementById("ExchageRate").value = '1';
+		document.getElementById("ExchageRate").disabled = "disabled";
+	}
+	else
+	{
+		document.getElementById("ExchageRate").value = '';
+		document.getElementById("ExchageRate").disabled = "";
+	}
+}
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required('Name', currencyname_not_null);
+	validator.required('Code', currencycode_not_null);
+	validator.required('Symbol', currencysymbol_not_null);
+	validator.isFloat('ExchageRate',import_exchagerate_error,1);
+	return validator.passed();
+}
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

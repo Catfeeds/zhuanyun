@@ -1,0 +1,80 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+<!-- 澶� -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_faq.php" method="post" name="theForm" onsubmit="return validate()">
+        <!--  -->
+        <table width="90%" id="tab_channel_basic-table" align="center">
+           <tr>
+			 <td class="label">{$lang.faq_title}:</td>
+			 <td><input class="textdatum" type="text" name="faq_title" value="{$faq.faq_title}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.faq_expressnumber}:</td>
+			 <td><input class="textdatum" type="text" name="faq_expressnumber" value="{$faq.faq_expressnumber}"/></td>
+		   </tr>
+			<tr>
+			 <td class="label">{$lang.faq_orderno}:</td>
+			 <td><input class="textdatum" type="text" name="faq_orderno" value="{$faq.faq_orderno}"/></td>
+		   </tr>
+			<tr>
+			 <td class="label">{$lang.faq_deliverynumber}:</td>
+			 <td><input class="textdatum" type="text" name="faq_deliverynumber" value="{$faq.faq_deliverynumber}"/></td>
+		   </tr>
+		   <tr>
+		     <td class="label" style="padding-top:5px;">{$lang.faq_remark}:</td>
+		     <td style="padding-top:0px;">
+		     	<textarea name="faq_remark">{$faq.faq_remark}</textarea>
+		     </td>
+		   </tr>
+        </table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="faq_id" value="{$faq_id}"/>
+      </form>
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+<script language="JavaScript">
+{literal}
+	//鍒濆鍖�
+	if(document.all) { 
+		window.attachEvent('onload', load);
+	}
+	else { 
+		window.addEventListener('load', load);
+	}
+	
+	/**
+	 * 鍒濆鍖栧姞杞�
+	 */
+	function load()
+	{
+		document.forms['theForm'].elements['faq_remark'].focus();
+	}
+	/**
+	 * 琛ㄥ崟楠岃瘉
+	 */
+	function validate()
+	{
+	  validator = new Validator("theForm");
+	  validator.required("faq_remark", faq_remark_notnull);
+
+	  return validator.passed();
+	}
+	{/literal}
+</script>
+{include file="pagefooter.htm"}

@@ -1,0 +1,94 @@
+{literal}
+<style type="text/css">
+	#contents td{
+		height:30px;
+		line-height:30px;
+		font-size: 14px;
+	}
+</style>
+{/literal}
+
+ {include file="header_user.htm"}
+
+   <!--conter-->
+    <div class="conter">
+	 <div class="member_sub">
+	   {include file="member_menu.htm"}
+	   <div class="conter_right">
+	    <!--<div class="cr_top">{$weizhi}：{$ur_here}</div>-->
+		   <div class="cr_bot">
+			   <h2>有问必答详细</h2>
+		 <div class="cost myacc">
+		  <div class="cr_bot">
+			<div id="contents">
+			<table cellspacing="10px;">
+			   <tr>
+				 <td>标题：</td>
+				 <td>{$faq.faq_title}</td>
+			   </tr>
+			   <tr>
+				 <td>相关包裹单号：</td>
+				 <td>{$faq.faq_expressnumber}</td>
+			   </tr>
+				<tr>
+				 <td>相关转运单号：</td>
+				 <td>{$faq.faq_orderno}</td>
+			   </tr>
+				<tr>
+				 <td>相关发货单号：</td>
+				 <td>{$faq.faq_deliverynumber}</td>
+			   </tr>
+			   <tr>
+			     <td>问题详细描述：</td>
+			     <td>
+			     	{$faq.faq_remark}
+			     </td>
+			   </tr>
+			   <tr>
+			     <td>投诉时间：</td>
+			     <td>
+			     	{$faq.faq_time}
+			     </td>
+			   </tr>
+			</table>
+			  
+			{foreach from = $faq_list item = faqobj name="name_faq"}
+			  <div style="border:1px #E7E7E7 solid;"></div>
+			   <table cellspacing="10px;">
+				   <tr>
+					 <td class="datd">回复人：</td>
+					 <td>{$faqobj.user_name}</td>
+				   </tr>
+				   <tr>
+				     <td class="datds" style="padding-top:5px;">问题详细解答：</td>
+				     <td style="padding-top:0px;">
+				     	{$faqobj.faq_remark}
+				     </td>
+				   </tr>
+			  </table>
+			{/foreach}
+			</div>
+		   </div>
+		 </div>
+	     </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  <!--footer-->
+   {include file="footer_user.htm"}
+  <!--/footer-->
+ </body>
+ </html>
+{literal}
+<script type="text/javascript">
+    $(function(){
+        var $lis=$(".checked li");
+        $lis.click(function(){
+            $(this).addClass("current").siblings().removeClass("current");
+            var index=$lis.index(this);
+            $("#contents div").eq(index).show().siblings().hide();
+        })
+    })
+</script>
+{/literal}

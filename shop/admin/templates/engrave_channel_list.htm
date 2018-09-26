@@ -1,0 +1,134 @@
+<!-- $Id: category_list.htm 17019 2010-01-29 10:10:34Z zhangxingpeng $ -->
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm">
+<!-- start ad position list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+<table width="100%" cellspacing="1" cellpadding="2" id="list-table">
+  <tr>
+    <th>id</th>
+    <th>{$lang.CategoryName}</th>
+    <th>{$lang.ShortName}</th>
+    <th>{$lang.Title}</th>
+    <th>{$lang.AllowPost}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$channel_list item=channel}
+  <tr align="center" class="{$channel.level}" id="{$channel.level}_{$channel.categoryid}">
+    <td align="left">{$channel.categoryid}</td>
+    <td align="left" class="first-cell" >
+      {if $channel.is_leaf neq 1}
+      <img src="images/menu_minus.gif" id="icon_{$channel.level}_{$channel.categoryid}" width="9" height="9" border="0" style="margin-left:{$channel.level}em" onclick="rowClicked(this)" />
+      {else}
+      <img src="images/menu_arrow.gif" width="9" height="9" border="0" style="margin-left:{$channel.level}em" />
+      {/if}
+      <span>
+      	<a href="engrave_channel_list.php?act=list&categoryid={$channel.categoryid}">{$channel.typename}</a>
+      </span>
+    {if $channel.cat_image}
+      <img src="../{$channel.cat_image}" border="0" style="vertical-align:middle;" width="60px" height="21px">
+    {/if}
+    </td>
+    <td width="10%">{$channel.abbreviation}</td>
+    <td width="10%">
+		{$channel.linktip}
+	</td>
+    <td width="10%">
+    	<img src="images/{if $channel.AllowPost eq '1'}yes{else}no{/if}.gif" onclick="listTable.toggle(this, 'toggle_is_show', {$channel.categoryid})" />
+    </td>
+    <td width="8%" align="center">
+        <a href="engrave_channel_list.php?act=edit&amp;categoryid={$channel.categoryid}&amp;parentid={$channel.parentid}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+        {if !$channel.IsSystem}
+        <a href="javasctip:void(0)" title="{$lang.remove}" onclick="listTable.remove({$channel.categoryid},'{$lang.trash_channel_confirm}')">
+        	<img src="images/icon_drop.gif" width="16" height="16" border="0" /></a>
+   		{/if}
+   </td>
+  </tr>
+  {/foreach}
+</table>
+{if $full_page}
+</div>
+</form>
+
+{literal}
+<script language="JavaScript">
+<!--
+
+onload = function()
+{
+  // 寮�妫�煡璁㈠崟
+  startCheckOrder();
+}
+
+var imgPlus = new Image();
+imgPlus.src = "images/menu_plus.gif";
+
+/**
+ * 鎶樺彔鍒嗙被鍒楄〃
+ */
+function rowClicked(obj)
+{
+  // 褰撳墠鍥惧儚
+  img = obj;
+  // 鍙栧緱涓婁簩绾r>td>img瀵硅薄
+  obj = obj.parentNode.parentNode;
+  // 鏁翠釜鍒嗙被鍒楄〃琛ㄦ牸
+  var tbl = document.getElementById("list-table");
+  // 褰撳墠鍒嗙被绾у埆
+  var lvl = parseInt(obj.className);
+  // 鏄惁鎵惧埌鍏冪礌
+  var fnd = false;
+  var sub_display = img.src.indexOf('menu_minus.gif') > 0 ? 'none' : (Browser.isIE) ? 'block' : 'table-row' ;
+  // 閬嶅巻鎵�湁鐨勫垎绫�
+  for (i = 0; i < tbl.rows.length; i++)
+  {
+      var row = tbl.rows[i];
+      if (row == obj)
+      {
+          // 鎵惧埌褰撳墠琛�
+          fnd = true;
+          //document.getElementById('result').innerHTML += 'Find row at ' + i +"<br/>";
+      }
+      else
+      {
+          if (fnd == true)
+          {
+              var cur = parseInt(row.className);
+              var icon = 'icon_' + row.id;
+              if (cur > lvl)
+              {
+                  row.style.display = sub_display;
+                  if (sub_display != 'none')
+                  {
+                      var iconimg = document.getElementById(icon);
+                      iconimg.src = iconimg.src.replace('plus.gif', 'minus.gif');
+                  }
+              }
+              else
+              {
+                  fnd = false;
+                  break;
+              }
+          }
+      }
+  }
+
+  for (i = 0; i < obj.cells[0].childNodes.length; i++)
+  {
+      var imgObj = obj.cells[0].childNodes[i];
+      if (imgObj.tagName == "IMG" && imgObj.src != 'images/menu_arrow.gif')
+      {
+          imgObj.src = (imgObj.src == imgPlus.src) ? 'images/menu_minus.gif' : imgPlus.src;
+      }
+  }
+}
+//-->
+</script>
+{/literal}
+
+{include file="engrave_pagefooter.htm"}
+{/if}

@@ -1,0 +1,124 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+<style>
+ul.template_language {  } /*border:solid 1px #ccc; background:#eef; padding:10px; list-style:none; line-height:22px;*/
+ul.template_language li { border:solid 1px #ccc; background:#eee; padding:5px; margin:5px; display:inline-block; float:left; white-space:nowrap; cursor:pointer; }
+ul.template_language li.hover { background:#c90000; color:#fff; }
+</style>
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_waybill_module.php" method="post" name="theForm" >
+        <table cellspacing="1" cellpadding="3" width="100%">
+          <tr>
+            <td class="label_3">
+            {$lang.templatetype} 
+            </td>
+            <td>
+              <span>default</span>
+            </td>
+          </tr>
+		  <tr>
+		    <td class="label_3">{$lang.moduletype}</td>
+		    <td>
+                <span>Engravecms</span>
+			</td>
+		  </tr>
+          <tr>
+            <td class="label_3">{$lang.templatepath}</td>
+            <td>
+              <span>/template</span>
+            </td>
+          </tr>
+		  <tr>
+            <td class="label_3">{$lang.modulefilename}</td>
+            <td>
+              <input type="text" name="temp_name" value="{$template.temp_name}" size="10" />&nbsp;{$lang.validtip}&nbsp;{$lang.validtip}
+            </td>
+          </tr>
+		  <tr>
+              <td class="label_3">{$lang.modulelanguage}</td>
+              <td style="background:#eef">
+              	<ul class="template_language">
+              		<li rel="{$delivery.DeliveryNo }" class="">{$left_delimiter}$delivery.DeliveryNo{$right_delimiter}：运单号</li>
+					<li rel="{$delivery.OrderNo }">{$left_delimiter}$delivery.OrderNo{$right_delimiter}：订单号</li>
+					<li rel="{$delivery.BuyerName }" class="">{$left_delimiter}$delivery.BuyerName{$right_delimiter}：买家/寄件人姓名</li>
+					<li rel="{$delivery.BuyerPhone }">{$left_delimiter}$delivery.BuyerPhone{$right_delimiter}：买家电话</li>
+					<li rel="{$delivery.BuyerCellPhone }" class="">{$left_delimiter}$delivery.BuyerCellPhone{$right_delimiter}：买家手机</li>
+					<li rel="{$delivery.BuyerCityName }" class="">{$left_delimiter}$delivery.BuyerProvinceName{$right_delimiter}：买家所在省</li>
+					<li rel="{$delivery.BuyerCityName }">{$left_delimiter}$delivery.BuyerCityName{$right_delimiter}：买家城市</li>
+					<li rel="{$delivery.BuyerCountryName }" class="">{$left_delimiter}$delivery.BuyerCountryName{$right_delimiter}：买家所在国</li>
+					<li rel="{$delivery.BuyerAddress }" class="">{$left_delimiter}$delivery.BuyerAddress{$right_delimiter}：买家地址</li>
+					<li rel="{$delivery.BuyerPostalcode }">{$left_delimiter}$delivery.BuyerPostalcode{$right_delimiter}：买家邮编</li>
+					<li rel="{$delivery.StorageNo }" class="">{$left_delimiter}$delivery.StorageNo{$right_delimiter}：买家库位号</li>
+					<li rel="{$delivery.ShipTo }" class="">{$left_delimiter}$delivery.ShipTo{$right_delimiter}：收件人</li>
+					<li rel="{$delivery.CountryName }">{$left_delimiter}$delivery.CountryName{$right_delimiter} ：国家</li>
+					<li rel="{$delivery.CountryName }">{$left_delimiter}$delivery.ProvinceName{$right_delimiter}：省</li>
+					<li rel="{$delivery.ShippingRegion }" class="">{$left_delimiter}$delivery.ShippingRegion{$right_delimiter}：城市</li>
+					<li rel="{$delivery.Address }" class="">{$left_delimiter}$delivery.Address{$right_delimiter}：地址</li>
+					<li rel="{$delivery.ZipCode }" class="">{$left_delimiter}$delivery.ZipCode{$right_delimiter}：邮编</li>
+					<li rel="{$delivery.Tel }">{$left_delimiter}$delivery.Tel{$right_delimiter}：电话</li>
+					<li rel="{$delivery.Mobile }" class="">{$left_delimiter}$delivery.Mobile{$right_delimiter}：手机</li>
+					<li rel="{$delivery.Length }" class="">{$left_delimiter}$delivery.Length{$right_delimiter}：包裹长</li>
+					<li rel="{$delivery.Width }" class="">{$left_delimiter}$delivery.Width{$right_delimiter}：包裹宽</li>
+					<li rel="{$delivery.Height }" class="">{$left_delimiter}$delivery.Height{$right_delimiter}：包裹高</li>
+					<li rel="{$delivery.Volume }" class="">{$left_delimiter}$delivery.Volume{$right_delimiter}：包裹体积</li>
+					<li rel="{$delivery.Length }" class="">{$left_delimiter}$delivery.LengthCM{$right_delimiter}：包裹长（厘米）</li>
+					<li rel="{$delivery.Width }" class="">{$left_delimiter}$delivery.WidthCM{$right_delimiter}：包裹宽（厘米）</li>
+					<li rel="{$delivery.Height }" class="">{$left_delimiter}$delivery.HeightCM{$right_delimiter}：包裹高（厘米）</li>
+					<li rel="{$delivery.VolumeCM }" class="">{$left_delimiter}$delivery.VolumeCM{$right_delimiter}：包裹体积（厘米）</li>
+					<li rel="{$delivery.Value }" class="">{$left_delimiter}$delivery.Value{$right_delimiter}：货值</li>
+					<li rel="{$delivery.DeliveryWeightKg }" class="">{$left_delimiter}$delivery.DeliveryWeightKg{$right_delimiter}：公斤重量</li>
+					<li rel="{$delivery.DeliveryWeight }" class="">{$left_delimiter}$delivery.DeliveryWeight{$right_delimiter}：重量（磅）</li>
+					<li rel="{$delivery.Remark }" class="">{$left_delimiter}$delivery.Remark{$right_delimiter}：运单备注（包裹内容）</li>
+					<li rel="{$delivery.CodeImage }" class="">{$left_delimiter}$delivery.CodeImage{$right_delimiter}：条形码（Code93）</li>
+					<li rel="{$delivery.CodeImage }" class="">{$left_delimiter}$delivery.CodeImage128{$right_delimiter}：条形码（Code128）</li>
+				</ul>
+			</td>
+          </tr>
+		  <tr>
+              <td class="label_3">{$lang.operationtag}</td>
+              <td>
+                  <input id="tag_btn" type="button" value="Loop循环" rel="{loop}{/loop}" />
+              </td>
+          </tr>
+		  <tr>
+            <td colspan="2" align="center">
+		 		<textarea id="temp_content" name="temp_content" style="width:1000px;height:600px;visibility:hidden;">
+					{$out_html}{$template.temp_content}
+				</textarea>
+            </td>
+          </tr>
+        </table>
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="hidUserId" id="hidUserId" />
+      </form>
+</div>
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+<script language="JavaScript">
+	KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="temp_content"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#temp_content');
+	       },
+       	afterBlur:function(){
+           this.sync('#temp_content');
+        } 
+	});
+});
+</script>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+
+{include file="pagefooter.htm"}

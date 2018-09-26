@@ -1,0 +1,138 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start currecys list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <a href="javascript:listTable.sort('Id'); ">{$lang.record_id}</a>{$sort_Id}
+    </th>
+    <th><a href="javascript:listTable.sort('AdminUser'); ">{$lang.AdminUser}</a>{$sort_AdminUser}</th>
+    <th><a href="javascript:listTable.sort('PaidTime'); ">{$lang.PaidTime}</a>{$sort_PaidTime}</th>
+    <th><a href="javascript:listTable.sort('ProcessType'); ">{$lang.ProcessType}</a>{$sort_ProcessType}</th>
+    <th><a href="javascript:listTable.sort('Amount'); ">{$lang.Amount}</a>{$sort_Amount}</th>
+    <th><a href="javascript:listTable.sort('Payment'); ">{$lang.Payment}</a>{$sort_Payment}</th>
+	<th><a href="javascript:listTable.sort('IsPaid'); ">{$lang.IsPaid}</a>{$sort_IsPaid}</th>
+	<th><a href="javascript:listTable.sort('UserId'); ">{$lang.UserId}</a>{$sort_UserId}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$prepaid_list item=prepaid}
+  <tr>
+    <td style="width:50px;">
+    	<input type="text" name="Id" value="{$prepaid.Id}" />{$prepaid.Id}
+    </td>
+    <td align="center">
+    	<span onclick="listTable.edit(this, 'edit_admin_user', {$prepaid.AdminUser})">{$prepaid.AdminUser}</span>
+    </td>
+	<td align="center">
+    	<span>{$prepaid.PaidTime}</span>
+    </td>
+    <td align="center">
+    	<span>{$prepaid.ProcessType}</span>
+    </td>
+    <td align="center">
+    	<span>{$prepaid.Amount}</span>
+    </td>
+	<td align="center">
+    	<span>{$prepaid.Payment}</span>
+    </td>
+	<td align="center">
+    	<span>{$prepaid.IsPaid}</span>
+    </td>
+    <td align="center">
+    	<span>{$prepaid.UserId}</span>
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_prepaid.php?act=edit&amp;id={$prepaid.Id}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$member.UserId},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+  /**
+   * @param: bool ext 
+   */
+  function confirmSubmit(frm, ext)
+  {
+      if (frm.elements['type'].value == 'trash')
+      {
+          return confirm(batch_trash_confirm);
+      }
+      else if (frm.elements['type'].value == 'not_on_sale')
+      {
+          return confirm(batch_no_on_sale);
+      }
+      else if (frm.elements['type'].value == 'move_to')
+      {
+          ext = (ext == undefined) ? true : ext;
+          return ext && frm.elements['target_cat'].value != 0;
+      }
+      else if (frm.elements['type'].value == '')
+      {
+          return false;
+      }
+      else
+      {
+          return true;
+      }
+  }
+
+  function changeAction()
+  {
+      var frm = document.forms['listForm'];
+
+      frm.elements['target_cat'].style.display = frm.elements['type'].value == 'move_to' ? '' : 'none';
+			
+			{if $suppliers_list > 0}
+      frm.elements['suppliers_id'].style.display = frm.elements['type'].value == 'suppliers_move_to' ? '' : 'none';
+			{/if}
+
+      if (!document.getElementById('btnSubmit').disabled &&
+          confirmSubmit(frm, false))
+      {
+          frm.submit();
+      }
+  }
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

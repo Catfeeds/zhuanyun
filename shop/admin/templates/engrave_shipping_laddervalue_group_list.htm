@@ -1,0 +1,66 @@
+<!-- $Id: engrave_shipping_laddervalue_list.htm zhangxingpeng $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start currecys list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('slpg_id'); ">{$lang.record_id}</a>{$sort_slpg_id}
+    </th>
+    <th>{$lang.slpg_name}</th>
+    <th>{$lang.slpg_time}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$shipping_ladderprice_group_list item=shipping}
+  <tr>
+    <td style="width:50px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$shipping.ShippingId}" />{$shipping.slpg_id}
+    </td>
+    <td align="center">
+    	{$shipping.slpg_name}
+    </td>
+	<td align="center">
+    	{$shipping.slpg_time_value}
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_shipping_laddervalue_group.php?act=edit&amp;slpg_id={$shipping.slpg_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$shipping.slpg_id},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+</script>
+
+{include file="engrave_pagefooter.htm"}
+{/if}

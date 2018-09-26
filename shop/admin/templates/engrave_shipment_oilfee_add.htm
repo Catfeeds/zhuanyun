@@ -1,0 +1,86 @@
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+	<form method="post" action="engrave_shipment_oilfee.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+	<table cellspacing="1" cellpadding="3" width="100%">
+		<tr>
+			<td class="label"><span class="asterisk">*</span>物流名</span></td>
+			<td>
+				<select name=shipment_id>
+					{foreach from=$allShipments item=shipment}
+					<option value="{$shipment.shipment_id}"  {if $data.shipment_id==$shipment.shipment_id} selected {/if}	>{$shipment.shipment_name}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+	
+		<tr>
+			<td class="label"><span class="asterisk">*</span>年份</td>
+			<td>
+				<SELECT NAME="year" id="year" data-val="{$data.year}"></select>
+
+			</td>
+		</tr>
+		
+		<tr>
+			<td class="label"><span class="asterisk">*</span>月份</td>
+			<td>
+					<SELECT NAME="month" id="month" data-val="{$data.month}"></select>
+				
+			</td>
+		</tr>
+		
+		<tr>
+				<td class="label">费率（最多两位小数） </td>
+				<td><input type=text name=discount value="{$data.discount}">%</td>
+			</tr>
+		
+		<tr>
+			<td colspan="2" align="center"><br />
+				<input type="submit" class="button" value="{$lang.button_submit}" />
+				<input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+				<input type="hidden" name="act" value="{$form_action}" />
+				<!--<input type="hidden" name="id" value="{$data.shipment_id}" />-->
+				<input type="hidden" name="soid" value="{$data.soid}" />
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+	var $= jQuery;
+$(function( ) {
+	var $year = $('#year');
+	var year = $year.data('val');
+	var start = 2015;
+	var end = 2020;
+	var html="";
+	for(var i=end;i>=start; i--) {
+		html += "<option value="+i+">"+i+"年</option>";
+	}
+	$year.html(html);
+	$year.val(year);
+	html = "";
+	for(var i=12;i>=1; i--) {
+		html += "<option value="+i+">"+i+"月</option>";
+	}
+	var $month = $('#month');
+	var month = $month.data('val');
+	$month.html(html);
+	$month.val(month);
+});
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required('discount', "费率必填");
+	
+
+	return validator.passed();
+}
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

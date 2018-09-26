@@ -1,0 +1,115 @@
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,../js/region.js"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<div class="tab-div">
+ 	<div id="tabbar-div">
+      <p>
+        <span class="tab-front" id="tab_batch_arti_select-tab">{$lang.tab_batch_arti_select}</span>
+        <span class="tab-back" id="tab_batch_import_excel-tab">{$lang.tab_batch_import_excel}</span>
+      </p>
+    </div>
+  <div id="tabbody-div">
+  <form enctype="multipart/form-data" name="theForm" action="" method="post">
+    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+       <table width="90%" id="tab_batch_arti_select-table" align="center">
+          <tr>
+            <td class="label">{$lang.tab.shipping}</td>
+            <td>
+            <select name="shipping">
+            	<option value="0">{$lang.tab_content.unlimited}{html_options options=$shipping_list}
+            </select>
+			</td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.orderno}</td>
+            <td>
+            	<textarea id="OrderNo" name="OrderNo" cols="30" rows="3"></textarea>
+				&nbsp;{$lang.ordernomessage}
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+	          <input type="button" value="{$lang.button_empty}" class="button" />
+			  <input type="button" value="{$lang.button_copy}" class="button" />
+			  <input type="button" value="{$lang.button_paste}" class="button" />
+			  <input type="button" value="{$lang.button_select}" class="button" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.delidate}</td>
+            <td>
+              <input type="text" id="delidate" name="delidate" size="10" />
+			  <input name="selbtn1" type="button" id="selbtn1" onclick="return showCalendar('delidate', '%Y-%m-%d', false, false, 'selbtn1');" value="{$lang.btn_select}" class="button"/>
+			  &nbsp;{$lang.delidatemessage}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.delidate2}</td>
+            <td>
+              <input type="text" id="delidate2" name="delidate" size="10" />
+			  <input name="selbtn2" type="button" id="selbtn2" onclick="return showCalendar('delidate2', '%Y-%m-%d', false, false, 'selbtn2');" value="{$lang.btn_select}" class="button"/>
+              &nbsp;{$lang.delidate2message}
+			</td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.statuecode}</td>
+            <td>
+              <select name="statucode">
+            	<option value="0">{$lang.select_please}{html_options options=$code_list}
+              </select>
+			  &nbsp;{$lang.notestatuecode}
+			</td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.trackcontent}</td>
+            <td>
+            	 <textarea id="TrackContent" name="TrackContent" cols="40" rows="3"></textarea>
+			</td>
+          </tr>
+		  <tr>
+		  	<td></td>
+			<td>
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 <input type="submit" value="{$lang.button_submit}" class="button" />
+                 <input type="reset" value="{$lang.button_reset}" class="button" />
+			</td>
+		  </tr>
+        </table>
+        <table width="90%" id="tab_batch_import_excel-table" style="display:none" align="center">
+          <tr>
+            <td class="label">
+             {$lang.selectfile} 
+            </td>
+            <td>
+              <input name="SelectFile" type="file" size="20" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.template}</td>
+            <td>
+               <a href="../admin/upFile/template/sample.xls">{$lang.download}</a>
+			   <span style="color:red;">{$lang.waretip}</span>
+            </td>
+		  </tr>
+		  <tr>
+		  	<td></td>
+			<td>
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 <input type="button" value="{$lang.button_import}" class="button" />
+			</td>
+		  </tr>
+        </table>       
+    </form>
+  </div>
+</div>
+
+{insert_scripts files="tab.js,validator.js"}
+{literal}
+<script language="JavaScript">  
+
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

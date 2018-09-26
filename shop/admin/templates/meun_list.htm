@@ -1,0 +1,60 @@
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+
+
+<form method="post" action="email_list.php" name="listForm">
+<div class="list-div" id="listDiv">
+{/if}
+<table cellspacing='1' cellpadding='3'>
+<tr>
+<th width="5%"><input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox"><a href="javascript:listTable.sort('id'); ">{$lang.id}</a>{$sort_id}</th>
+<th><a href="javascript:listTable.sort('email'); ">{$lang.email_val}</a>名称</th>
+<th width="15%">是否显示</th>
+<th width="15%">链接</th>
+<th width="15%">排序</th>
+<th width="15%">操作</th>
+</tr>
+{foreach from=$emaildb item=val}
+<tr>
+  <td><input name="checkboxes[]" type="checkbox" value="{$val.id}" />{$val.id}</td>
+  <td>{$val.title},{$val.titleen}</td>
+  <td align="center">{if $val.isshow==1}显示{else}不显示{/if}</td>
+ <td align="center">{$val.url}</td>
+  <td align="center">{$val.paixu}</td>
+    <td align="center"><a href="engrave_add_menu.php?act=update&id={$val.id}">修改</a></td>
+</tr>
+{foreachelse}
+    <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+{/foreach}
+</table>
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td>
+    
+    </td>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+{if $full_page}
+</div>
+</form>
+<script type="Text/Javascript" language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+<!--
+onload = function()
+{
+  // 开始检查订单
+  startCheckOrder();
+}
+//-->
+</script>
+{include file="pagefooter.htm"}
+{/if}

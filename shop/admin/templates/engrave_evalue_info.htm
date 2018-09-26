@@ -1,0 +1,98 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_evalua_manage.php" method="post" name="theForm" >
+        <!-- 锟斤拷锟斤拷锟斤拷 -->
+        <table cellspacing="1" cellpadding="3" width="100%">
+          <tr>
+          	<td class="label">
+          	   {$lang.OrderNo}
+          	</td>
+			<td>
+				<input disabled="false" type="text" id="OrderNo" name="OrderNo" size="15" /><span id="selectorderno"><a onclick="openOrderNo();">{$lang.select_orderno}</a></span>
+			</td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.operatortip}</td>
+            <td>
+              <textarea id="Message" name="Message" cols="40" rows="3">{$track_info.tr_message|escape}</textarea>
+			      鈫�
+			  <select id="ordermenssage" name="ordermenssage" onchange = "SelectOrderMess();" >
+			  	<option value="0">{$lang.select_please}</option>
+			  	<option value="1">{$lang.message1}</option>
+				<option value="2">{$lang.message2}</option>
+				<option value="3">{$lang.message3}</option>	
+			  </select>
+            </td>
+          </tr>
+        </table>      
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="hidOrderId" id="hidOrderId" />
+		<input type="hidden" name="hidtrid" value="{$track_info.tr_id}" />
+		<input type="hidden" name="hidtrorderid" id="hidtrorderid" value="{$track_info.tr_orderid}"
+      </form>
+</div>
+<script language="JavaScript">
+   function SelectOrderMess()
+   {
+     $statusCode = document.getElementById('ordermenssage').value;
+	 if($statusCode == '1')
+	 {
+	    document.getElementById("Message").value = '璁㈠崟宸茶嚦鏈哄満锛岀瓑寰呯櫥鏈�;
+	 }
+	 else if($statusCode == '2')
+	 {
+	 	document.getElementById("Message").value = '璁㈠崟宸茶嚦鍥藉唴娴峰叧锛岀瓑寰呭鐞�;
+	 }
+	 else if($statusCode == '3')
+	 {
+	 	document.getElementById("Message").value = '璁㈠崟宸茶嚦鍦ㄦ捣鍏冲鐞嗗畬鎴愶紝绛夊緟杞浗鍐呭揩閫�;
+	 }
+   }
+   //鑾峰彇璁㈠崟
+   function openOrderNo()
+   {
+   	   //鎵撳紑妯℃�瀛愮獥浣�
+       var modaldialogparam = 'dialogwidth:' + 420 + 'px;dialogheight:' + 500 + 'px;center:yes;help:no;resizable:no;status:no;minimize:no;maximize:no;';
+       result = showModalDialog('engrave_tracking_manage.php?act=orderlist', '璁㈠崟鍒楄〃', modaldialogparam);
+	   document.getElementById("hidOrderId").value = result;
+       Ajax.call('engrave_tracking_manage.php?act=getOrderNo',"orderid="+result,act_calorderno,"POST","TEXT",true,true);
+   }
+   function act_calorderno(result)
+   {
+   	 document.getElementById("OrderNo").value=result;
+   }
+   if(document.all) 
+   { 
+	  window.attachEvent('onload', load); 
+   }
+   else 
+   { 
+	  window.addEventListener('load', load);
+   }
+   function load()
+   {
+   	  var orderid = document.getElementById("hidtrorderid").value;
+	  if(orderid!="")
+	  {
+	  	 Ajax.call('engrave_tracking_manage.php?act=getOrderNo',"orderid="+orderid,act_calorderno,"POST","TEXT",true,true);
+	  } 
+   }
+</script>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+
+{include file="pagefooter.htm"}

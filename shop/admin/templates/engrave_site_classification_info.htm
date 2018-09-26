@@ -1,0 +1,24 @@
+
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_site_classification.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">分类名</td>
+    <td><input type="text" name="ClassName" maxlength="60" value="{$classification.ClassName}" />{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+    </td>
+  </tr>
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="OldClassName" value="{$classification.ClassName}" />
+      <input type="hidden" name="id" value="{$classification.ClassId}" />
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+{include file="engrave_pagefooter.htm"}

@@ -1,0 +1,294 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+{include file="engrave_pageheader.htm"}
+{include file="engrave_tip.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+<style>
+	.setTable {width:99%;margin:10px auto;border-collapse:collapse;}
+	table {display:table;border-collapse:separate;border-spacing:2px;border-color:gray;}
+	tr.even {border-bottom: solid 1px #e1e1e1;border-top: solid 1px #e1e1e1;background: #f9f9f9;}
+	.setTable tr.odd {background: #fff;}
+	tr {display: table-row;vertical-align: inherit;border-color: inherit;}
+	.setTable tr th {width: 120px;text-align: right;font-weight: normal;}
+	ul.og_list {line-height: 150%;list-style: none;}
+	div.delivery_box {line-height: 150%;}
+	div.delivery_item {border: dashed 1px #ccc;margin-bottom: 10px;padding: 10px;background: #eef;}
+	td, th {display: table-cell;vertical-align: inherit;}
+	ul.item_list {list-style: none;}
+	td {padding: 8px;color: #333;}
+	th {font-weight: bold;padding: 8px;color: #333;}
+</style>
+<!-- start goods form -->
+<div class="main-div">
+     <form enctype="multipart/form-data" action="engrave_all_orders.php?act=order_insert" method="post" name="theForm" onsubmit="return validate()">
+        <table class="setTable">
+          <tbody>
+          <tr id="orderNoTR" class="odd">
+	         <th>{$lang.orderno}</th>
+	         <td colspan="2"><span>{$order_list.order_no}</span></td>
+	         <td></td>
+          </tr>
+          <tr class="even">
+             <th>{$lang.forecastinfo}</th>
+             <td>
+             	<ul class="og_list" id="package_goods">
+				</ul>
+			</td>
+	         <td></td>
+          </tr>
+          <tr class="odd">
+             <th>{$lang.servicetype}</th>
+             <td><strong style="color:red;">{if $order_list.order_servicetype}高级服务{else}基本服务{/if}</strong>
+                <label id="gaoji" style="display:none;">&nbsp;&nbsp;分为：<strong style="color:red;">{$order_list.order_boxquantity}</strong>箱</label>
+            </td>
+	         <td></td>
+          </tr>
+          <tr class="even">
+             <th>{$lang.serviceremark}</th>
+             <td>{$order_list.order_remark}</td>
+	         <td></td>
+          </tr>
+          <tr class="odd">
+             <th>{$lang.valueservice}</th>
+             <td><label id="valueservice"></label></td>
+	         <td></td>
+          </tr>
+         <!--  <tr class="even">
+             <th>{$lang.shipping}</th>
+             <td>
+              <select name="shippingid" id="shippingid" onchange="select_shipping(this.options[this.options.selectedIndex].value)">
+              	{html_options options=$shipping_list selected=$order_list.order_shippingid}
+			  </select>
+             </td>
+	         <td></td>
+          </tr>
+           -->
+          <tr class="even">
+             <th>物流</th>
+             <td>
+              <select name="shipmentid" id="shipmentid" onchange="select_shipment(this.options[this.options.selectedIndex].value)">
+              	{html_options options=$shipment_list selected=$order_list.order_shipmentid}
+			  </select>
+             </td>
+	         <td></td>
+          </tr>
+          <tr class="odd">
+             <th>{$lang.packageweight}</th>
+             <td colspan="2">{$lang.totalweight}<span id="totalweight">{$order_list.order_weight}</span>
+                     <span id="weightUnit">{$order_list.WeightUnit}</span>                     
+                     <div class="delivery_box" id="delivery"></div> 
+             </td>
+	         
+          </tr>
+          <tr class="even">
+               <th>{$lang.insurace}</th>
+               <td>
+                  <span id="insurace_symbol" class="symbol">{$order_list.Symbol}</span>
+                  <input name="insurancetb" type="text" value="{$order_list.order_insurace}" style="ime-mode:dsabled" onkeyup="return ValidateFloat(this,value)" id="insurancetb" onblur="compute_cost();" class="normaltb"  size="30" style="width:65px;" /> <span id="insurace_name">{$order_list.Name}</span>
+               </td>
+	         <td></td>
+          </tr>
+          <tr class="odd">
+               <th>运费：</th>
+               <td colspan="2">
+                   <span id="waybillcost_symbol" class="symbol">{$order_list.Symbol}</span>
+                   <!-- onblur="change_waybillcost();" -->
+                   <input name="waybillcost" type="text" value="{$order_list.order_discountcost}" id="waybillcost" onblur="compute_cost();" style="ime-mode:dsabled;width:65px;" onkeyup="return ValidateFloat(this,value)" class="normaltb"  size="30"  /> <span id="waybillcost_name">{$order_list.Name}</span>
+                   <input type="hidden" name="shippingIdtb" id="shippingIdtb" value="2">&nbsp;该会员已享受 运费 <strong>{$waybill_discount}折</strong> 优惠
+                   <span class="red">（包括基础运费+体积重费用，注：该费用默认已算上会员等级的折扣。）</span>
+               </td>
+
+          </tr>
+          <tr class="odd">
+            <th>燃油附加费：</th>
+            <td colspan="2">
+              
+                <span id="oilprice_symbol" class="symbol">{$order_list.Symbol}</span>
+                <!-- onblur="change_waybillcost();" -->
+                <input name="oilprice" type="text" 
+                value="{$order_list.order_shipment_oilPrice}" 
+                id="oilprice" onblur="compute_cost();" style="ime-mode:dsabled;width:65px;" onkeyup="return ValidateFloat(this,value)" class="normaltb"  size="30"  /> 
+                <span id="oilprice_name">{$order_list.Name}</span>
+                <span>燃油费率为: {$order_list.order_shipment_oilDiscount} %</span>
+            </td>
+
+       </tr>
+          <tr class="even">
+               <th>仓库操作费：</th>
+               <td>
+                   <span id="operatorcost_symbol" class="symbol">{$order_list.Symbol}</span>
+                   <input name="operaterPricetb" type="text" value="{$order_list.order_othercost}" 
+                   style="ime-mode:dsabled;width:65px;" onkeyup="return ValidateFloat(this,value)" id="operaterPricetb" 
+                   onblur="compute_cost();" class="normaltb" size="30"  /> 
+                   <span id="operatorcost_name">{$order_list.Name}</span>
+                   {if $order_list.order_fixed neq 0}
+				       <span>&nbsp;升级包装{$order_list.order_fixed}件，</span>
+					   {if $order_list.order_remark neq ''}
+					   <span>{$order_list.order_remark}，外箱缠绕膜。</span>
+					   {else}
+					   <span>不需要外箱缠绕膜。</span>
+					   {/if}
+				   {else}
+				       <span style="color:red;">&nbsp;不需要升级包装，</span>
+				   	   {if $order_list.order_remark neq ''}
+					   <span>{$order_list.order_remark}，外箱缠绕膜。</span>
+					   {else}
+					   <span>不需要外箱缠绕膜。</span>
+					   {/if}
+				   {/if}	   
+                   <span class="gray">（具体费用细节请参照相应的仓库设置。）</span>
+               </td>
+	         <td></td>
+          </tr>
+          <tr class="odd">
+               <th>{$lang.warehousecost}</th>
+               <td>
+                   <span id="warehousecost_symbol" class="symbol">{$order_list.Symbol}</span>
+                   <input name="warehousecost" type="text" value="{$order_list.order_warehousecost}" 
+                   style="ime-mode:dsabled" onkeyup="return ValidateFloat(this,value)" onblur="compute_cost();" id="warehousecost" class="normaltb" size="30" style="width:65px;" /> <span id="warehousecost_name">{$order_list.Name}</span>
+                   <span class="gray">（具体费用细节请参照相应的仓库仓储费用设置。）</span>
+               </td>
+	         <td></td>
+          </tr>
+          <tr class="even">
+               <th>{$lang.valueservicecost}</th>
+               <td>
+                    <span id="valueservicecost_symbol" class="symbol">{$order_list.Symbol}</span>
+                    <input name="valueservicecost" type="text" value="{$order_list.order_valueservicecost}" style="ime-mode:dsabled;width:65px;" onkeyup="return ValidateFloat(this,value)" onblur="compute_cost();" id="valueservicecost" class="normaltb" size="30"  /> <span id="valueservicecost_name">{$order_list.Name}</span>
+                    <span class="gray">（如果用户选择了增值服务，则会产生相应的费用，具体请参照增值服务设置。）</span>
+               </td>
+               <td style="width:360px; vertical-align: top;" rowspan="20">
+               	<table>
+               	<tr>
+               		<td style="font-size:14px;font-weight:bold; padding:0px 0px 0px 5px;">增值服务</td>
+               		<td></td>
+               	</tr>
+               	{foreach from=$services_setting_list item=services_setting name="name_service_setting"}
+                <tr style="height:22px;">
+                    <td style="padding:0px;">
+                        <input type="checkbox" id="chk_{$services_setting.ServiceId}" style="ime-mode:dsabled;width:65px;position:relative;top:3px;" checked onkeyup="return ValidateFloat(this,value)" onclick="btn_service({$services_setting.ServiceId})" ></input>
+                        <label for="chk_{$services_setting.ServiceId}">{$services_setting.ServiceName}</label>
+                    </td>
+                    <td style="padding:0px;">
+                        <input type="number" id="txt_{$services_setting.ServiceId}" name="txt_services[]" style="ime-mode:dsabled" value="{$services_setting.Price}" onkeyup="return ValidateFloat(this,value)" disabled="true"></input>
+                    </td>
+                </tr>
+               	{/foreach}
+               	</table>
+               </td>
+           </tr>
+           <tr class="odd">
+               <th>{$lang.tariffcost}</th>
+               <td>
+                   <span id="tariffcost_symbol" class="symbol">{$order_list.Symbol}</span>
+                   <input name="tariffcost" type="text" value="{$order_list.order_tariffcost}" style="ime-mode:disabled;width:65px;" onkeyup="return ValidateFloat(this,value)" onblur="compute_cost();" id="tariffcost" class="normaltb" size="30"  /> <span id="tariffcost_name">{$order_list.Name}</span>
+               </td>
+           </tr>
+           <tr class="even">
+               <th>{$lang.othercost}</th>
+               <td>
+                   <span id="othercost_symbol" class="symbol">{$order_list.Symbol}</span>
+                   <input name="othercost" type="text" value="0.00" style="ime-mode:disabled;width:65px;" onkeyup="return ValidateFloat(this,value)" onblur="compute_cost();" id="othercost" class="normaltb" size="30"  /> <span id="othercost_name">{$order_list.Name}</span>
+                   <span class="gray">（如果有其它额外费用产生，请在此设置。）</span>
+               </td>
+           </tr>
+           <tr class="odd">
+               <th>{$lang.paymentpath}</th>
+               <td>
+                  <span id="autopaycb" disabled="disabled">
+	                  <span disabled="disabled">
+	                  <input id="autopaycb_1" type="radio" name="autopaycb" disabled="disabled" value="1" {if $order_list.order_paymentpath eq 1} checked="true"{/if} /><label for="autopaycb_1">{$lang.manualpayment}</label>
+					  </span>
+					  <span disabled="disabled">
+	                  <input id="autopaycb_2" type="radio" name="autopaycb" disabled="disabled" value="2" {if $order_list.order_paymentpath eq 2} checked="true"{/if} /><label for="autopaycb_2">{$lang.weightautopayment}</label>
+					  </span>
+				  </span>
+               </td>
+            </tr>
+            <tr class="even" id="manual_usermoney">
+               <th>{$lang.usermoney}</th>
+               <td>
+               	<strong id="current_balance" name="current_balance" style="font-size:15px; color:#f60">{$user.user_money}</strong>
+               	{$currency_name}
+               	<!--<strong name="current_balance" style="font-size:15px; color:#f60">{$user.user_jpymoney}</strong>-->
+               	<!--日元-->
+               	<!--<strong name="current_balance" style="font-size:15px; color:#f60">{$user.user_subsidiarymoney}</strong>-->
+               	<!--{$currency_name}-->
+               	<!---->
+               	<!--共-->
+               	<!--<strong name="current_balance" style="font-size:15px; color:#f60">{$user.totalmoney}</strong>-->
+               	<!--{$currency_name}-->
+               </td>
+            </tr>
+            <tr class="odd" id="manual_userpoints">
+               <th>{$lang.userpoints}</th>
+               <td>
+                  <input name="usePointstb" type="text" value="{$order_list.order_userpoints}" id="usePointstb" disabled="disabled" size="30" style="width:65px;">{$lang.points}
+                  {$lang.discount}<span id="currency_point">0.00</span>  {$currency_name}。
+                  <input type="hidden" name="point_val" id="point_val" value="0.00">
+               </td>
+             </tr>
+             <tr class="even" id="manual_totalcost">
+               <th>{$lang.totalcost}</th>
+               <td id="actualTotal"><span id="totalprice"></span> <span id="totalcost_name">{$order_list.Name}</span></td>
+             </tr>
+             <tr class="even" id="manual_totalcost">
+               <th>{$lang.counpon}：</th>
+               <td>
+				<input name="order_coupon" type="text" value="{$order_list.order_coupon}" id="order_coupon" disabled="disabled" size="30" style="width:165px;">
+			   </td>
+             </tr>
+             <tr class="odd" id="manual_needmoney">
+               <th>{$lang.needmoney}</th>
+               <td style="color:#f00" id="needPay">余额支付：<span id="needprice"></span> 
+               	<span id="needcost_name">{$order_list.Name}</span>，折合<label id="needmoneny">0.00</label> {$currency_name}，
+               	<span id="paymented">余额足够支付。</span>
+				<span id="unpayment">账户余额不足，请充值后在进行支付！</span>
+			   </td>
+             </tr>
+            </tbody>
+		</table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_weight}" class="button" />
+          <input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" id="orderid" name="orderid" value="{$order_list.order_id}" />
+		<input type="hidden" id="boxnumber" name="boxnumber" value="{$order_list.order_boxquantity}" />
+		<input type="hidden" id="fixed" name="fixed" value="{$order_list.order_fixed}" />
+		<input type="hidden" name="rate_points" id="rate_points" value="{$rate_points}" />
+		<!--货币的汇率-->
+		<input type="hidden" name="currency_rate" id="currency_rate" value="{$order_list.ExchageRate}" />
+		<!--获得折扣-->
+		<input type="hidden" name="order_discount" id="order_discount" value="{$waybill_discount}" />
+		<!--产生的运单数-->
+		<input type="hidden" name="waybill_number" id="waybill_number" value="1" />
+		<!--消费总额-->
+		<input type="hidden" name="totalmoneny" id="totalmoneny" value="0.00" />
+		<!--金额总数-->
+		<input type="hidden" name="usermoneny" id="usermoneny" value="0.00" />
+		<input type="hidden" name="weighttb" id="weighttb" value="{$order_list.order_weight}" />
+		<!--支付方式-->
+		<input type="hidden" name="paymentpath" id="paymentpath" value="{$order_list.order_paymentpath}" />
+		<!-- 总重、总量单位、货币单位 -->
+		<input type="hidden" name="totalweight" id="hidden_totalweight" value="{$order_list.order_weight}" />
+		<input type="hidden" name="weightUnit" value="{$order_list.WeightUnit}" />
+		<input type="hidden" name="insurace_name" value="{$order_list.Name}" />
+     </form>
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+<script>
+{literal}
+//当前订单人的账户余额
+var currency_money = {$user.totalmoney};
+{/literal}
+</script>
+{insert_scripts files="engrave_order_weight.js"}
+
+{include file="pagefooter.htm"}

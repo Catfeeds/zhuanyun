@@ -1,0 +1,105 @@
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{include file="engrave_tip.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start package list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th style="width:60px;">
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      {$lang.sort_id}
+    </th>
+    <th>{$lang.waybill_no}</th>
+    <th>{$lang.logistics_name}</th>
+    <th>{$lang.order_username}</th>
+    <th>{$lang.order_no}</th>
+    <th>{$lang.shipping_name}</th>
+    <th>{$lang.good_weight}</th>
+	<th>{$lang.apply_price}</th>
+	<th>{$lang.waybill_cost}</th>
+	<th>{$lang.consigise_name}</th>
+	<th>{$lang.address}</th>
+	<th>{$lang.telephone}</th>
+	<th>{$lang.waybill_status}</th>
+	<th>{$lang.order_status}</th>
+	<th>{$lang.order_time}</th>
+	<th>{$lang.order_tracke}</th>
+    <th style="width:50px;">{$lang.handler}</th>
+  <tr>
+  {foreach from=$waybill_list item=waybill}
+  <tr>
+    <td align="center"><input type="checkbox" name="checkboxes[]" value="{$waybill.ordw_waybillid}" />{$waybill.ordw_waybillid}</td>
+    <td align="center">{if $waybill.ordw_waybillno eq ''}{$lang.notissued}{else}{$waybill.ordw_waybillno}{/if}</td>
+    <td align="center">{if $waybill.ordw_collogisid}{$waybill.LogisticsName}{else}--{/if}</td>
+    <td align="center">{$waybill.user_name}</td>
+    <td align="center">{$waybill.order_no}</td>
+    <td align="center">{$waybill.ShippingName}</td>
+    <td align="center">{$waybill.ordw_goodweight}</td>
+	<td align="center">{$waybill.ordw_applyprice}</td>
+	<td align="center">{$waybill.ordw_waybillcost}</td>
+	<td align="center">{$waybill.da_consignee}</td>
+	<td align="center">{$waybill.CountyName}&nbsp;{$waybill.ProvinceName}&nbsp;{$waybill.CityName}&nbsp;{$waybill.da_address}</td>
+	<td align="center">{$waybill.da_consigneetelephone}/{$waybill.da_sparetelephone}</td>
+	<td align="center">
+		{if $waybill.order_isdelivery lt 5}{$lang.unissued}{else}{$lang.issued}{/if}
+    </td>
+	<td align="center">
+		{if $waybill.iscolsed}
+		   {$lang.colsed}
+		{else}
+		   {if $waybill.order_paymentstatus}
+		         {if $waybill.order_isdelivery eq 6}
+				    {$lang.finnshed}
+				 {else}
+		            {$lang.payment}
+				 {/if}
+		   {else}
+				 {$lang.unpayment}
+		   {/if}
+		{/if}
+    </td>
+	<td align="center">{$waybill.order_time}</td>
+	<td align="center">
+		{if $waybill.ordw_waybillno eq ''}
+		    <a onclick="Waybill_Add();">添加</a>
+		{else}
+		    <a href="engrave_waybill_manage.php?act=waybill_add&ordw_waybillid={$waybill.ordw_waybillid}&order_no={$waybill.order_no}&ordw_waybillno={$waybill.ordw_waybillno}&order_id={$waybill.order_id}">添加</a>
+		{/if}
+	  --<a href="engrave_waybill_manage.php?act=waybill_search&ordw_waybillid={$waybill.ordw_waybillid}">查看</a>
+	  <input type="hidden" name="waybillid" id="waybillid" value="{$waybill.ordw_waybillid}" />
+	  <input type="hidden" name="waybillno" id="waybillno" value="{$waybill.ordw_waybillno}" />
+	</td>
+    <td align="center">
+      <a href="javascript:;" onclick="listTable.remove({$waybill.ordw_waybillid},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+{if $full_page}
+</div>
+</form>
+{insert_scripts files="../js/utils.js,validator.js"}
+<script type="text/javascript">
+function Waybill_Add()
+{
+	 var waybill_no = document.getElementById('waybillno').value;
+	 if(waybill_no == '')
+	 {
+	 	alert('订单尚未发出，无法进行添加！');
+	 }
+}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

@@ -1,0 +1,105 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start faq list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('faq_id'); ">{$lang.faq_id}</a>{$sort_faq_id}
+    </th>
+    <th><a href="javascript:listTable.sort('faq_title'); ">{$lang.faq_title}</a>{$sort_faq_title}</th>
+    <th><a href="javascript:listTable.sort('faq_expressnumber'); ">{$lang.faq_expressnumber}</a>{$sort_faq_expressnumber}</th>
+    <th><a href="javascript:listTable.sort('faq_orderno'); ">{$lang.faq_orderno}</a>{$sort_faq_orderno}</th>
+    <th><a href="javascript:listTable.sort('faq_deliverynumber'); ">{$lang.faq_deliverynumber}</a>{$sort_faq_deliverynumber}</th>
+    <th><a href="javascript:listTable.sort('faq_username'); ">{$lang.faq_username}</a>{$sort_faq_username}</th>
+    <th>时间</th>
+    <th>状态</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$faq_list item=faq}
+  <tr>
+    <td style="width:50px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$faq.faq_id}" />{$faq.faq_id}
+    </td>
+    <td>
+    	{$faq.faq_title}
+    </td>
+    <td>
+    	{$faq.faq_expressnumber}
+    </td>
+    <td>
+    	{$faq.faq_orderno}
+    </td>
+    <td>
+    	{$faq.faq_deliverynumber}
+    </td>
+    <td align="center">
+    	{$faq.user_name}
+    </td>
+    <td align="center">
+    	{$faq.faq_time}
+    </td>
+    <td align="center">
+        {if $faq.reply_status eq 0}<span style="color:black;">未回复</span>
+		{else}<span style="color:green;">已回复</span>
+		{/if}
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_faq.php?act=reply&faq_id={$faq.faq_id}" title="{$lang.reply}"><img src="images/icon_reply.png" width="16" height="16" border="0" /></a>
+      <a href="engrave_faq.php?act=view&faq_id={$faq.faq_id}" title="{$lang.view}"><img src="images/icon_view.png" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$faq.faq_id}, '{$lang.trash_faq_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" width="16" height="16" border="0" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end faq list -->
+
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+  /**
+   * @param: bool ext 
+   */
+  function confirmSubmit(frm, ext)
+  {
+      
+  }
+
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

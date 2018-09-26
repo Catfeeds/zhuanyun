@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/index.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<!--[if IE 6]>
+<script src="themes/default/js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+ <script type="text/javascript" src="//www.17track.net/api/scripts/17track_api_p.js"></script>
+{literal}
+ <style>
+ 	table{font-size:12px;background-color:#EFEFEF;width:488px;}
+ </style>
+ </head>
+{/literal}
+ <body>
+
+{include file="header.htm"}
+
+   <!--conter-->
+    <div class="conter">
+	 <div style="margin:auto;">
+	 <div class="div_step_des" style=" margin-bottom:5px;width:100%;">
+		<span style="font-size:15px;font-weight:bold;">{$lang.package_track_search}</span>
+   	 </div>
+   	 <form enctype="multipart/form-data" action="package_track.php" method="post" name="theForm" onsubmit="return validate()">
+   		
+   		<span><textarea style="width:815px;height:60px;" name="delivery_numbers" placeholder="最多输入20个查询号码（每行一个）"></textarea></span>
+        <input class="o_search" type="submit" value="" />
+      </form>
+   	 {foreach from=$track_list item=track name='name_track'}
+   	 <table style="width:100%;">
+   	 	<tr>
+   	 		<td style="width:200px;">
+   	 			<span style="font-size:15px;font-weight:bold;">
+   	 				{$lang.waybillno}
+   	 			</span>
+   	 		</td>
+   	 		<td style="width:700px;">
+   	 			<span style="font-size:15px;font-weight:bold;">
+   	 			{if is_string($track)}
+   	 				{$track}
+   	 			{else}
+   	 				{$track[0].ordw_waybillno}
+   	 			{/if}
+   	 			</span>
+   	 		</td>
+   	 		<td></td>
+   	 	</tr>
+   	 	{if is_string($track)}
+   	 	<tr>
+		 	<td></td><td colspan="2">{$lang.waybillno_notexist_start}{$track}{$lang.waybillno_notexist_end}</td>
+		</tr>
+		{else}
+   	 	{foreach from=$track item=track_row name='name_track_row'}
+   	 	<tr>
+   	 		<td>{$track_row.tr_intime}</td><td>{$track_row.tr_message}</td><td></td>
+   	 	</tr>
+   	 	{/foreach}
+   	 	{/if}
+   	 </table>	
+   	 <div class="div_horizontal"></div>
+	 {foreachelse}
+	 <table>
+	 	<tr>
+	 		<td></td><td colspan="2">{$lang.waybillno_notexist_start}{$delivery_numbers}{$lang.waybillno_notexist_end}</td>
+	 	</tr>
+	 </table>
+	 {/foreach}
+	   
+	 </div>
+	 <div id="track_container"></div>
+	 <input type="hidden" id="yq_num" name="yq_num" value="{$yq_num}"></input>
+	  
+	 <input type="hidden" id="yq_et" name="yq_et" value="{if $collogistics.StatusList eq ''}0{else}{$collogistics.StatusList}{/if}"></input>
+	 <input type="hidden" id="yq_lang" name="yq_lang" value="{if $collogistics.lang_name eq ''}zh-CN{else}{$collogistics.lang_name}{/if}"></input>
+	 <!--
+	 <input type="hidden" id="yq_et" name="yq_et" value="{$collogistics.StatusList}"></input>
+	 <input type="hidden" id="yq_lang" name="yq_lang" value="{$collogistics.lang_name}"></input>
+	 -->
+	</div>
+ 
+{include file="footer.htm"}
+
+  {literal}
+<script type="text/javascript">
+   function validate()
+   {
+	   validator = new Validator("theForm");
+	   validator.required("delivery_numbers", waybillno_notnull);
+       return validator.passed();
+   }
+
+   function doTrack() {
+       var num = document.getElementById('yq_num').value;
+       yqtrack_v4({
+           container: document.getElementById('track_container'),
+           width: 1085,
+           height: 600,
+           num: num,
+           et: document.getElementById('yq_et').value,
+           lng: document.getElementById('yq_lang').value
+       });
+   }
+   //获取所有订单
+   doTrack();
+</script>
+  {/literal}
+ </body>
+ </html>

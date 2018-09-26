@@ -1,0 +1,74 @@
+
+ {include file="header_user.htm"}
+ {literal}
+ <script type="text/javascript">
+     $(function(){
+         var $lis=$(".checked li");
+         $lis.click(function(){
+             $(this).addClass("current").siblings().removeClass("current");
+             var index=$lis.index(this);
+             $("#contents div").eq(index).show().siblings().hide();
+         })
+     })
+ </script>
+ {/literal}
+   <!--conter-->
+    <div class="conter">
+	 <div class="member_sub">
+	   {include file="member_menu.htm"}
+	   <div class="conter_right">
+	    <!--<div class="cr_top">{$lang.position}：{$ur_here}</div>-->
+		   <div class="cr_bot">
+			   <h2>提现详细</h2>
+		 		<div class="cost myacc">
+		  <div class="cr_bot">
+			<div id="contents">
+			<table cellspacing="10px;">
+			   <tr>
+				 <td>操作时间:</td>
+				 <td>{$account.add_time}</td>
+			   </tr>
+			   <tr>
+				 <td>确认时间:</td>
+				 <td>{$account.paid_time}</td>
+			   </tr>
+				<tr>
+				 <td>类型:</td>
+				 <td>{$account.process_type}</td>
+			   </tr>
+				<tr>
+				 <td>金额:</td>
+				 <td>{$account.amount}</td>
+			   </tr>
+			   <tr>
+			     <td>状态:</td>
+			     <td>
+			     	{$account.is_paid}
+			     </td>
+			   </tr>
+			   <tr>
+			     <td>会员描述:</td>
+			     <td>
+			     	{$account.user_note}
+			     </td>
+			   </tr>
+			   <tr>
+			     <td>管理员备注:</td>
+			     <td>
+			     	{$account.admin_note}
+			     </td>
+			   </tr>
+			</table>
+			</div>
+		   </div>
+		 </div>
+	   		</div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  <!--footer-->
+   {include file="footer_user.htm"}
+  <!--/footer-->
+ </body>
+ </html>

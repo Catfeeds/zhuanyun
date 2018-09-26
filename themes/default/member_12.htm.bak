@@ -1,0 +1,205 @@
+
+{include file="header_user.htm"}
+
+<script type="text/javascript" src="themes/default/js/member/stock.js"></script>
+
+ <div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}
+	   <div class="conter_right">
+	       <div class="member_sub">
+	    	  	 <div class="cr_bot">
+	    	  	    <h2>包裹管理<span>我的包裹
+</span></h2>
+	    	  	 </div>
+	    	  	    <!-- start -->
+	    	  	     <div id="hyzx_dhyb_neirong">
+                  <table border="0" cellpadding="0" cellspacing="0" class="hyzx_dhyb_table">
+                  <tr>
+                     <td width="100px" align="right">货运单号：</td>
+                     <td>
+                     	 <input id="expressnumber" type="text" class="hyzx_dhyb_table_input"/>&nbsp;&nbsp;&nbsp;&nbsp;订单状态：
+	                     <select id="packagesatus" class="hyzx_dhyb_table_select">
+									    		<option value='0'>全部记录</option>
+									    		<option value='1'>入库途中</option>
+									    		<option value='2'>已入库</option>
+									    		<option value='3'>未处理</option>
+									    		<option value='4'>打包中</option>
+									    		<option value='5'>等待发出</option>
+									    		<option value='6'>已发出</option>
+									    		<option value='7'>历史预报</option>
+									    		<option value='8'>问题件</option>
+									    	</select>
+								    	</td>
+                  </tr>
+                  <tr>
+                    <td width="100px" align="right">商品名称：</td>
+                    <td><input id="pckg_name" type="text" class="hyzx_dhyb_table_input"/>&nbsp;&nbsp;&nbsp;&nbsp;所在仓库：
+	                    <select id="warehouse" class="hyzx_dhyb_table_select">
+							    	  <option value="0">请选择仓库</option>
+							    	  <option value="1" >日本邮政仓</option>
+	                    </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                    <button class="hyzx_dhyb_table_button" id="btnsearch" type="submit" onclick="search()">搜索</button>
+                    </td>
+                  </tr>
+                </table>
+                <div class="hyzx_dhyb_list">
+			       		  <ul class="checked">
+				             <li><div class="tb_kong">&nbsp;</div></li>
+										 <li id="packagestatus0" ><a href="#">入库途中</a></li>
+										 <li id="packagestatus1" ><a href="#">已入库</a></li>
+										 <li id="packagestatus2" ><a href="#">未处理</a></li>
+										 <li id="packagestatus3" ><a href="#">打包中</a></li>
+										 <li id="packagestatus4" ><a href="#">等待发出</a></li>
+										 <li id="packagestatus5" ><a href="#">已发出</a></li>
+										 <li id="packagestatus6" ><a href="#">历史预报</a></li>
+										 <li id="packagestatus7" ><a href="#">问题件</a></li>
+										 <!--<li id="packagestatus8" ><a href="#">问题件</a></li>-->
+							    </ul>
+               	  <div id="hyzx_dhyb_kong"></div>
+							    <div id="contents">
+										    <table id="stocktable0" class=" stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+														<th>操作</th>
+													</tr>
+										    </table>
+										    <table id="stocktable1" class="hide stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+														<th>操作</th>
+													</tr>
+										    </table>
+										    <table id="stocktable2" class="hide stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+														<th>操作</th>
+													</tr>
+				                </table>
+										    <table id="stocktable3" class="hide stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+													</tr>
+										    </table>
+										    <table id="stocktable4" class="hide stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+													</tr>
+										    </table>
+										    <table id="stocktable5" class="hide stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+													</tr>
+										    </table>
+										    <table id="stocktable6" class="hide stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+													</tr>
+										    </table>
+										    <table id="stocktable7" class="hide stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+													</tr>
+										    </table>
+										    <table id="stocktable8" class="hide stocktable">
+													<tr>
+														<th>货运单号</th>
+														<th>包裹重量</th>
+														<th>仓库名称</th>
+														<th>备注/属性</th>
+														<th>登记时间</th>
+														<th>库存天数</th>
+														<th>仓储费</th>
+														<th>状态</th>
+													</tr>
+										    </table>
+							    </div>
+                 </div>
+            </div>   <!-- #hyzx_dhyb_neirong -->         
+						<input type="hidden" name="type" id="type" value="-1" />
+						<div class="clear"></div>
+						<div id='pagecount' class='class_paging'></div>
+						<div class="clear"></div>
+		      <!-- /start --> 
+	    	  	 </div>
+	    	 </div> <!-- /.member_sub -->
+	   </div> <!-- /.conter_right --> 
+     <div class="clear"></div>
+   </div><!-- /.member -->
+</div><!-- /.conter-->
+
+
+<div id="hyzxcontent">
+      
+
+
+
+
+           
+
+
+  
+{include file="footer.htm"}
+</body>
+</html>

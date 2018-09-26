@@ -1,0 +1,83 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_site_classification.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.HelpTitle}</td>
+    <td><input type="text" name="ClassName" maxlength="60" size="20" value="{$class.ClassName}" />{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpLtitle}</td>
+    <td> <input type="text" name="ClassName" maxlength="60" size="28" value="{$class.ClassName}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpLClass}</td>
+    <td><select name="parent_id" onchange="catChanged()" {if $disabled }disabled="disabled"{/if} >
+        <option value="0">{$lang.cat_top}</option>
+        {$cat_select}
+      </select>{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpShow}</td>
+    <td> <input type="radio" name="show_in_nav" value="1" {if $cat.show_in_nav neq 0} checked="true"{/if}/> {$lang.yes}
+      <input type="radio" name="show_in_nav" value="0" {if $cat.show_in_nav eq 0} checked="true"{/if} /> {$lang.no}{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpOutside}</td>
+    <td><input type="text" name="ClassName" maxlength="60" value="{$class.ClassName}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpCont}</td>
+    <td>
+	<!--word框-->
+	<script charset='utf-8' src='../includes/kindeditor/kindeditor-min.js'></script>
+    <script>
+        var editor;
+            KindEditor.ready(function(K) {
+                editor = K.create('textarea[name="goods_desc"]', {
+                    allowFileManager : true,
+                    width : '700px',
+                    height: '300px',
+                    resizeType: 0    //固定宽高
+                });
+            });
+    </script>
+    <textarea id="goods_desc" name="goods_desc" style='width:700px;height:300px;'></textarea>
+</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="old_ClassName" value="{$class.ClassName}" />
+      <input type="hidden" name="id" value="{$class.ClassId}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['ClassName'].focus();
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("ClassName",  no_classname);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

@@ -1,0 +1,80 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+<div class="main-div">
+<form method="post" action="" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+ <tr>
+    <td class="label">{$lang.lab_class}</td>
+    <td>
+    <select name="brand_id" onchange="hideSiteDiv()" >
+    	<option value="0">{$lang.select_please}{html_options options=$brand_list selected=$goods.brand_id}</option>
+    	{$site_select_option}
+    </select>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.SiteName}</td>
+    <td>
+    	<input type="text" name="SiteName" maxlength="60" size="40" value="{$site.SiteName}" />
+    </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Description}</td>
+    <td>
+    	<input type="text" name="Description" maxlength="60" size="40" value="{$site.Description}" />
+    </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Logo}</td>
+    <td>
+    	<input type="file" name="Logo" id="logo" size="40">
+    </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.SiteUrl}</td>
+    <td><input type="text" name="SiteUrl" maxlength="60" size="40" value="{$site.SiteUrl}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.SortId}</td>
+    <td><input type="text" name="SortId" maxlength="40" size="40" value="{$site.SortId}" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="OldSiteName" value="{$site.SiteName}" />
+      <input type="hidden" name="SiteId" value="{$site.SiteId}" />
+      <input type="hidden" name="old_Logo" value="{$site.Logo}">
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['SiteName'].focus();
+
+/**
+ * 表单验证
+ */
+function validate()
+{
+    //validator = new Validator("theForm");
+    //return validator.passed();
+}
+
+  function hideSiteDiv()
+  {
+      var brand_add_div = document.getElementById("brand_add");
+      if(brand_add_div.style.display != 'none')
+      {
+          brand_add_div.style.display = 'none';
+      }
+  }
+//-->
+</script>
+{/literal}
+{include file="pagefooter.htm"}

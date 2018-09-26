@@ -1,0 +1,94 @@
+{include file="engrave_pageheader.htm"}
+<h4>
+	<span class='span-tip-header'>提醒：</span>
+	<span class="span-tip">航班信息关系到欧洲专线的运算,请确保至少三天内的航班存在.
+	</span>
+</h4>
+
+{insert_scripts files="../js/utils.js,listtable.js"}
+<form method="post" action="" name="listForm" >
+	<!-- start currecys list -->
+	<div class="list-div" id="listDiv">
+		<table cellpadding="3" cellspacing="1">
+		  <tr>
+		    <th>
+		      <input onclick='listTable.selectAll(this, "checkboxes")'  type="checkbox" />
+		      <a  >{$lang.record_id}</a>
+		    </th>
+			<th> 航空公司</th>
+		
+			<th> 出发地 - 到达地</th>
+			<th> 航班号</th>
+			<th> 出发时间-到达时间</th>
+			<th> 天数/时长</th>
+			<th>直飞(D)/中转(T)</th>
+			<th>中转地</th>
+			<th> 价格模板 </th>
+			<th>状态</th>
+		
+			<th>{$lang.handler}</th>
+		  </tr>
+		  {foreach from=$data_list  item=country}
+		  <tr>
+		    <td style="width:50px;" align="center">
+		    	{$country.flight_id}
+		    </td>
+		    <td align="center">
+					{assign var="temp" value=$airlines[$country.airline_id]}
+		    	<span>{$temp.airline_name}({$temp.airline_short_en_name}) </span>
+		    </td>
+		 
+		    
+				<td align="center">
+						{assign var="temp" value=$leave_ports[$country.lp_id]}
+						
+					<span>
+							{$temp.port_name} -
+							{assign var="temp" value=$arrival_ports[$country.ap_id]}
+							{$temp.port_name}
+					</span>
+				</td>
+				<td align="center">
+						<span>{$country.flight_no}</span>
+					</td>
+		    <td align="center" style="width:150px; padding:0px; margin:0px">
+				{$country.leave_date} {$country.leave_time} <span class="toupper">{$country.leave_ampm}</span>-  {$country.arrival_time}
+				</td>
+				<td align="center" style="width:150px; padding:0px; margin:0px">
+						{$country.days} /  {$country.hours}
+				</td>
+				<td align="center">
+						<span>{$country.is_direct}</span>
+				</td>
+				<td align="center">
+						<span>{$country.trans_city}</span>
+				</td>
+				<td align="center">
+					{assign var="temp" value=$allPriceTemplate[$country.apt_id]}
+					<span>{$temp.name}</span>
+				</td>
+				<td align="center">
+						
+						<img src="images/{if $country.status eq 'enable'}yes{else}no{/if}.gif" onclick="listTable.toggle(this, 'toggle_status', {$country.flight_id})" />
+				</td>
+				<td align="center" style="width:150px; padding:0px; margin:0px">
+						<a href="engrave_airline_flight.php?act=edit&amp;id={$country.flight_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+			
+						<a href="javascript:;" onclick="listTable.remove({$country.apt_id},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+		</td>
+		  </tr>
+		  {foreachelse}
+		  <tr><td class="no-records" colspan="11">{$lang.no_records}</td></tr>
+		  {/foreach}
+		</table>	
+
+		{include file="engrave_page.htm"}
+
+
+	</div>
+ </form>
+ <script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+</script>
+{include file="engrave_pagefooter.htm"}

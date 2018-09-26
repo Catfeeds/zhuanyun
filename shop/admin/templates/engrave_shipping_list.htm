@@ -1,0 +1,145 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start currecys list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('ShippingId'); ">{$lang.record_id}</a>{$sort_ShippingId}
+    </th>
+    <th><a href="javascript:listTable.sort('ShippingName'); ">{$lang.shippingname}</a>{$sort_ShippingName}</th>
+    <th><a href="javascript:listTable.sort('Name'); ">{$lang.name}</a>{$sort_Name}</th>
+    <th><a href="javascript:listTable.sort('ShippingCode'); ">{$lang.shippingcode}</a>{$sort_ShippingCode}</th>
+    <th>{$lang.WeightPrice}</th>
+    <th>{$lang.AddWeightAddPrice}</th>
+    <th>{$lang.LadderPrice}</th>
+    <th>{$lang.declaredvalue}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$shipping_list item=shipping}
+  <tr>
+    <td style="width:50px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$shipping.ShippingId}" />{$shipping.ShippingId}
+    </td>
+    <td align="center">
+    	{$shipping.ShippingName}
+    </td>
+    <td align="center">
+    	{$shipping.area_name}
+    </td>
+	<td align="center">
+    	{$shipping.ShippingCode}
+    </td>
+	<td align="center">
+    	{$shipping.Weight}/{$shipping.Symbol}{$shipping.Price}
+    </td>
+	<td align="center">
+    	{$shipping.AddWeight}/{$shipping.Symbol}{$shipping.AddPrice}
+    </td>
+	<td align="center">
+		{if $shipping.IsSupPice eq 1}
+		<a href="engrave_shipping_laddervalue.php?act=list&amp;id={$shipping.s_slpgid}&amp;name={$shipping.ShippingName}" title="{$lang.view}">{$lang.list}|</a>
+      	<a href="engrave_shipping_laddervalue.php?act=add&amp;id={$shipping.s_slpgid}&amp;name={$shipping.ShippingName}"  title="{$lang.add}">{$lang.add}</a>
+    	{else}
+    	---
+    	{/if}
+    </td>
+	<td align="center">
+		<a href="engrave_shipping_declaredvalue.php?act=list&amp;id={$shipping.ShippingId}&amp;name={$shipping.ShippingName}" title="{$lang.view}">{$lang.list}|</a>
+      	<a href="engrave_shipping_declaredvalue.php?act=add&amp;id={$shipping.ShippingId}&amp;name={$shipping.ShippingName}"  title="{$lang.add}">{$lang.add}</a>
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_shipping.php?act=edit&amp;id={$shipping.ShippingId}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$shipping.ShippingId},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+  /**
+   * @param: bool ext 
+   */
+  function confirmSubmit(frm, ext)
+  {
+      if (frm.elements['type'].value == 'trash')
+      {
+          return confirm(batch_trash_confirm);
+      }
+      else if (frm.elements['type'].value == 'not_on_sale')
+      {
+          return confirm(batch_no_on_sale);
+      }
+      else if (frm.elements['type'].value == 'move_to')
+      {
+          ext = (ext == undefined) ? true : ext;
+          return ext && frm.elements['target_cat'].value != 0;
+      }
+      else if (frm.elements['type'].value == '')
+      {
+          return false;
+      }
+      else
+      {
+          return true;
+      }
+  }
+
+  function changeAction()
+  {
+      var frm = document.forms['listForm'];
+
+      frm.elements['target_cat'].style.display = frm.elements['type'].value == 'move_to' ? '' : 'none';
+			
+			{if $suppliers_list > 0}
+      frm.elements['suppliers_id'].style.display = frm.elements['type'].value == 'suppliers_move_to' ? '' : 'none';
+			{/if}
+
+      if (!document.getElementById('btnSubmit').disabled &&
+          confirmSubmit(frm, false))
+      {
+          frm.submit();
+      }
+  }
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

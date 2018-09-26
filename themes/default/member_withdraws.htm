@@ -1,0 +1,61 @@
+{include file="header_user.htm"}
+ 
+   <!--conter-->
+    <div class="conter">
+	 <div class="member_sub">
+	   {include file="member_menu.htm"}
+	   <div class="conter_right">
+		   <div class="cr_bot">
+			   <h2>提现申请</h2>
+				 <div class="cost myacc">
+				  <div class="cr_bot">
+					<div id="contents">
+					 <form enctype="multipart/form-data" action="member_withdraws.php?act=member_insert" method="post" name="theForm" onsubmit="return validate()">
+					 <table class="datum" cellspacing="10px;">
+							<tr>
+							 <td class="datd" style="width:120px;">提现/退款金额:</td>
+							 <td><input class="textdatum" type="number"
+										max="{$users.user_money}" name="amount" value=""/>(元) 最小:0.01元
+								 账户余额：<span style="color:red">{$users.user_money}元</span>
+							 </td>
+						   </tr>
+						   <tr>
+							 <td class="datds" style="padding-top:5px;"><p style="width:120px;">备注说明：</p></td>
+							 <td style="padding-top:0px;">
+								<textarea name="user_note" required></textarea>
+								 <br>提交成功后,管理员会和您联系
+							 </td>
+						   </tr>
+					  </table>
+					   <button type="submit">提交申请</button>
+					 </form>
+					</div>
+				   </div>
+				 </div>
+				</div>
+	   		</div>
+	   		<div class="clear"></div>
+	   </div>
+	</div>
+  <!--footer-->
+   {include file="footer_user.htm"}
+  <!--/footer-->
+ </body>
+ </html>
+ <script language="JavaScript">
+{literal}
+document.forms['theForm'].elements['amount'].focus();
+
+/**
+ * 表单验证
+ */
+function validate()
+{
+  validator = new Validator("theForm");
+  validator.required("amount",  amount_notnull);
+  validator.isNumber("amount",  amount_isnumber);
+
+  return validator.passed();
+}
+{/literal}
+</script>

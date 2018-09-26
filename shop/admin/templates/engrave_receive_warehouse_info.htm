@@ -1,0 +1,170 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_receive_warehouse.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.housename}</td>
+    <td>
+    	<!-- <select name="Area" ><option value="0">{$lang.select_please}{html_options options=$area_list selected=$warehouse.AreaId}</select>
+		&nbsp;→&nbsp; -->
+    	<input type="text" name="HouseName" maxlength="60" value="{$warehouse.HouseName}" />
+		<input type="checkbox" name="IsDefault" value="1" {if $warehouse.IsDefault}checked="checked"{/if} />{$lang.is_default}
+	</td>
+  </tr>
+  
+  <tr>
+    <td class="label">{$lang.housecode}</td>
+    <td><input type="text" name="HouseCode" maxlength="40" value="{$warehouse.HouseCode}" />{$lang.require_housecode}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.title}</td>
+    <td><input type="text" name="Title" maxlength="40" value="{$warehouse.Title}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.currencycode}</td>
+    <td>人民币(￥)
+    <input type=hidden name="CurrencyId" value=2>
+    <!--  <select name="CurrencyId" ><option value="0">{$lang.select_please}{html_options options=$currecy_list selected=$warehouse.CurrencyId}</select>-->
+    </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.weightunit}</td>
+    <td><input type="text" name="WeightUnit" value="{$warehouse.WeightUnit}" />(eg: g, kg)</td>
+  </tr>
+  <tr>
+    <td class="label">单位重量：</td>
+    <td><input type="text" name="wh_weight" value="{$warehouse.wh_weight}" />
+    仓储费 : 向上取整(重量/单位重量)*入库费 .
+    </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.sizeunit}</td>
+    <td><input type="text" name="SizeUnit"  value="{$warehouse.SizeUnit}" />(eg: mm, cm, m)</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.volumeunit}</td>
+    <td><input type="text" name="VolumeUnit"  value="{$warehouse.VolumeUnit}" />(eg: mm³, cm³, m³)</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.storage}</td>
+    <td><input type="text" name="Storage" value="{$warehouse.Storage}" />{$lang.unitweightpre}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.warehousingBM}</td>
+    <td><input type="text" name="WarehousingBM" value="{$warehouse.WarehousingBM}" />{$lang.days}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.warehousing}</td>
+    <td><input type="text" name="Warehousing" value="{$warehouse.Warehousing}" />{$lang.daypre}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.autodestruction}</td>
+    <td><input type="text" name="AutoDestruction" value="{$warehouse.RolloverBM}" />{$lang.dayaft}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.rollover}</td>
+    <td><input type="text" name="Rollover"  value="{$warehouse.Rollover}" />{$lang.unitweightpre}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.operate}</td>
+    <td><input type="text" name="Operate" value="{$warehouse.Operate}" />{$lang.piecepre}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.uppackagebox}</td>
+    <td><input type="text" name="UpPackage" value="{$warehouse.UpPackage}" />{$lang.piecepre}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.outsidecost}</td>
+    <td><input type="text" name="OutsideCost" value="{$warehouse.OutsideCost}" />{$lang.boxpre}</td>
+  </tr>
+ 
+
+  <tr>
+    <td class="label">{$lang.province}</td>
+    <td><input type="text" name="Province" maxlength="20" value="{$warehouse.Province}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.city}</td>
+    <td><input type="text" name="City" maxlength="20" value="{$warehouse.City}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.county}</td>
+    <td><input type="text" name="County" maxlength="20" value="{$warehouse.County}" /></td>
+  </tr>
+  <tr>
+      <td class="label">{$lang.address}</td>
+      <td><input type="text" name="Address" maxlength="60" value="{$warehouse.Address}" /></td>
+    </tr>
+ 
+    
+
+  <tr>
+    <td class="label">{$lang.zipcode}</td>
+    <td><input type="text" name="ZipCode" maxlength="20" value="{$warehouse.ZipCode}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.telephone}</td>
+    <td><input type="text" name="Telephone" maxlength="20" value="{$warehouse.Tel}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.note}</td>
+    <td><textarea name="Note" cols="40" rows="3">{$warehouse.Note|escape}</textarea></td>
+  </tr>
+  <!-- <tr>
+    <td class="label">{$lang.sortid}</td>
+    <td><input type="text" name="SortId" value="{$warehouse.SortId}" size="5" /></td>
+  </tr> -->
+  <tr>
+    <td class="label">{$lang.state}</td>
+    <td>
+    	<input type="radio" name="State" value="1" {if $warehouse.Statue neq 0} checked="true"{/if} />{$lang.enable} 
+	    <input type="radio" name="State" value="0" {if $warehouse.Statue eq 0} checked="true"{/if} />{$lang.disable}
+	</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="HouseId" value="{$warehouse.HouseId}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['HouseName'].focus();
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    //validator.selectRequired("Area",pleaseselect_area_notnull);
+	//validator.selectRequired("CurrencyId",pleaseselect_currencyname_notnull);
+	validator.required("HouseName",housename_notnull);
+	validator.isNumber("Storage",import_storage_error,0);
+	validator.isNumber("WarehousingBM",import_warehousingBM_isnumber,0);
+	validator.isNumber("Warehousing",import_warehousing_error,0);
+	validator.isNumber("AutoDestruction",import_autodestruction_isnumber,0);
+	validator.isNumber("Rollover",import_rollover_error,0);
+	validator.isNumber("Operate",import_operate_error,0);
+	validator.isNumber("UpPackage",import_uppackage_error,0);
+	validator.isNumber("OutsideCost",import_outsidecost_error,0);
+	validator.required("Address",address_notnull);
+	//validator.isTel("Telephone",import_phone_error,0);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

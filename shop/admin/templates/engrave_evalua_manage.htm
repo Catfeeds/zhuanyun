@@ -1,0 +1,75 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm">
+  <!-- start currecys list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />{$lang.record_id}
+    </th>
+    <th>{$lang.OrderNo}</th>
+    <th>{$lang.EvaluaValue}</th>
+    <th>{$lang.EvaluaMessage}</th>
+    <!-- 
+    <th>{$lang.handler}</th>
+     -->
+  </tr>
+  {foreach from=$evalua_list item=evalue}
+  <tr>
+    <td style="width:50px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$evalue.eva_id}" />{$evalue.eva_id}
+    </td>
+    <td align="center">
+    	<span>{$evalue.order_no}</span>
+    </td>
+    <td align="center">
+    	{if $evalue.eva_value eq 0}<span>{$lang.good}</span>
+		{elseif $evalue.eva_value eq 1}<span>{$lang.better}</span>
+		{else}<span>{$lang.bad}</span>{/if}
+    </td>
+    <td align="center">
+    	<span>{$evalue.eva_message}</span>
+    </td>
+    <!-- 
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_evalua_manage.php?act=edit&amp;id={$evalue.eva_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$evalue.eva_id},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td> -->
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

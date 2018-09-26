@@ -1,0 +1,466 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+
+<style>
+div {display: block;}
+div.orderEdit {text-align: right;margin: 10px;padding-right: 10px;font-weight: bold;}
+div.cnt {background: #ddd;margin: 5px;padding: 5px;}
+div.border {border: solid 1px #333;margin: 10px;}
+table {display: table;border-collapse: separate;border-spacing: 2px;border-color: gray;}
+table.orderTb {width:100%;border:none;border-collapse:collapse;background:#efefef;table-layout:fixed;}
+table.orderItem {width:100%;border:none;border-collapse:collapse;}
+table.orderItem tr th {width: 120px;color: #fff;text-align: right;background: #333;border: solid 1px #ccc;padding: 5px;}
+table.orderTb tr td {color: #000;border: solid 1px #ccc;padding: 5px;}
+th.tit {text-align: left;}
+th {font-weight: bold;}
+td {border: solid 1px #ccc;padding: 5px;}
+div.border h2 {margin: 0px;padding: 0px;line-height: 32px;height: 32px;text-indent: 15px;font-size: 15px;background: #555;color: #fff;}
+h2 {display: block;font-size: 1.5em;-webkit-margin-before: 0.83em;-webkit-margin-after: 0.83em;-webkit-margin-start: 0px;-webkit-margin-end: 0px;font-weight: bold;}
+</style>
+<!-- start goods form -->
+<div class="main-div">
+     <form enctype="multipart/form-data" action="engrave_all_orders.php" method="post" name="theForm" onsubmit="return validate()">
+        <div class="orderEdit">
+          <a href="engrave_all_orders.php?act=print_orders&order_id={$order_list.order_id}" target="_blank">打印订单</a>
+		</div>
+        <div class="border">
+          <div class="cnt"><b>订单号：</b>{$order_list.order_no} [代运] <b>订单总金额：</b>{$order_list.Symbol}{$order_list.order_totalprice} <b>订单状态：
+              {assign var='order' value=$order_list}
+              {if $order.order_paymentstatus}<span style="color:green;">{$lang.paymented}</span>{else}<span style="color:#f60;">{$lang.unpayment}</span>{/if},
+              {if $order.order_isdelivery eq 0}<span style="color:black;">{$lang.notpick}</span>,
+              {elseif $order.order_isdelivery eq 1}<span style="color:black;">{$lang.pick}</span>,
+              {elseif $order.order_isdelivery eq 2}<span style="color:black;">{$lang.processing}</span>,
+              {elseif $order.order_isdelivery eq 4}<span style="color:black;">{$lang.shipping_ready}</span>,
+              {elseif $order.order_isdelivery eq 51}<span style="color:black;">{$lang.shipping_part}</span>,
+              {elseif $order.order_isdelivery eq 5}<span style="color:green;">{$lang.shipped}</span>,
+              {elseif $order.order_isdelivery eq 6}<span style="color:green;">{$lang.finished}</span>,
+              {/if}
+              {if $order.order_iscolsed}<span style="color:red;">{$lang.colsed},</span>{/if}
+
+          </b> <b>下单日期：</b>{$order_list.order_time} <b>所属会员：</b>{$order_list.user_name}</div>
+        </div>
+	    <div class="border">
+           <div class="cnt">
+           <table class="orderTb">
+           <tbody><tr>
+              <th class="tit" colspan="2">订单信息</th>
+           </tr>
+           <tr>
+              <td>
+                <table class="orderItem">
+                   <tbody><tr>
+                      <th>下单用户：</th>
+                      <td>{$order_list.user_name}
+                      <strong class="red">（{$order_list.storage_code}）</strong>
+                      </td>
+                   </tr>
+                   <tr>
+                      <th>服务类别：</th>
+                      <td>{$order_list.ShippingName}</td>
+                   </tr>
+                   <tr>
+                      <th>仓库：</th>
+                      <td>{$order_list.HouseName} {$order_list.warehouseaddress}</td>
+                   </tr>
+                   <tr>
+                      <th>物流方式 ：</th>
+                      <td>{$order_list.shipment_name}
+                          {if $dispatchId }
+                          <br>转运状态: {$order_list.dispatch_status}
+
+                          {/if}
+                          {if $dispatchDetail}
+                          <br>
+                          发货单信息:
+                          {$dispatchDetail.city_name}-->{$dispatchDetail.port_name} <br>
+                          <img src="images/fj.png" width="15">
+                          {$dispatchDetail.airline_name}  {$dispatchDetail.flight_no} 号航班 ({$dispatchDetail.leave_date} {$dispatchDetail.leave_time} 起飞) <br>
+                          到港时间: {$dispatchDetail.dispatch_arrival_time}
+                          {/if}
+                      </td>
+                   </tr>
+                   <tr>
+                      <th>货物说明：</th>
+                      <td>{$order_list.order_note}</td>
+                   </tr>
+                   <tr>
+                      <th>申报价值：</th>
+                      <td>{$order_list.order_goodsprice} {$order_list.Name}</td>
+                   </tr>
+                   <tr>
+                      <th>购买保险：</th>
+                      <td>
+                      	{if $order_list.order_needinvoice eq 0}
+						    否
+						{else}
+						    是
+						{/if}
+                      </td>
+                   </tr>
+                </tbody></table>
+              </td>
+              <td valign="top">
+                 <table class="orderItem">
+                   <tbody><tr>
+                      <th>操作要求：</th>
+                      <td>
+                        {if $order_list.order_servicetype}高级服务{else}基本服务{/if}
+					  </td>
+                   </tr>
+                   <tr>
+                      <th>分箱/合箱：</th>
+                      <td> 
+                        {if $order_list.order_boxquantity eq 0}N/A{else}{$order_list.order_boxquantity}{/if}                 
+                      </td>
+                   </tr>
+                   <tr>
+                      <th>发票：</th>
+                      <td>
+                          {if $order_list.order_needinvoice}
+                          发票类型: {$order_list.order_invoice_type}<br>
+                          发票抬头: {$order_list.order_invoice_title}<br>
+                          {if $order_list.order_invoice_type == "企业"}
+                          税&nbsp;&nbsp;&nbsp;&nbsp;号: {$order_list.order_invoice_tax_no}<br>
+                          {/if}
+                          发票内容: {$order_list.order_invoice_content}<br>
+                          发票邮寄地址: {$order_list.order_invoice_address}<br>
+                          {else}
+                          不开发票
+                          {/if}
+
+                      </td>
+                   </tr>
+                   <tr>
+                      <th style="height:60px">商品信息：</th>
+                      <td></td>
+                   </tr>
+                </tbody></table>
+              </td>
+           </tr>
+        </tbody></table>
+      </div>
+    </div>
+	    <div class="border">
+	    	<h2>&gt;&gt;增值服务</h2>
+		    <div class="cnt"><label id="valueservice"></label></div>
+	    </div>
+	    <div class="border">
+           <h2>订单发货 <span style="color:#f00;font-size:12px; font-weight:normal;">★★★自动生成的发货单号，请不要修改，以免重复（其它物流公司单号请手工输入）！★★★</span></h2>
+           <table class="orderItem">
+              <tbody>
+              	{foreach from=$orderwaybill_list item=orderwaybill}
+				<tr>
+	            	<th>发货单号：</th>
+					{if $orderwaybill.ordw_waybillno eq ""}
+					<td id="no_{$orderwaybill.ordw_waybillid}">
+	                    <!--<select name="shippingid_{$orderwaybill.ordw_waybillid}" id="shippingid_{$orderwaybill.ordw_waybillid}">-->
+	           	        	<!--{html_options options=$shipping_list selected=$order_list.order_shippingid}-->
+		            	<!--</select>-->
+	                    <!--<select name="shippingid_{$orderwaybill.ordw_waybillid}" id="shippingid_{$orderwaybill.ordw_waybillid}">-->
+	           	        	<!--{html_options options=$shipment_list selected=$order_list.order_shipmentid}-->
+		            	<!--</select>-->
+                        <!--运单号:-->
+                        发货时间（中国）：
+                        <input type="text" name="send_time" value=""
+                            onclick="return showCalendar(this, '%Y-%m-%d', false, false, this);"
+                            id="send_time_{$orderwaybill.ordw_waybillid}"
+                            class="time send_time"  
+                            size="30" />
+						<input style="margin-left:5px;display: none" type="text" size="18" value="{$orderwaybill.ordw_assistno}" name="deliverNo_{$orderwaybill.ordw_waybillid}" id="deliverNo_{$orderwaybill.ordw_waybillid}"><br>
+				    	快递公司：
+                        <select  
+                        name="logisticsid_{$orderwaybill.ordw_waybillid}" 
+                        class="shipment_id"
+                        id="logisticsid_{$orderwaybill.ordw_waybillid}" onchange="select_collogistics(this.options[this.options.selectedIndex].value,{$orderwaybill.ordw_waybillid})">
+				 			<!--<option value="0">不使用第三方物流</option>-->
+	            	        <!--{html_options options=$collogistics_list}-->
+                            {html_options options=$shipment_list selected=$order_list.order_shipmentid}
+		            	</select> 
+
+                        <br>
+                        快递单号：
+                        <input type="text" size="18" 
+                        class="express_no"
+                        id="partnerNo_{$orderwaybill.ordw_waybillid}" 
+                        name="partnerNo_{$orderwaybill.ordw_waybillid}" value="" >
+
+
+			        </td>
+					{else}
+					<td id="waybilltd_{$orderwaybill.ordw_waybillid}">
+
+
+
+                        <select disabled  name="logisticsid_{$orderwaybill.ordw_waybillid}" id="logisticsid_{$orderwaybill.ordw_waybillid}" value="{$orderwaybill.ordw_collogisid}" onchange="select_collogistics(this.options[this.options.selectedIndex].value,{$orderwaybill.ordw_waybillid})">
+                            <!--{html_options options=$collogistics_list}-->
+                            {html_options options=$shipment_list selected=$order_list.order_shipmentid}
+                        </select>
+                        <script>
+                            $('#logisticsid_{$orderwaybill.ordw_waybillid}').val('{$orderwaybill.ordw_collogisid}')
+                        </script>
+                        <label id="waybillnolabel_{$orderwaybill.ordw_waybillid}">{$orderwaybill.ordw_waybillno}</label>
+                        {$orderwaybill.ordw_sendtime}
+					</td>
+					{/if}
+					<td id="waybill_{$orderwaybill.ordw_waybillid}" style="display:none;">
+					   <label id="waybillno_{$orderwaybill.ordw_waybillid}"></label>
+					</td>
+			        <th>收货地址：</th>
+			        <td>{$orderwaybill.CountyName}{$orderwaybill.country_name} {$orderwaybill.ProvinceName} {$orderwaybill.CityName} {$orderwaybill.da_address}&nbsp; <a href="engrave_all_orders.php?act=order_details&ordw_waybillid={$orderwaybill.ordw_waybillid}" target="_blank">运单详细</a></td>
+			        <td id="op" style="text-align:center">
+			        	{if $orderwaybill.ordw_waybillno eq ""}
+			        	<input id="shipbtn_{$orderwaybill.ordw_waybillid}" onclick="picking_click({$orderwaybill.ordw_waybillid});" type="button" class="button" value="发货" />
+						{else}
+						<input id="shipbtn_{$orderwaybill.ordw_waybillid}" disabled="true" type="button" class="button" value="发货" />
+						{/if}
+						<input style="margin-left:5px;" id="printbtn_{$orderwaybill.ordw_waybillid}" type="button" class="button" value="打印运单" />
+					</td>
+			    </tr>
+                <tr>
+                    <td colspan="5">
+                        <!-- aa -->
+                        <h2>&gt;&gt;运单商品详细</h2>
+                        <div class="cnt">
+                            <div>
+                                <table class="orderTb" cellspacing="0" rules="all" border="1" id="cgv" style="border-collapse:collapse;">
+                                    <tbody>
+                                    <tr>
+                                        <th scope="col">商品名称</th>
+                                        <th scope="col">商品类别</th>
+                                        <th scope="col">数量</th>
+                                        <th scope="col">单价</th>
+                                    </tr>
+                                    {foreach from=$orderwaybill.order_goods_list item=packagegood}
+                                    <tr>
+                                        <td class="tit">{$packagegood.ordg_goodname}</td>
+                                        <td class="tit" style="width:200px;">{$packagegood.rate_name}</td>
+                                        <td>{$packagegood.ordg_goodnumber}</td>
+                                        <td>{$packagegood.ordg_goodprice}</td>
+
+
+                                    </tr>
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- /aa -->
+                    </td>
+                </tr>
+			  {/foreach}
+              </tbody>
+		   </table>
+        </div>
+	    <div class="border">
+
+          <h2>&gt;&gt;订单包裹详细</h2>
+          <div class="cnt">
+            <div>
+            <table class="orderTb" cellspacing="0" rules="all" border="1" id="cgv" style="border-collapse:collapse;">
+            <tbody>
+             <tr>
+                <th scope="col">商品名称</th><th scope="col">快递单号</th><th scope="col">数量</th><th scope="col">单价</th><th scope="col">重量(单件)</th><th scope="col">备注</th>
+             </tr>
+             {foreach from=$packagegoods_list item=packagegood}
+             <tr>
+                <td class="tit">{$packagegood.pckg_name} {$packagegood.pckg_unitprice}*{$packagegood.pckg_amount}</td>
+                <td class="tit" style="width:200px;">{$packagegood.pck_expressnumber}</td>
+                <td>{$packagegood.pckg_amount}</td>
+                <td>{$packagegood.pckg_unitprice}</td>
+                <td>{$packagegood.pck_weight}</td>
+                <td>{$packagegood.pck_userremark}</td>
+            </tr>
+            {/foreach}
+           </tbody>
+           </table>
+           </div>
+          </div>
+
+
+
+    </div>
+	    <div class="border">
+      <h2>&gt;&gt;买家备注信息</h2>
+      <div class="cnt">
+         {$packagegood.pck_userremark}
+      </div>
+    </div>
+	<div>
+		<input type="hidden" id="orderid" name="orderid" value="{$order_list.order_id}" />
+	</div>
+	 </form>
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+{literal}
+<script language="JavaScript">
+
+$(function()  {
+	load();
+});
+	/**
+	 * 页面加载执行
+	 */
+	function load()
+	{
+		//获得订单编 号
+		var orderid = $('#orderid').val();
+		
+	    Ajax.call('engrave_all_orders.php?act=getpackagevalueservice',"order_id="+orderid,act_valueservice,"GET","TEXT",false,true);
+	    
+	}
+	var g_value='';
+	/**
+	*发货
+	*/
+	function picking_click(value)
+	{
+
+		g_value = value;
+		
+		var waybillno = 'waybillno_'+value;
+		console.log("aa")
+        var waybillno_labal = document.getElementById(waybillno);
+        //快递单号
+        var partnerNo = 'partnerNo_'+value;
+        //订单的 ordw_assistno 辅助单号
+		var deliverNo = 'deliverNo_'+value;
+		var shippingid = 0;//document.getElementById('shippingid_'+value).value;
+        
+        //shipment
+		var logisticsid = document.getElementById('logisticsid_'+value).value;
+		
+		var orderid = document.getElementById('orderid').value;
+		
+		//运单编号
+		var ordw_assistno = document.getElementById(deliverNo).value;
+        var waybill_no;
+        
+		if(!document.getElementById(partnerNo).value) {
+            alert("请输入运单号");
+		    return false;
+        }
+
+
+		if(document.getElementById(partnerNo).value!='')
+		{
+			waybillno_labal.innerHTML = document.getElementById(partnerNo).value;
+			waybill_no = document.getElementById(partnerNo).value;
+		}
+		else
+		{
+			//如果未选择第三方物流，则第三方物流编号为 运单号
+			waybillno_labal.innerHTML = ordw_assistno;
+			waybill_no = ordw_assistno;
+		}
+        ordw_assistno = waybill_no;
+
+        
+		/*if(!waybill_no) {
+		    alert("请输入运单号");
+		    return false;
+        } */
+
+        
+        var send_time = $('#send_time_'+value).val();
+        if(!send_time) {
+            alert("请输入发货时间");
+            return false;
+        }
+        
+        var url = 'engrave_all_orders.php?act=waybill_delivery',
+            params = "ordw_waybillid="+value+"&shippingid="+shippingid+"&logisticsid="+logisticsid+
+    "&waybillno="+waybill_no+"&orderid="+orderid+"&ordw_assistno="+ordw_assistno+"&send_time="+send_time;
+
+		//发货中的运单信息;发货改变订单的状态
+		Ajax.call(url,params, act_waybilldelivery,"GET","TEXT",false,true);
+	}
+	
+	/*发货回调函数*/
+	function act_waybilldelivery(result)
+	{
+		 var obj = eval('('+result+')');
+		 if(obj.error=='0')
+		 {
+			var no = 'no_' + g_value;
+			gObj(no).style.display =  "none";
+			var waybill = 'waybill_'+g_value;
+			gObj(waybill).style.display = "";
+			var shipbtn = 'shipbtn_'+g_value;
+			document.getElementById(shipbtn).disabled = true;
+		 }
+		 alert(obj.message);
+	}
+
+	function select_collogistics(value,waybillno)
+	{
+		var partnerNo = 'partnerNo_' + waybillno;
+		gObj(partnerNo).style.display =  (value != 0) ? "" : "none";		
+	}
+    //获得增值服务
+	function act_valueservice(result)
+	{
+		var service_text='';
+	    var obj = eval('(' + result + ')');
+		var valueservice = document.getElementById("valueservice");
+		if(obj.length == 0)
+		{
+			service_text = '无增值服务';
+		}
+		for(var index = 0;index < obj.length;index++)
+		{
+			service_text += obj[index].ServiceName + "&nbsp;&nbsp;";
+		}
+		valueservice.innerHTML = service_text;
+	}
+	//是否对相关标签进行隐藏
+	function gObj(obj)
+	{
+	  var theObj;
+	  if (document.getElementById)
+	  {
+	    if (typeof obj=="string") 
+		{
+	      return document.getElementById(obj);
+	    } 
+		else 
+		{
+	      return obj.style;
+	    }
+	  }
+	  return null;
+	}
+	function validate()
+	{
+	  validator = new Validator("theForm");
+      validator.required("Title", Title_notnull);
+      
+      $('.send_time').each(function() {
+        if (Utils.trim($(this).val()) == "")
+        {
+            validator.addErrorMsg("发货时间必填");
+        }
+      });
+      $('.shipment_id').each(function() {
+        if (Utils.trim($(this).val()) == "")
+        {
+            validator.addErrorMsg("快递公司必填");
+        }
+    });
+    $('.express_no').each(function() {
+        if (Utils.trim($(this).val()) == "")
+        {
+            validator.addErrorMsg("快递单号必填");
+        }
+    });
+	  return validator.passed();
+	}
+
+	
+</script>
+{/literal}
+{include file="pagefooter.htm"}

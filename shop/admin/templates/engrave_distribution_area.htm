@@ -1,0 +1,64 @@
+
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="POST" action="engrave_distribution_area.php?act=list" name="listForm">
+<!-- start admin_logs list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('Id'); ">{$lang.area_Id}</a>{$sort_Id}
+    </th>
+    <th><a href="javascript:listTable.sort('Name'); ">{$lang.area_Name}</a>{$sort_Name}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$distribution_area_list item=distributionareas}
+  <tr>
+    <td style="width:150px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$distributionareas.Id}" />{$distributionareas.Id}
+    </td>
+    <td>
+    	<a href="engrave_distribution_area.php?act=list&distribution_area_parentid={$distributionareas.Id}">
+    		{$distributionareas.Name}
+    	</a>
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_distribution_area.php?act=edit&id={$distributionareas.Id}&parentId={$distributionareas.ParentId}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$distributionareas.Id}, '{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" width="16" height="16" border="0" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+
+<!-- end distributionareas list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+{if $full_page}
+{include file="pagefooter.htm"}
+</div>
+<!-- end ad_position list -->
+
+<script type="text/javascript" defer="defer" language="JavaScript">
+  listTable.filter['area_parentid'] = {$area_parentid};
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+</script>
+{/if}

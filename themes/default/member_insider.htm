@@ -1,0 +1,109 @@
+ {include file="header_user.htm"}
+   <!--conter-->
+    <div class="conter">
+	 <div class="member_sub">
+	   {include file="member_menu.htm"}
+	   <div class="conter_right">
+	      <!--<div class="cr_top">{$weizhi}：{$ur_here}</div>-->
+		   <div class="cr_bot">
+			   <h2>有问必答</h2>
+		 		<div class="cost myacc">
+					 <div class="cr_bot">
+						<ul class="checked">
+						 <li class="current"><a href="#">我的提问</a></li>
+						 <li><a href="#">提交问题</a></li>
+						</ul>
+						<div id="contents">
+							  <div class="cont1 cont">
+								  <table class="stocktable">
+								  <tr>
+									<th><input type="checkbox" /></th>
+									<th>标题</th>
+									<th>转运单号</th>
+									<th>包裹单号</th>
+									<th>运单单号</th>
+									<th>日期</th>
+									<th>操作</th>
+								  </tr>
+								  {foreach from=$faq_list item = faq name="name_faq"}
+								 <tr>
+									<td style="width:35px;"><input type="checkbox" /></td>
+									<td>{$faq.faq_title}</td>
+									<td>{$faq.faq_expressnumber}</td>
+									<td>{$faq.faq_orderno}</td>
+									<td>{$faq.faq_deliverynumber}</td>
+									<td style="width:100px;">{$faq.faq_time}</td>
+									<td style="width:60px;">
+										<a href="member_customservice.php?act=member_editinsider&faq_id={$faq.faq_id}"  title="{$lang.edit}">
+											<img src="images/icon_edit.png" border="0" height="16" width="16" />
+										</a>
+										<a href="member_customservice.php?act=member_viewinsider&faq_id={$faq.faq_id}"  title="{$lang.view}">
+											<img src="images/icon_detail.png" border="0" height="16" width="16" />
+										</a>
+										<a href="javascript:;" onclick="listTable.remove({$faq.faq_id},'{$lang.drop_confirm}','member_removefaq')" title="{$lang.remove}">
+											<img src="images/icon_delete.png" border="0" height="16" width="16" />
+										</a>
+									</td>
+								 </tr>
+								 {/foreach}
+								 </table>
+							 </div>
+							 <div class="cont2 cont hide">
+								 <form enctype="multipart/form-data" action="member_customservice.php?act=member_insider" method="post" name="theForm">
+								   <table class="datum" cellspacing="10px;">
+									   <tr>
+										 <td class="datd">标题:</td>
+										 <td><input class="textdatum" required type="text" name="faq_title"/></td>
+									   </tr>
+									   <tr>
+										 <td class="datd">相关包裹单号: </td>
+										 <td><input class="textdatum" type="text" name="faq_expressnumber"/></td>
+									   </tr>
+										<tr>
+										 <td class="datd">相关转运单号: </td>
+										 <td><input class="textdatum" type="text" name="faq_orderno"/></td>
+									   </tr>
+										<tr>
+										 <td class="datd">相关发货单号: </td>
+										 <td><input class="textdatum" type="text" name="faq_deliverynumber"/></td>
+									   </tr>
+									   <tr>
+										 <td class="datds" style="padding-top:5px;"><p>问题详细描述: <p></td>
+										 <td style="padding-top:0px;">
+											<textarea name="faq_remark" required></textarea>
+										 </td>
+									   </tr>
+								  </table>
+								  <!--
+								  <div class="mdiv1 ins"><span>问题详细描述：</span><textarea></textarea></div>
+								   -->
+								 <button type="submit">提交问题</button>
+								 <input type="hidden" name="operate" value="insert"></input>
+								 </form>
+							</div>
+						</div>
+					   </div>
+					 </div>
+	   			</div>
+	   		</div>
+	  	    <div class="clear"></div>
+	   </div>
+	 </div>
+	</div>
+  <!--footer-->
+ {include file="footer_user.htm"}
+  <!--/footer-->
+ {literal}
+	<script type="text/javascript">
+	$(function(){
+		var $lis=$(".checked li");
+		$lis.click(function(){
+			$(this).addClass("current").siblings().removeClass("current");
+			var index=$lis.index(this);
+			$("#contents div").eq(index).show().siblings().hide();
+		})
+	})
+	</script>
+  {/literal}
+ </body>
+ </html>

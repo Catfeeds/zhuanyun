@@ -1,0 +1,53 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="user_presented.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.PreseObj}</td>
+    <td>
+    	<input type="radio" name="alluser" value="0" checked="true">{$lang.allmember}
+     	<input type="radio" name="alluser" value="1">{$lang.pointuser} 
+     	<input type="text" name="PreseObj" maxlength="60" value="{$present.PreseObj}" />{$lang.require_preseobj}
+    </td>
+  </tr>
+    <tr>
+    <td class="label">{$lang.PreseCredit}</td>
+    <td>
+    <input type="text" name="PreseCredit" style="width:60px" maxlength="20" value="{$present.PreseCredit}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.PreseRease}</td>
+    <td><textarea name="PreseRease" cols="40" rows="5">{$present.PreseRease|escape}</textarea></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_present}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['ClassName'].focus();
+onload = function()
+{
+    startCheckOrder();
+}
+/**
+ * 验证
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("alluser",  no_classname);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

@@ -1,0 +1,47 @@
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+	<form method="post" action="engrave_country.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+	<table cellspacing="1" cellpadding="3" width="100%">
+		<tr>
+			<td class="label"><span class="asterisk">*</span>中文名</span></td>
+			<td><input type="text" name="name" maxlength="60" value="{$data.country_name}" />{$lang.require_name}
+			</td>
+		</tr>
+		<tr>
+			<td class="label">英文名</td>
+			<td><input type="text" name="en_name" style="width:80px" maxlength="40" value="{$data.country_en_name}" /></td>
+		</tr>
+		<tr>
+			<td class="label"><span class="asterisk">*</span>代号</td>
+			<td><input type="text" name="code" style="width:60px" maxlength="40" value="{$data.country_code}" /></td>
+		</tr>
+	
+		<tr>
+			<td colspan="2" align="center"><br />
+				<input type="submit" class="button" value="{$lang.button_submit}" />
+				<input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+				<input type="hidden" name="act" value="{$form_action}" />
+				<input type="hidden" name="id" value="{$data.cid}" />
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+
+<script language="JavaScript">
+
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required('name', "中文名必填");
+	validator.required('code', "代号必填");
+
+	return validator.passed();
+}
+</script>
+
+{include file="engrave_pagefooter.htm"}

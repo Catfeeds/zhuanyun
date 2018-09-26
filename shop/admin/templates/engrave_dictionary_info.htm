@@ -1,0 +1,42 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_dictionary_manage.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.groupname}</td>
+    <td><input type="text" name="GroupName" maxlength="60" value="{$dictionary.GroupName}" /></td>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="id" value="{$dictionary.GroupId}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['ClassName'].focus();
+onload = function()
+{
+    // 寮�妫�煡璁㈠崟
+    startCheckOrder();
+}
+/**
+ * 妫�煡琛ㄥ崟杈撳叆鐨勬暟鎹�
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("GroupName",  groupname_notnull);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

@@ -1,0 +1,166 @@
+[30-Sep-2015 00:43:50 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[30-Sep-2015 00:43:50 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[30-Sep-2015 13:05:04 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[30-Sep-2015 13:05:04 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[30-Sep-2015 13:05:48 Europe/Berlin] PHP Notice:  Undefined offset: 1 in /home/hnwbpmco/public_html/index.php on line 145
+[30-Sep-2015 13:05:48 Europe/Berlin] PHP Notice:  Undefined offset: 2 in /home/hnwbpmco/public_html/index.php on line 146
+[30-Sep-2015 13:06:31 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[30-Sep-2015 13:06:31 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[01-Oct-2015 09:47:47 Europe/Berlin] PHP Notice:  Undefined index: db in /home/hnwbpmco/public_html/includes/lib_main.php on line 835
+[01-Oct-2015 09:47:47 Europe/Berlin] PHP Fatal error:  Call to a member function autoReplace() on a non-object in /home/hnwbpmco/public_html/includes/lib_main.php on line 835
+[04-Oct-2015 13:44:49 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[04-Oct-2015 13:44:49 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[05-Oct-2015 16:22:46 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[05-Oct-2015 16:22:46 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[07-Oct-2015 07:25:52 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[07-Oct-2015 07:25:52 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[11-Oct-2015 13:09:58 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[11-Oct-2015 13:09:58 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[11-Oct-2015 13:10:00 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[11-Oct-2015 13:10:00 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[13-Oct-2015 20:44:52 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[13-Oct-2015 20:44:52 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[15-Oct-2015 00:26:09 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[15-Oct-2015 00:26:09 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[18-Oct-2015 10:26:22 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[18-Oct-2015 10:26:22 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[19-Oct-2015 09:12:11 Europe/Berlin] PHP Notice:  Undefined index: smtp_login_failure in /home/hnwbpmco/public_html/includes/lib_base.php on line 318
+[20-Oct-2015 08:01:08 Europe/Berlin] PHP Fatal error:  Smarty error: [in member_11.htm line 26]: syntax error: unrecognized tag: window.attachEvent('onload', load); (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 08:02:01 Europe/Berlin] PHP Fatal error:  Smarty error: [in member_11.htm line 31]: syntax error: unrecognized tag: //获得当前用户的金额
+	Ajax.call( 'member.php?act=getcurrentbalance', '', currentbalance_callback , 'GET', 'TEXT', true, true );
+	//获得系统中需要支付的方式 系统默认方式：0先付款在称重  1先称重在付款
+	Ajax.call( 'member.php?act=getpayment', '', paymentway_callback , 'GET', 'TEXT', true, true ); (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 09:14:04 Europe/Berlin] PHP Fatal error:  Smarty error: [in member_12.htm line 379]: syntax error: unrecognized tag: // 加入触发函数
+    $("div.vcon:has(a[class='select'])").removeAttr("style");
+	var tabs_i=-1;
+	$('.vtitle').click(function(){
+		var _self = $(this);
+		var j = $('.vtitle').index(_self);
+		if( tabs_i == j ) return false; tabs_i = j;
+		$('.vtitle em').each(function(e){
+			if(e==tabs_i){
+				$('em',_self).removeClass('v01').addClass('v02'); (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 09:15:29 Europe/Berlin] PHP Fatal error:  Smarty error: [in member_12.htm line 379]: syntax error: unrecognized tag: // 加入触发函数
+    $("div.vcon:has(a[class='select'])").removeAttr("style");
+	var tabs_i=-1;
+	$('.vtitle').click(function(){
+		var _self = $(this);
+		var j = $('.vtitle').index(_self);
+		if( tabs_i == j ) return false; tabs_i = j;
+		$('.vtitle em').each(function(e){
+			if(e==tabs_i){
+				$('em',_self).removeClass('v01').addClass('v02'); (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 09:15:31 Europe/Berlin] PHP Fatal error:  Smarty error: [in member_12.htm line 379]: syntax error: unrecognized tag: // 加入触发函数
+    $("div.vcon:has(a[class='select'])").removeAttr("style");
+	var tabs_i=-1;
+	$('.vtitle').click(function(){
+		var _self = $(this);
+		var j = $('.vtitle').index(_self);
+		if( tabs_i == j ) return false; tabs_i = j;
+		$('.vtitle em').each(function(e){
+			if(e==tabs_i){
+				$('em',_self).removeClass('v01').addClass('v02'); (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 09:16:19 Europe/Berlin] PHP Fatal error:  Smarty error: [in member_12.htm line 281]: syntax error: unrecognized tag: // 加入触发函数
+    $("div.vcon:has(a[class='select'])").removeAttr("style");
+	var tabs_i=-1;
+	$('.vtitle').click(function(){
+		var _self = $(this);
+		var j = $('.vtitle').index(_self);
+		if( tabs_i == j ) return false; tabs_i = j;
+		$('.vtitle em').each(function(e){
+			if(e==tabs_i){
+				$('em',_self).removeClass('v01').addClass('v02'); (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 09:59:38 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 09:59:38 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 09:59:46 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 09:59:46 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:16:49 Europe/Berlin] PHP Fatal error:  Smarty error: [in header.htm line 19]: syntax error: unbalanced parenthesis in if statement (Smarty_Compiler.class.php, line 1333) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:28:06 Europe/Berlin] PHP Fatal error:  Smarty error: [in member_menu.htm line 3]: syntax error: unrecognized tag: // 加入触发函数
+    $("div.vcon:has(a[class='select'])").removeAttr("style");
+	var tabs_i=-1;
+	$('.vtitle').click(function(){
+		var _self = $(this);
+		var j = $('.vtitle').index(_self);
+		if( tabs_i == j ) return false; tabs_i = j;
+		$('.vtitle em').each(function(e){
+			if(e==tabs_i){
+				$('em',_self).removeClass('v01').addClass('v02'); (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:37:05 Europe/Berlin] PHP Fatal error:  Smarty error: [in footer.htm line 45]: syntax error: unrecognized tag: //获取运单信息
+	var delivery_numbers = $('#delivery_numbers').val();
+	if(Utils.trim(delivery_numbers) == "")
+	{
+		alert(waybillno_notnull);
+		return; (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:44:15 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:44:15 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:45:49 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:45:49 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:46:02 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:46:02 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:46:07 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:46:07 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:49:53 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 10:49:53 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:12:40 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:12:40 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:31:30 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:31:30 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:31:35 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:31:35 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:31:45 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:31:45 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:44:01 Europe/Berlin] PHP Notice:  Uninitialized string offset: -1 in /home/hnwbpmco/public_html/includes/membermanage/lib_users.php on line 769
+[20-Oct-2015 12:44:03 Europe/Berlin] PHP Notice:  Undefined index: smtp_login_failure in /home/hnwbpmco/public_html/includes/lib_base.php on line 318
+[20-Oct-2015 12:46:29 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 12:46:29 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 13:05:14 Europe/Berlin] PHP Fatal error:  Smarty error: [in list_news.htm line 628]: syntax error: unrecognized tag: //只有一页
+	var pagefirst=document.getElementById("page_first");//首页
+	var pageprev=document.getElementById("page_prev");//上一页
+	var pagelast=document.getElementById("page_last");//末页
+	var pagenext=document.getElementById("page_next");//下一页
+	pagefirst.setAttribute("disabled",true);
+	pageprev.setAttribute("disabled",true);
+	pagelast.setAttribute("disabled",true);
+	pagenext.setAttribute("disabled",true); (Smarty_Compiler.class.php, line 502) in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:00:35 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:00:35 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:05:05 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:05:05 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:08:07 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:08:07 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:53:39 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:53:39 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:53:53 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 14:53:53 Europe/Berlin] PHP Warning:  Smarty error: math: parameter x is empty in /home/hnwbpmco/public_html/includes/Smarty.class.php on line 1093
+[20-Oct-2015 15:02:46 Europe/Berlin] PHP Fatal error:  Call to undefined function engrave_focus_list() in /home/hnwbpmco/public_html/index.php on line 427
+[20-Oct-2015 18:08:40 Europe/Berlin] PHP Notice:  Undefined index: db in /home/hnwbpmco/public_html/includes/lib_main.php on line 835
+[20-Oct-2015 18:08:40 Europe/Berlin] PHP Fatal error:  Call to a member function autoReplace() on a non-object in /home/hnwbpmco/public_html/includes/lib_main.php on line 835
+[21-Oct-2015 05:04:46 Europe/Berlin] PHP Fatal error:  Call to undefined function clear_cache_files() in /home/hnwbpmco/public_html/article_cat.php on line 26
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: image_width in /home/hnwbpmco/public_html/includes/lib_main.php on line 1381
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: image_height in /home/hnwbpmco/public_html/includes/lib_main.php on line 1382
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: integral_name in /home/hnwbpmco/public_html/includes/lib_main.php on line 1383
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: ym in /home/hnwbpmco/public_html/includes/lib_main.php on line 1386
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: msn in /home/hnwbpmco/public_html/includes/lib_main.php on line 1387
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: skype in /home/hnwbpmco/public_html/includes/lib_main.php on line 1388
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: stats_code in /home/hnwbpmco/public_html/includes/lib_main.php on line 1389
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: copyright in /home/hnwbpmco/public_html/includes/lib_main.php on line 1390
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: service_email in /home/hnwbpmco/public_html/includes/lib_main.php on line 1392
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: service_phone in /home/hnwbpmco/public_html/includes/lib_main.php on line 1393
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: shop_address in /home/hnwbpmco/public_html/includes/lib_main.php on line 1394
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: licensed in /home/hnwbpmco/public_html/includes/lib_main.php on line 1749
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Notice:  Undefined index: icp_number in /home/hnwbpmco/public_html/includes/lib_main.php on line 1397
+[21-Oct-2015 05:05:18 Europe/Berlin] PHP Fatal error:  Call to undefined function cat_list() in /home/hnwbpmco/public_html/includes/lib_main.php on line 1399
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: image_width in /home/hnwbpmco/public_html/includes/lib_main.php on line 1381
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: image_height in /home/hnwbpmco/public_html/includes/lib_main.php on line 1382
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: integral_name in /home/hnwbpmco/public_html/includes/lib_main.php on line 1383
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: ym in /home/hnwbpmco/public_html/includes/lib_main.php on line 1386
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: msn in /home/hnwbpmco/public_html/includes/lib_main.php on line 1387
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: skype in /home/hnwbpmco/public_html/includes/lib_main.php on line 1388
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: stats_code in /home/hnwbpmco/public_html/includes/lib_main.php on line 1389
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: copyright in /home/hnwbpmco/public_html/includes/lib_main.php on line 1390
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: service_email in /home/hnwbpmco/public_html/includes/lib_main.php on line 1392
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: service_phone in /home/hnwbpmco/public_html/includes/lib_main.php on line 1393
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: shop_address in /home/hnwbpmco/public_html/includes/lib_main.php on line 1394
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: licensed in /home/hnwbpmco/public_html/includes/lib_main.php on line 1749
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Notice:  Undefined index: icp_number in /home/hnwbpmco/public_html/includes/lib_main.php on line 1397
+[21-Oct-2015 05:23:41 Europe/Berlin] PHP Fatal error:  Call to undefined function cat_list() in /home/hnwbpmco/public_html/includes/lib_main.php on line 1399

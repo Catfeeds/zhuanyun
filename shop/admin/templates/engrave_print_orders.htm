@@ -1,0 +1,403 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+<title></title>
+<script language="javascript" type="text/javascript">
+   //window.print();
+</script>
+<style>
+* { margin:0px; padding:0px; }
+body { margin:0px; font-family:Microsoft JhengHei,Arial,Helvetica,sans-serif; }
+img { vertical-align:middle; }
+table {border-collapse: collapse; width:100%;}
+td {vertical-align:top;} /* height:8px; */
+.blue_border {border: 2px solid blue; border-right:1px solid blue;border-bottom:1px solid blue;}
+.country_border{border: 1px solid blue; border-right:1px solid blue;border-bottom:1px solid blue;}
+
+.right_bottom {border-left:blue;border-right: 1px solid;}
+.left_right_bottom2{border-right: 2px solid  #2b2058;border-bottom: 2px solid  #2b2058;border-left: 2px solid  #2b2058;}
+.left_right_bottom{border-bottom: 2px solid blue;border-left: 2px solid blue;}
+.bottom {border-bottom:1px solid;}
+.top {border-top: 1px solid blue;}
+.top_right {border-bottom:2px solid blue;border-left:1px solid blue;border-right:1px solid;border-top:1px solid;border-radius:5px;}
+.right {border-right:2px solid blue;border-top-right-radius:10px;}
+.left {border-left: 2px solid blue;}
+span.day {padding-left:40px;padding-top:10px;font-size: 5pt;}
+span.hour {padding-left:40px;padding-top:10px;font-size: 5pt;}
+table.pad td, table.pad th {padding: 4px 2px;}
+td.pad {padding: 8px 2px;}
+td.tit { background:#da251c; font-weight:bold; font-size:7pt; color:blue; }
+.data {font-size:7pt;padding-left:10px;}
+.data2 {font-size:9pt;padding-left:10px;}
+.data3 {font-size:6pt;padding-left:5px;}
+.text_size {font-size:5.5pt;}
+
+</style>
+</head>
+<body style="width:1200px;margin-top:20px;margin-left:auto;margin-right:auto;">
+   <table style="height:40%; " cellpadding="0" cellspacing="0">
+     <tr>
+       <td width="50%" class="blue_border" style="border-top-left-radius:10px;border-top-right-radius:10px;">
+         <table class="pad">
+           <tr>
+             <td width="20%" height="50px" class="right_bottom" style="text-align:center;border-top-left-radius:5px;">
+	  			<span style="font-size:15pt;color:blue;font-weight:bold;">FROM</span><br />
+               <span style="font-size:12pt;color:blue;">Name&Address</span>
+             </td>
+             <td width="30%" class="bottom" style="padding:0px;margin:0px;">
+               &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span style="font-size:10pt;color:blue;">受付年月日</span>&nbsp;&nbsp;&nbsp;&nbsp;  
+			  <span style="font-size:10pt;color:blue;">Date mailed</span><br/>
+			  <table>
+			  	<tr>
+			  		<td colspan="4">
+			  			<span style="font-size:10pt;color:blue;float:right;">年(year)</span>
+			  		</td>
+			  		<td colspan="2">
+			  			<span style="font-size:10pt;color:blue;float:right;">月(Month)</span>
+			  		</td>
+			  		<td colspan="2">
+			  			<span style="font-size:10pt;color:blue;float:right;">日(Date)</span>
+			  		</td>
+				</tr>
+				<tr height="20px;">
+					<td style="border-right:1px solid; width:40px"></td>
+					<td style="border-right:1px dashed;width:40px"></td>
+					<td style="border-right:1px dashed;width:40px"></td>
+					<td style="border-right:1px solid;width:40px"></td>
+					<td style="border-right:1px dashed;width:40px"></td>
+					<td style="border-right:1px solid;width:40px"></td>
+					<td style="border-right:1px dashed;width:40px"></td>
+					<td></td>
+				</tr>
+			  </table >
+             </td>
+           </tr>
+           <tr>
+             <td class="data">
+             </td>
+             <td>
+                                                    
+             </td>
+           </tr>
+           <tr>
+             <td>
+                <span class="data"></span>
+             </td>
+             <td>
+                <span class="data"></span>
+             </td>
+           </tr>
+           <tr>
+             <td>
+               <span class="data"></span>
+             </td>
+             <td>
+               <span class="data"></span>
+             </td>
+           </tr>
+           <tr>
+             <td colspan="2">
+               <span class="data"></span>
+             </td>
+           </tr>
+           <tr>
+             <td colspan="2">
+             </td>
+           </tr>
+           <tr>
+             <td colspan="2">
+                <div class="data"><br /><br /></div>
+             </td>
+           </tr>
+           <tr>
+             <td>
+                 <span style="font-size:10pt;color:blue;">郵便番号</span><br/>
+		<span style="font-size:10pt;color:blue;">Postal code</span>
+             </td>
+             <td>
+                 <span style="font-size:20pt;color:blue;float:right;">JAPAN</span>
+             </td>
+           </tr>
+        </table>
+     </td>
+     <td width="50%" class="table_right" style="border-top-left-radius:5px;">
+        <table height="100%">
+           <tr>
+            <td colspan="2" class="top_right">
+               <table style="height: 100%;">
+               	<tr style="border-bottom:1px solid;">
+               	   <td width="400px;" rowspan="2" style="border-right:1px solid;">
+					   <table style="position:relative;bottom:-8px;">
+					  	<tr style="height:25px;">
+					  		<td>
+					  			<span style="font-size:10pt;color:blue;padding-left:7px;"> 受付時刻</span>
+					  		</td>
+					  		<td>
+					  		
+					  		</td>
+					  		<td colspan="2" style="text-align:center;">
+					  			<span style="font-size:10pt;color:blue;">时(Hour)</span>
+							</td>
+							<td colspan="2" style="text-align:center;">
+								<span style="font-size:10pt;color:blue;">分(Minute)</span>
+							</td>
+						</tr>
+						<tr style="height:25px;">
+							<td width="135px;" rowspan='2'><span style="font-size:10pt;color:blue;padding-left:7px;">Time mailed</span></td>
+							<td style="border-right:1px solid;width:1px;"></td>
+							<td style="border-right:1px dashed;width:65px;"></td>
+							<td style="border-right:1px solid;width:65px;"></td>
+							<td style="border-right:1px dashed;width:65px;"></td>
+							<td style="width:65px;"></td>
+						</tr>
+			          </table>
+               	   </td>
+				   <td width="130px;" style="border-right:1px solid;text-align:center;">
+				      <span style="font-size:8pt;color:blue;">郵便料金</span>
+				   </td>
+				   <td style="text-align:center;">
+				   	<span style="font-size:8pt;color:blue;">随料金</span>
+				   </td>
+               	</tr>
+				<tr style="border-bottom:1px solid;height:30px;">
+					<td style="border-right:1px solid; text-align:center;"></td>
+					<td style="text-align:center;"></td>
+				</tr>
+				<tr style="border-bottom:1px solid;">
+				    <td rowspan="2" style="border-right:1px solid;">
+					   &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span style="font-size:10pt;color:blue;">総重量</span></br>
+					   &nbsp;&nbsp;<span style="font-size:10pt;color:blue;">Total gress weight</span>
+					   <span style="font-size:10pt;color:blue; float:right;">g</span>
+					</td>
+					<td colspan="2" style="text-align:center;">
+						<span style="font-size:8pt;color:blue;">合&nbsp;計&nbsp;金&nbsp;額&nbsp;&nbsp;Postage paid</span>
+					</td>
+				</tr>
+				<tr>
+					<td><span style="font-size:10px;color:blue;"></span></td>
+					<td><span style="font-size:8pt;color:blue;float:right;">円（yen）</span></td>
+				</tr>
+               </table>                               
+            </td>
+           </tr>
+           <tr>
+              <td>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:15pt;color:blue;">TO(どこまで)</span>
+		 &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:15pt;color:blue;">Name&Address</span>
+              </td>
+              <td class="right" style="padding:0 0 50px 0;">
+                  <span style="font-size:15pt;color:blue;">都市名&nbsp;&nbsp;City&nbsp;&nbsp;&nbsp;&nbsp;郵便番号&nbsp;&nbsp;Postal code</span>
+              </td>
+           </tr>
+         </table>
+       </td>
+     </tr>
+     <!--  ned of 1st row -->
+     <tr height="40px;">
+        <td style="border-bottom:2px solid blue;border-left:2px solid blue;">
+          <table height="100%">
+          	<tr>
+          		<td style="border-right:1px solid blue;">
+		 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">電話番号</span>
+		 &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">Telehone No.</span>
+		</td>
+		<td>
+		 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">FAX番号</span>
+		 &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">FAX No.</span>
+		</td>
+          	</tr>
+          </table>
+        </td>
+	  <td style="border-top:1px solid blue;border-left:1px solid blue;">
+	    <table height="100%">
+          	<tr>
+          		<td width="375px;" style="border-right:2px solid blue;border-bottom:2px solid blue;">
+				    <span style="font-size:10pt;color:blue;">国名</span>
+				    &nbsp;&nbsp;<span style="font-size:10pt;color:blue;">Country</span>
+				</td>
+				<td style="border-bottom:1px dashed;border-right:2px solid blue;">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">電話番号</span>
+				    &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">Telehone No.</span>
+				</td>
+          	</tr>
+       </table>
+	  </td>
+     </tr>
+ 
+     <tr>
+        <td style="border-left:2px solid blue;">
+       	 <table>
+	       	 <tbody >
+	       	 	<tr>
+				  <td rowspan="2" width="350px;" height="60px;" style="border-right:1px solid;">
+				     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">内容物品を詳細に記載</span><br>
+					 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">Detailed description of contents</span><br>
+					 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:10pt;color:blue;">(Detailed descriptionオブコンテンツ)</span>
+				  </td>
+				  <td colspan="2" style="border-right:1px solid blue;text-align:center;"><span style="font-size:10pt;color:blue;">商業的なアイテムのためにだけ</span></td>
+				</tr>
+				<tr style="border-bottom:1px dashed;border-right:1px solid blue;">
+				  <td style="border-top:1px solid;border-right:1px solid;text-align:center;">
+				   <span style="font-size:10pt;color:blue;">hs関税番号</span><br/>
+				   <span style="font-size:10pt;color:blue;">HS tariff number</span>
+				  </td>
+				  <td style="border-top:1px solid;text-align:center;">
+				   <span style="font-size:10pt;color:blue;">内容物の産地</span><br>
+				   <span style="font-size:10pt;color:blue;">The origin of content items</span>
+				  </td>
+				</tr>
+				<tr style="border-top:1px dashed;">
+				  <td height="30px;" style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid blue;"></td>
+				</tr>
+				<tr style="border-top:1px dashed;">
+				  <td height="30px;" style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid blue;"></td>
+				</tr>
+				<tr style="border-top:1px dashed;">
+				  <td height="30px;" style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid blue;"></td>
+				</tr>
+				<tr style="border-top:1px dashed;">
+				  <td height="30px;" style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid blue;"></td>
+				</tr>
+				<tr style="border-top:1px dashed;">
+				  <td height="30px;" style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid blue;"></td>
+				</tr>
+				<tr style="border-top:1px dashed;border-bottom:2px solid blue;">
+				  <td height="30px;" style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid;"></td>
+				  <td style="border-right:1px solid blue;"></td>
+				</tr>
+			 </tbody>
+       	 </table>
+        </td>
+		<td>
+		  <table >
+		  	 	<tr>
+			  <td rowspan="2" width="160px;" height="60px;" style="border-right:1px solid;">
+			          <span style="font-size:15pt;color:blue;"> 含まれる項目の数</span><br/>
+					  <span style="font-size:11pt;color:blue;">Number of items contained</span>
+			  </td>
+		      <td colspan="2" width="100px;" style="border-right:1px solid;text-align:center;">
+			  		 <span style="font-size:15pt;color:blue;">正味重量</span><br/>
+					 <span style="font-size:11pt;color:blue;">Net weight</span><br/>
+					 <span style="font-size:11pt;color:blue;border-right:1px dashed;">kg</span>&nbsp;&nbsp;<span style="font-size:11pt;color:blue;float:right;">g</span>
+			  </td>
+			  <td width="122px;" style="border-right:1px solid blue;text-align:center;">
+			         <span style="font-size:15pt;color:blue;">内容品と価格</span><br/>
+					 <span style="font-size:11pt;color:blue;">Value</span>
+			  </td>
+			  <td style="border-bottom:2px solid blue;border-left:2px solid blue;border-right:2px solid blue;text-align:center;">
+		         <span style="font-size:10pt;color:blue;">FAX番号</span>
+				 <span style="font-size:10pt;color:blue;">FAX No.</span>
+			  </td>
+			</tr>
+			<tr style="border-bottom:1px dashed;border-right:1px solid blue;">
+			  <td style="border-right:1px solid;text-align:center;">
+			  </td>
+			  <td style="border-right:1px dashed;text-align:center;">
+			  </td>
+			  <td style="border-right:1px solid;text-align:center;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td style="border-right:1px solid blue;"></td>
+			</tr>
+			<tr style="border-bottom:1px dashed;">
+			  <td height="30px;" style="border-right:1px solid;"></td>
+			  <td style="border-right:1px dashed;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td rowspan="4" style="border-bottom:1px solid;border-right:2px solid blue; text-align:center; padding:8px;">
+		                  <span style="font-size:10pt;color:blue;"> 挿入クロス（x）、もし項目</span><br/>
+		               <span style="font-size:10pt;color:blue;">Insert a cross (X) , if the item contains</span><br/>
+				 <span style="font-size:10pt;color:blue;"><input type="checkbox" name="gif" id="gif" />赠物</span>
+				 <span style="font-size:10pt;color:blue;"><input type="checkbox" name="sample" id="sample" />商品见本</span><br/>
+				 <span style="font-size:10pt;color:blue;"><input type="checkbox" name="gif" id="gif" />赠物</span>
+				 <span style="font-size:10pt;color:blue;"><input type="checkbox" name="sample" id="sample" />商品见本</span><br/>
+				 <span style="font-size:10pt;color:blue;"><input type="checkbox" name="gif" id="gif" />赠物</span>
+				 <span style="font-size:10pt;color:blue;"><input type="checkbox" name="sample" id="sample" />商品见本</span><br/>
+			  </td>
+			</tr>
+			<tr style="border-bottom:1px dashed;">
+			  <td height="30px;" style="border-right:1px solid;"></td>
+			  <td style="border-right:1px dashed;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td style="border-right:1px solid;"></td>
+			</tr>
+			<tr style="border-bottom:1px dashed;">
+			  <td height="30px;" style="border-right:1px solid;"></td>
+			  <td style="border-right:1px dashed;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td style="border-right:1px solid;"></td>
+			</tr>
+			<tr style="border-bottom:1px dashed;">
+			  <td height="30px;" style="border-right:1px solid;"></td>
+			  <td style="border-right:1px dashed;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td style="border-right:1px solid;"></td>
+			</tr>
+			<tr style="border-bottom:1px dashed;">
+			  <td height="30px;" style="border-right:1px solid;"></td>
+			  <td style="border-right:1px dashed;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td rowspan="2" style="border-right:2px solid blue;border-bottom-right-radius:10px;border-bottom:2px solid blue;">
+		                   <span style="font-size:10pt;color:blue;">日本円换算合计(円)</span><br/>
+				  <br/>
+				  <span style="font-size:10pt;color:blue;">Total Value</span>
+				  <span style="font-size:10pt;color:blue;float:right;">yen</span>
+			  </td>
+			</tr>
+			<tr style="border-bottom:2px solid blue;">
+			  <td height="30px;" style="border-right:1px solid;"></td>
+			  <td style="border-right:1px dashed;"></td>
+			  <td style="border-right:1px solid;"></td>
+			  <td style="border-right:1px solid;"></td>
+			</tr>
+		  	 </table>
+		</td>
+     </tr>
+  		   
+     <tr>
+     	<td style="border-left:2px solid blue;border-right:2px solid blue;">
+     	   <table >
+     	   	 <tr style="border-bottom:1px solid;">
+     	   	 	<td style="border-right:1px solid; text-align:center;">
+		   <span style="font-size:10pt;color:blue;">以上のものは危険品</span><br/>
+		   <span style="font-size:10pt;color:blue;">Total ValueAll the above items is not dangerous goods</span>
+		<td rowspan="2" style="text-align:center;">
+		  <span style="font-size:10pt;color:blue;"> この部分の数</span><br/>
+		  <span style="font-size:10pt;color:blue;">number of this pieces</span><br/>
+		  <span style="font-size:15pt;color:blue;">番目</span><br/>
+		  <span style="font-size:15pt;color:blue;float:right;">個中</span></br>
+		  <span style="font-size:10pt;color:blue;float:right;">Total number of pieces</span>
+		</td>
+     	   	 </tr>
+	 <tr height="80px;" style="border-bottom:2px solid blue;border-bottom-left-radius:10px;">
+	 	<td style="border-right:1px solid; text-align:center;">
+		   <span style="font-size:10pt;color:blue;">送付者の署名</span>
+		   <span style="font-size:10pt;color:blue;">signature of the sender</span>
+		</td>
+	 </tr>
+     	   </table>	
+     	</td>
+		<td style="text-align:center;">
+			<img src="barcode.php?codebar=BCGcode39&text=1227288332748238">
+		</td>
+     </tr>
+    <tr>
+     <td style="height: 15px;">
+     </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{include file="engrave_pageheader.htm"}
+<h4>
+	<span class='span-tip-header'>提醒：</span>
+	<span class="span-tip">价格单位: 元/kg
+	</span>
+</h4>
+
+{insert_scripts files="../js/utils.js,listtable.js"}
+<form method="post" action="" name="listForm" >
+	<!-- start currecys list -->
+	<div class="list-div" id="listDiv">
+		<table cellpadding="3" cellspacing="1">
+		  <tr>
+		    <th>
+		      <input onclick='listTable.selectAll(this, "checkboxes")'  type="checkbox" />
+		      <a  >{$lang.record_id}</a>
+		    </th>
+				<th> 名称</th>
+			  	<th> <100Kg</th>
+				<th> >=100Kg</th>
+				<th> >=300Kg</th>
+				<th> >=500Kg</th>
+				<th> >=1000Kg</th>
+				
+				<th>{$lang.handler}</th>
+		  </tr>
+		  {foreach from=$data_list  item=country}
+		  <tr>
+		    <td style="width:50px;" align="center">
+		    	{$country.apt_id}
+		    </td>
+		    <td align="center">
+		    	<span>{$country.name} </span>
+		    </td>
+			  <td align="center">
+				  <span>{$country.price0}</span>
+			  </td>
+		    <td align="center">
+			  <span>{$country.price100}</span>
+		  	</td>
+            <td align="center">
+                <span>{$country.price300}</span>
+						</td>
+						<td align="center">
+							<span>{$country.price500}</span>
+					</td>
+					<td align="center">
+						<span>{$country.price1000}</span>
+				</td>
+		    <td align="center" style="width:150px; padding:0px; margin:0px">
+		      <a href="engrave_airline_price_template.php?act=edit&amp;id={$country.apt_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+					
+								<a href="javascript:;" onclick="listTable.remove({$country.apt_id},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+		    </td>
+		  </tr>
+		  {foreachelse}
+		  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+		  {/foreach}
+		</table>	
+
+		{include file="engrave_page.htm"}
+
+
+	</div>
+ </form>
+ <script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+</script>
+{include file="engrave_pagefooter.htm"}

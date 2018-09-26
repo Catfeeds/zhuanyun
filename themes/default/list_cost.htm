@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<!-- 费用计算 -->
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+{literal}
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<script type="text/javascript" src="themes/default/js/common-userdefined-number.js"></script>
+<script type="text/javascript" src="themes/default/js/charge/charge.js"></script>
+<!--[if IE 6]>
+<script src="themes/default/js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+<script type="text/javascript">
+$(function(){
+	var $lis=$(".checked li");
+	$lis.click(function(){
+		$(this).addClass("current").siblings().removeClass("current");
+		var index=$lis.index(this);
+		$("#contents div").eq(index).show().siblings().hide();
+	})
+})
+</script>
+{/literal}
+ </head>
+ <body>
+
+{include file="header.htm"}
+
+   <!--conter-->
+    <div class="conter">
+	 <div class="cost">
+	   <div class="conter_left">
+	   <h2>关于我们<span></span></h2>
+		<ul class="left_ul">
+		  {foreach from=$about_list item=about name="slider"}
+				<li><a href="index.php?act=list_about&id={$about.categoryid}">{$about.typename}</a></li>
+			{/foreach}
+		</ul>
+	    <h2>新闻中心<span></span></h2>
+		<ul class="left_ul">
+		  {foreach from=$channel_list item=channeltemp name="slider"}
+				<li><a href="index.php?act=list_news&id={$channeltemp.categoryid}">{$channeltemp.typename}</a></li>
+			{/foreach}
+		</ul>
+	   </div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+		<div class="cr_bot">
+		        <ul class="checked">
+				 <li {if $type eq 1}class="current"{/if}><a href="#">费用价格</a></li>
+				 <li><a href="#">其他服务价格</a></li>
+				 <li {if $type eq 2}class="current"{/if}><a href="#">价格计算器</a></li>
+				</ul>
+				<div id="contents">
+				 <div class="{if $type eq 2}hide{/if} cont1 cont">
+				  <dl>
+					<dt class="ntdl">选择线路：</dt>
+					<dd class="dd"> 
+						<select id="warehouse" name="HouseName" onchange="select_warehouse(this.options[this.options.selectedIndex].value)">
+							<!-- <option>{$lang.select_house}</option> -->
+							{$warehouse_option}
+						</select>
+						&nbsp;&nbsp;
+						<select id="area" onchange="select_warehouse(this.options[this.options.selectedIndex].value)">
+							<!-- <option>{$lang.select_area}</option> -->
+							{$area_option}
+						</select>
+				  </dd>
+				 </dl>
+				 <dl>
+					<dt class="ntdl">服务类型：</dt>
+					<dd  class="dd"> 
+						<!-- <input name="services" type="radio"/>标题一<input name="HouseName" type="radio"/>标题二 -->
+						<select id="servicetype" onchange="select_servicetype(this.options[this.options.selectedIndex].value)">
+							
+						</select>
+				  </dd>
+				 </dl>
+				 <dl>
+					<dt class="ntdl">价格简表：</dt>
+					<dd style="height:100%;"> 
+						<table id="gridtable" class="gridtable">
+						<tr>
+							<th>会员等级</th><th id="firstweight">首重（--）</th><th id="nextweight">续重（--）</th>
+						</tr>
+							<!-- 
+							<tr>
+								<th>会员等级</th><th>首重</th><th>续重</th>
+							</tr>
+							{foreach from=$userrank_list item=userrank name="userrank"}
+							<tr>
+								<td class="dengj">{$userrank.rank_name}</td>
+								<td>{$userrank.discount}</td>
+								<td>{$userrank.discount}</td>
+							</tr>
+							{/foreach}
+							 -->
+					  </table>
+				  </dd>
+				 </dl>
+				 <dl>
+					<dt class="ntdl">价格说明：</dt>
+					<dd id="ShippingDesc" class="dd1"> 
+						
+				  	</dd>
+				 </dl>
+				 </div>
+				  <div class="hide cont2 cont">
+				   <dl>
+					<dt class="ntdl">选择仓库：</dt>
+					<dd class="dd"> 
+						<select id='other_warehouse' onchange="select_other_warehouse(this.options[this.options.selectedIndex].value)">
+							<!-- <option>仓库</option> -->
+							{$warehouse_option}
+						</select>
+				  </dd>
+				 </dl>
+				 <dl>
+					<dt class="ntdl">服务内容：</dt>
+					<dd style="height:100%;"> 
+						<table id="other_costtable" class="costtable">
+							<tr>
+								<th width="100px">项目服务</th><th>服务内容</th><th width="100px">服务费用</th>
+							</tr>
+					  </table>
+				  </dd>
+				 </dl>
+				 </div>
+				 <div class="{if $type eq 1}hide{/if}  cont3 cont">
+				 <form>
+				   <dl>
+					<dt class="ntdl">选择仓库：</dt>
+					<dd class="dd"> 
+						<select id="calculator_warehouse" name="HouseName">
+						{$warehouse_option}
+						</select>
+				  </dd>
+				 </dl>
+				 <dl>
+					<dt class="ntdl">收货国家：</dt>
+					<dd class="dd"> 
+						<select id="calculator_area">
+						{$area_option}
+						</select>
+				  </dd>
+				 </dl>
+				 <dl>
+					<dt class="ntdl">货物重量：</dt>
+					<dd class="dd"> 
+						<input id="weight" name="weight" type="text" placeholder="请输入您的货物重量" class="inputs" value="{if $weight}{$weight}{else}1.00{/if}" />(g)
+				  </dd>
+				 </dl>
+				 <dl>
+					<dt class="ntdl">货物体积：</dt>
+					<dd class="dd"> 
+						长<input type="text" id="long" name="long" class="input" value="{if $length}{$length}{else}1.00{/if}"/>
+						宽<input type="text" id="width" name="width" class="input" value="{if $width}{$width}{else}1.00{/if}"/>
+						高<input type="text" id="height" name="height" class="input" value="{if $height}{$height}{else}1.00{/if}"/>(inch)
+				  </dd>
+				 </dl>
+				 <dl>
+					<dt id="calculator" class="ntd2" onclick='calculator_price()' style="cursor:pointer">计算</dt>
+					<dd style="height:100%"> 
+						<table id="calculator_table" class="costtable">
+							<tr>
+								<th width="28%">线路</th>
+								<th>标准费用</th>
+								{foreach from = $userrank_list item=userrank name="userrank"}
+								<th>{$userrank.rank_name}</th>
+								{/foreach}
+							</tr>
+					  </table>
+				  </dd>
+				 </dl>
+				 </form>
+				</div>
+			   </div>
+		</div>
+		
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+ 
+{include file="footer.htm"}
+ </body>
+ </html>
+{literal}
+<script type="text/javascript">
+$('#weight').userdefinenumber();
+$('#long').userdefinenumber();
+$('#width').userdefinenumber();
+$('#height').userdefinenumber();
+
+$('#weight').setdefinenumber("1.00");
+$('#long').setdefinenumber("1.00");
+$('#width').setdefinenumber("1.00");
+$('#height').setdefinenumber("1.00");
+</script>
+{/literal}

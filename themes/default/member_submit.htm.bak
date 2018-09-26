@@ -1,0 +1,742 @@
+ {include file="header_user.htm"}
+ {literal}
+ <style>
+
+	 	/* Table Head */
+ 	#package_list_table {
+ 	    width: 100%;
+ 	}
+	#package_list_table thead th {
+		background-color: rgb(156, 186, 95);
+		color: #fff;
+		border-bottom-width: 0;
+		padding : 5px 10px;
+	}
+	.w200 {
+		width :200px !important;
+	}
+
+	/* Column Style */
+	#package_list_table td {
+	color: #000;
+	}
+	/* Heading and Column Style */
+	#package_list_table tr, #table-5 th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(156, 186, 95);
+	}
+
+	/* Padding and font style */
+	#package_list_table td, #table-5 th {
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Verdana;
+	font-weight: bold;
+	}
+
+
+ </style>
+ {/literal}
+ <div  class="conter">
+		<div   class="member">
+			{include file="member_menu.htm"}
+		</div>	 
+
+     	<div  class="conter_right">
+		 <div id="tjfh">
+		   
+		     <div id="hyzxddgl_title">
+				<div id="hyzxddgl_title_left">订单管理</div>
+				<div id="hyzxddgl_title_right">提交发货</div>
+				<div id="clear"></div>
+		     </div>
+          	 <form enctype="multipart/form-data" action="member.php?act=member_insertsubmit" method="post" name="theForm" onsubmit="return validate();">
+		   	 
+			     <div id="tjfh_redtxt">
+					提示：请仔细查看相应内容填写<br/>
+					提交发货前，请先维护好收货地址，避免重填单据！ 
+			     </div>
+	             
+		     <div id="tjfh_xzck">
+   			    <div class="tjfh_xzck_title">
+					<div class="tjfh_xzck_title_left"><img src="themes/default/images/rbhm/tjfh_01.png" border="0" /></div>
+					<div class="tjfh_xzck_title_mid">第一步</div>
+					<div class="tjfh_xzck_title_right">选择仓库</div>
+					<div id="clear"></div>
+				</div>
+                <div id="tjfh_xzck_neirong">
+   			    <table border="0" cellpadding="0" cellspacing="0" class="tjfh_xzck_table">
+   				<tr>
+		     		<td width="100px" align="right">请选择仓库：</td>
+                    <td width="10px"></td>
+		     		<td>
+		     			<select id="pck_warehouseid" name="pck_warehouseid" onchange="select_warehouse(this.options[this.options.selectedIndex].value)">
+				 			<option value='0'>{$lang.select_warehouse}</option>
+				 			{$warehouse_list}
+			 			</select>
+			 			&nbsp;&nbsp;选择货物所在仓库，一个运单只能选择一个仓库内货物提交！
+			 			<span id="housewarn" class="span_control"></span>
+			 		</td>
+		     	</tr>
+		     	<tr>
+		    		<td width="100px" align="left" id="datd" colspan=3 style="display:none;">
+		    			<span class="tb_left" style="padding:4px 0px 3px 18px; ">选择需要发货的包裹：</span>
+		    		</td>
+                  
+		    	</tr>
+		    	<tr>
+		    		<td  colspan=3 align="left" >
+		    			<table id="package_list_table">
+		    				<thead>
+		    				<th>选择</th>
+		    				<th>序号</th>
+								<th>单号</th>
+								<th>物品</th>
+								<th>重量</th>
+								<th>长*宽*高</th>
+								<th>到货时间</th>
+								<th class=w200>用户备注</th>
+		    				</thead>
+							<tbody id="warehouse_goods" style="display:none;">
+								
+							</tbody>
+		    			</table>
+						
+					</td>
+		    	</tr>
+		        </table>
+                </div>
+             </div>
+             
+		     <div id="tjfh_txsbxx">
+	           <div class="tjfh_xzck_title">
+					<div class="tjfh_xzck_title_left"><img src="themes/default/images/rbhm/tjfh_02.png" border="0" /></div>
+					<div class="tjfh_xzck_title_mid">第二步</div>
+					<div class="tjfh_xzck_title_right">填写申报相关信息</div>
+					<div id="clear"></div>
+		       </div>
+               <div id="tjfh_txsbxx_neirong">
+   			 <table border="0" cellpadding="0" cellspacing="0" class="tjfh_txsbxx_table">
+   				<tr>
+		     		<td width="100px" align="right">线路选择：</td>
+                    
+		     		<td>&nbsp;&nbsp;
+		     			<select id="shipping" name="shipping" onchange="select_shipping(this.options[this.options.selectedIndex].value)" class="tjfh_xzck_table_select">
+			    			<option value=0>请选择线路</option>
+			    		</select>
+			 		</td>
+		     	</tr>
+		     	<tr>
+                    <td></td>
+					<td>
+						<ul>
+						  <li id="shippingweight" style="line-height:20px; margin-left:100px; color:red; display:none;">该线路支持每箱最大重量：30kg，超重将无法提交！
+						  </li>
+						  <li style="line-height:20px; color:red; display:none;">请选择运输方式！</li>
+						</ul>
+					</td>
+		    	</tr>
+   				<tr>
+		     		 <td align="right" valign="top">操作要求：</td>
+	     		     <td>
+                      <div id="tjfh_txsbxx_table_czyq01">
+	     		      <input type="radio" name="service" id="baseservice" onclick="showservice(0);" checked="checked" value="0" />
+	     			  <label for="baseservice">我不需合/分箱 我只需发送提交的这一个包裹</label>
+                      </div>
+	     		      <div id="tjfh_txsbxx_table_czyq02">
+	     			  <input type="radio" id="moreservice" onclick="showservice(1);" name="service" value="1" />
+                      <label for="moreservice">我需要复杂一点的操作</label>
+                      </div>
+                      <div id="tjfh_txsbxx_table_czyq03">
+     			      把提交的包裹进行&nbsp;&nbsp;<input class="checkbox" type="checkbox" name="AService" id="AService" onclick="showboxNumber0(this);" disabled="false" value="3" checked="checked" />
+					  <label for="AService">A.合箱（合并成一箱）</label>
+                      </div>
+	     		      <div id="tjfh_txsbxx_table_czyq04">
+                       把提交的包裹进行&nbsp;&nbsp;<input type="checkbox" class="checkbox" name="BService" id="BService" onclick="showboxNumber1(this);" disabled="false" value="2" />
+					  <label for="BService">B.分箱 .</label>分	
+	                  <select id="boxNumber" name="boxNumber" onchange="SelectBoxNumber();" disabled="false">
+	                    <option value=0>2</option>
+	                    <option value=1>3</option>
+	                    <option value=2>4</option>
+	                    <option value=3>5</option>
+	                    <option value=4>6</option>
+	                    <option value=5>7</option>
+	                    <option value=6>8</option>
+	                    <option value=7>9</option>
+	                    <option value=8>10</option>
+	                    <option value=9>11</option>
+	                    <option value=10>12</option>
+	                    <option value=11>13</option>
+	                    <option value=12>14</option>
+	                    <option value=13>15</option>
+	                    <option value=14>16</option>
+	                    <option value=15>17</option>
+	                    <option value=16>18</option>
+	                    <option value=17>19</option>
+	                    <option value=18>20</option>
+                      </select>
+   		               箱 注:总运费=每箱单独运费之和
+                      </div>
+                     </td>
+		     	</tr>
+		     </table>
+		     <div id="detail_goods_info" style="display:none;"> 
+		     <table border="0" cellpadding="0" cellspacing="0" class="tjfh_txsbxx_table">
+		     	<tr>
+		     		<td align="right" valign="top"><p>商品详细信息：</p></td>
+		     		<td id="table_goods">		
+		     		</td>
+		     	</tr>
+		     </table>
+		     </div>
+			 <table border="0" cellpadding="0" cellspacing="0" class="tjfh_txsbxx_table">	
+		    	<tr>
+                    <td class="tttx_left" valign="top">备注说明：</td>
+					<td>
+						<textarea name="description" class="tttx_table_textarea" maxlength="100"></textarea>100字内
+					</td>
+		    	</tr>
+		    	<tr>
+		    		<td class="tttx_left" valign="top">升级包装：</td>
+		    		<td>
+		    			&nbsp;&nbsp;需要加固的散件个数：
+						<select style="width:70px;" onchange="SelectUpgradePackage();" id="UpgradePackage" name="UpgradePackage">
+							<option value=0>请选择</option>
+							<option value=1>1</option>
+							<option value=2>2</option>
+							<option value=3>3</option>
+							<option value=4>4</option>
+							<option value=5>5</option>
+							<option value=6>6</option>
+							<option value=7>7</option>
+							<option value=8>8</option>
+							<option value=9>9</option>
+							<option value=10>10</option>
+							<option value=11>11</option>
+							<option value=12>12</option>
+							<option value=13>13</option>
+							<option value=14>14</option>
+							<option value=15>15</option>
+							<option value=16>16</option>
+							<option value=17>17</option>
+							<option value=18>18</option>
+							<option value=19>19</option>
+							<option value=20>20</option>
+						</select>
+						<p id="upgradepackage" style="float:right; margin-right:345px; display:none;"></p>
+		    		</td>
+		    	</tr>
+		    	<tr>
+                    <td></td>
+					<td>
+						<ul>
+						  <li style="line-height:20px; ">&nbsp;&nbsp;<input style="margin-top:2px; vertical-align:middle;" id="oustsidebrane" name="oustsidebrane" type="checkbox" value="1" /><label for="oustsidebrane">外箱缠绕膜</label> <p id="outsidecost" style="float:right; margin-right:545px; display:none;"></p></li>
+						</ul>
+					</td>
+		    	</tr>
+		       </table>
+               </div>
+            </div>
+            <div id="tjfh_xzzzfw">
+			    <div class="tjfh_xzck_title">
+					<div class="tjfh_xzck_title_left"><img src="themes/default/images/rbhm/tjfh_02.png" border="0" /></div>
+					<div class="tjfh_xzck_title_mid">第三步</div>
+					<div class="tjfh_xzck_title_right">选择增值服务</div>
+					<div class="tjfh_xzck_title_xsycbt"><a id="showtext" onClick="showdiv('contentid','showtext')">查看详情>></a></div>
+					<div id="clear"></div>
+				</div>	
+			    <div id="contentid" class="none">
+				<table border="0" cellpadding="0" cellspacing="0" class="tjfh_xzzzfw_table">
+					<tr class="tjfh_xzzzfw_table_trbg">
+				        <td width="15%">
+				            <div class="tjfh_xzzzfw_table_title01">增值服务名称</div>
+				        </td>
+				        <td>
+				            <div class="tjfh_xzzzfw_table_title02">增值服务描述</div>
+				        </td>
+				    </tr>
+					<tbody id="service_name">
+					</tbody>
+				</table>
+			    </div>
+                <div id="tjfh_xzzzfw_kong"></div>
+            </div>
+            
+            <div id="tjfh_qrzf">
+                <div class="tjfh_xzck_title">
+					<div class="tjfh_xzck_title_left"><img src="themes/default/images/rbhm/tjfh_06.png" border="0" /></div>
+					<div class="tjfh_xzck_title_mid">第四步</div>
+					<div class="tjfh_xzck_title_right">确认支付方式和条款</div>
+					<div id="clear"></div>
+				</div>	
+		 	<div id="confirmpayment" style="display:none;">
+		     <table id="cal_info" style="border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 255); display: table; background-position: initial initial; background-repeat: initial initial;">
+                  <tbody>
+                  	<tr>
+                     <td valign="top" class="tb_left_detils">费用详细：</td>
+                     <td>
+                     	<ul id="costdetail">
+					</ul>
+                     </td>
+                   </tr>
+                   <tr>
+                     <td valign="top" class="tb_left_detils">支付选项：</td>
+                     <td>
+                        <ul class="pay_options">
+                        <!--   <li style="line-height:20px;"><a href="#this" onclick="changeClass();" id="points" class="pay_toggle">使用积分支付</a></li>
+                         <li id="payoptions" style="display:none;">
+                             <div class="option_item">
+                                 <!-- <div class="option_setting" id="option_setting">                                                                                                 
+                                 本次使用&nbsp;<input id="usePointstb" name="usePointstb" onkeyup="usepoints_Key();" size="5" type="text">&nbsp;个积分                                                                                                   
+                                     <input id="confirmPointsbtn" type="button" onclick="usepoints_Click();" class="combtn2" value="使用">
+                                     <div class="option_desc">
+                                     	您有500个积分，本次最多可用2000个
+								  </div>
+                                 </div> -->
+                                 <div style="display:none;" id="option_result">
+                                 本次使用<a id="thispaypoints">{$pay_points}</a>点积分支付，折 {$currency_symbol}<strong id="currency_val">0.00</strong>{$currency_name}。 <a id="points_btn" onclick="points_Click();" class="cancelbtn">取消使用</a>
+                                 </div>
+                             </div>
+                         </li>
+                        </ul>
+                      </td>
+                   </tr>
+                   <tr>
+	                   <td colspan="2">
+	                   <table id="coupon_type" >
+	                   	<tr>
+	                   		<td class="tb_left_detils" style="width:135px;">使用优惠券：</td>
+							<td>
+								<input type="text" id="coupon" name="coupon"></input>
+								<span style="color:red;">如果您有优惠券，请在此输入优惠券号码</span>
+								<span id="coupon_desc"></span>
+								<input id="confirmCouponbtn" type="button" onclick="compute_coupon();" class="combtn2" value="使用">
+								&nbsp;&nbsp;<a id="coupon_btn" style="display:none;" onclick="coupon_Click();" class="cancelbtn">取消使用</a>
+							</td>
+	                   	</tr>
+	                   </table>
+	                   </td>
+                   </tr>		   
+                   <tr>
+                      <td valign="top" class="tb_left_detils">实际需支付：</td>
+                      <td>
+                         <ul>
+                             <li style="line-height:20px;">{$currency_symbol}<strong id="pay_moneny" name='pay_moneny'>0.00</strong>{$currency_name}</li>
+                           <li style="line-height:20px;">您当前余额：{$currency_symbol}<a id="current_balance">0.00</a>{$currency_name}</li>
+                           <input type="hidden" name="userMoney" id="userMoney" value="0.00">
+                           <li id="coupon_type_1" style="color:red;line-height:20px;">您的余额满足订单要求，请在确认无误后点击提交。</li>
+                           <li style="color:red;line-height:20px;">费用提示：运费只是根据提供的数据预估，以实际测量为主。</li>
+				      </ul>
+                      </td>
+                   </tr>
+                 </tbody>
+		    </table>
+		 	</div>
+            <div id="tjfh_qrzf_neirong">
+			  <table border="0" cellpadding="0" cellspacing="0" class="tjfh_qrzf_table">	
+		    	<tr>
+                    <td width="100px" align="right" valign="top">支付方式：</td>
+                    <td width="10px"></td>
+					<td>
+                           <div id="tjfh_qrzf_table_zffs01">
+                              <input type="radio" name="payment" id="payment_manual" value="1" onclick="change_payment()"  /><label for="payment_manual">处理完成后 手动确认支付</label>
+                           </div>
+                           <div id="tjfh_qrzf_table_zffs02">
+                              <input type="radio" name="payment" id="payment_auto" value="2" onclick="change_payment()" checked="checked"/><label for="payment_auto">处理完成后 自动支付（发货速度最快，不可使用积分和优惠券）</label>
+                           </div>
+                    </td>
+		    	</tr>
+		    	<tr>
+		    		<td width="100px" align="right">支付账户：</td>
+                    <td width="10px"></td>
+		    		<td>
+                           <input type="radio" name="user_account" id="user_money" value="2" checked="checked"/><label for="user_money">人民币账户（{$current_balance}）</label>
+                       <!--   <span class="tjfh_qrzf_table_zfzhht"><input type="radio" name="user_account" id="user_jpymoney" value="1"/><label for="user_jpymoney">日元账户（0.00）</label></span>
+                           <span class="tjfh_qrzf_table_zfzhht"><input type="radio" name="user_account" id="user_subsidiarymoney" value="3"/><label for="user_subsidiarymoney">副账户（0.00）</label></span>
+                    --></td>
+		    	</tr>
+                <tr>
+                      	<td width="100px" align="right">同意条款：</td>
+				        <td width="10px"></td>
+                        <td>
+                            <input id="clause" class="checkbox" type="checkbox" checked="checked" /><label for="clause">我已阅读并同意本站相关服务协议条款。</label>
+                        </td>
+                </tr>
+                <tr>
+				        <td colspan="3">
+				            <span class="tjfh_qrzf_table_tui"></span>
+				            阅读《 銘東株式会社JPGOODBUY.COM服务协议》<a name="agree"></a>
+				        </td>
+                </tr>
+                <tr>
+                        <td colspan="3">
+                        	<span class="tjfh_qrzf_table_tui"></span>
+                            <textarea class="tjfh_qrzf_table_textarea">
+铭东株式会社JPGOODBUY.COM（以下简称“本公司”。）向用户提供日本到世界各国的转运服务（以下简称“本服务”。），并制定 “JPGOODBUY.COM注册使用协议”（以下简称“本协议”）如下。
+本公司可根据具体情况，另行制定个别规章，个别规章与本规约为一个整体。
+因此，必须同意所有使用协议，方可使用本服务。
+本协议与个别协议发生抵触时，优先遵循个别协议的规定。其他部分则同时适用本协议和个别协议的规定。
+第１条（用户资格）
+ 1. JPGOODBUY.COM的所有权和运营权归铭东股份有限公司所有。
+ 2. 用户不得将用户资格出借、转让、买卖、抵押等。如有违反，本公司有权在不通知的情况下冻结账户。 
+ 3. 用户在注册之前，应当仔细阅读本协议，并同意遵守本协议后方可成为注册用户。一旦注册成功，则用户与JPGOODBUY.COM之间自动形成协议关系，用户应当受本协议的约束。用户在使用特殊的服务或产品时，应当同意接受相关协议后方能使用。
+第２条（使用规约的变更）
+本协议则可由JPGOODBUY.COM随时更新，用户应当及时关注并同意本站不承担通知义务。本站的通知、公告、声明或其它类似内容是本协议的一部分。 
+第３条（用户申请）
+ 1. 经本站注册系统完成注册程序并通过身份认证的用户即成为正式用户，可以获得本站规定用户所应等级享有的一切权限
+ 2. 用户只能按照注册要求使用真实姓名，及身份证号注册。如用户发现帐号遭到未授权的使用或发生其他任何安全问题，应立即修改帐号密码并妥善保管，如有必要，请通知本站。因黑客行为或用户的保管疏忽导致帐号非法使用，本站不承担任何责任。  
+ 3. 前项的申请经本公司同意后即完成用户注册手续。
+  但是如本公司发现用户申请人属于以下任何一项规定，可以拒绝申请人的用户申请，即使已批准注册用户者也可取消其用户资格。
+ (1) 注册申请人为未成年人，且未经法定保护人同意
+ (2) 注册申请人曾经因违反本规约等行为而被取消用户资格
+ (3) 注册申请人提交的申请中，有虚假、误写或漏写的事项
+ (4) 注册申请人有未支付本公司债务的记录
+ (5) 妨害本公司的运营和服务或妨害其他用户使用本公司的服务，或有阻碍以上运营和服务的行为
+ (6) 本公司认为不符合规定的其他情况
+第４条（用户ID及密码的管理）
+ 1. 用户在进行用户注册后，须负责管理本公司借与的用户ID、密码。
+ 2. 用户不得将用户ID及密码出借、转让、买卖、抵押。
+ 3. 由于用户对持有的用户ID及密码的保管不当、使用上的过错等而造成的损失由该用户承担，本公司不承担任何责任。使用用户ID和密码利用本服务的行为，即认为由用户本人进行的行为，用户对服务的使用承担一切责任。
+ 4. 当怀疑或得知用户ID或密码被第三方知悉及可能被非法使用时，应立即通知本公司，并按照本公司发出的指示执行。由于对用户ID及密码的不正当使用，而导致本公司发生损失时，该用户应赔偿本公司的损失。
+ 5. 用户有义务定期更改密码。因疏忽此项义务而造成的损失，本公司不承担任何责任。
+ 6. 非公司特别认可，原则上不补发用户ID和密码。
+第５条（提交申请的内容变更）
+ 1. 用户注册申请时提交的注册内容发生变化时，应立即按规定格式提交变更申请。
+ 2. 本公司按照用户登录的联系方式发送公司的通知，并按常规到达的时间默认为送达。请确认填写的EMAIL 电话 姓名等为正确无误的信息。
+第６条（个人信息的处理）
+ 1. 本公司使用用户个人信息的目的如下。
+ (1) 用户管理
+ (2) 销售或提供本公司或第三方的商品、权利、数字内容、服务、金融商品（以下统称为&ldquo;商品&rdquo;。）
+ (3) 进行推销活动和有奖企划、问卷调查
+ (4) 使用本公司及母公司、子公司（以下统称为&ldquo;本公司集团&rdquo;）所提供的必须进行用户注册的服务时，简化用户注册手续
+ (5) 通知在网站服务运营中的必要事项。（包括发送电子邮件）
+ (6) 用于本公司及第三方的商品的广告、宣传以及推销（包括发送电子邮件。）
+ (7) 发送电子杂志
+ (8) 商品的装箱、发送业务
+ (9) 计算费用和邮寄账单
+ (10) 提供积分、优惠券、里程积累等服务（以下称&ldquo;积分等&rdquo;。）
+ (11) 登载用户投稿的信息
+ (12) 处理各种查询及售后服务
+ (13) 进行市场数据的调查分析及开发新的服务项目
+ (14) 制作统计资料提供给本公司集团及公司规定的合作企业（以下简称为&ldquo;业务合作企业&rdquo;）
+ 2. 本公司集团根据前项的各种使用目的，可以共同使用公司持有的个人信息及积分等使用记录。如用户ID、姓名、性别、邮件地址、电话号码、邮政编码、地址、公司名称所属部门等、昵称、笔名、生日、信用卡信息、购物记录、积分。
+ 3. 本公司遵循隐私政策保护个人信息，不向第三方提供具有可识别性的个人信息。
+  但在以下情况时，可以提供个人信息。
+ (1) 经用户同意时
+ (2) 根据法令法规公司被要求提供时，在犯罪调查等法律手续中被要求提供时，或消费者中心、律师会等公共机关因正当理由要求查询时
+ (3) 向业务合作企业转发用户的订购信息时
+ (4) 用户从业务合作企业购入或准备购入商品，向业务合作企业提供时
+ (5) 发送商品或提供服务必需时
+ (6) 向与结算费用相关的公司提供时
+ (7) 本公司或业务合作企业提供积分等服务，向业务合作企业提供时
+ (8) 本公司的全部或部分业务委托第三方时
+ (9) 合并、业务转让以及其他原因发生公司业务交接，向接受交接方提供时
+ (10) 个人信息保护法以其他法令认可时。
+ 4. 用户在利用本服务时，本公司可以使用Cookie。若在公共电脑登录，请在完成时点击退出登录按钮以免个人财产受到侵害。
+第７条（退出）
+ 1. 用户可以按照本公司规定的手续办理退会手续。
+ 2. 用户死亡时，本公司将用户的死亡时间视为退会时间，用户ID及密码将不能继续使用。
+第８条（停止用户资格及除名）
+本公司由于以下理由，可以在不通知或催告用户的情况下，暂时停止用户资格或除名。
+ (1) 本人或指使他人不正当地使用用户ID、密码及本服务时
+ (2) 用户在规定的日期内未支付费用时
+ (3) 用户被执行没收、暂时没收、暂时处理、强制执行、破产、要求民事重整时，或用户自己提出请求时
+ (4) 密码输入错误次数高于本公司规定的次数时
+ (5) 在本公司规定的期间内，没有使用本服务时
+ (6) 其他，用户违反本规约或个别规约的任何条款时
+ (7) 其他，本公司认为用户不符合要求时
+第９条（本服务的内容)
+ 1. 本服务是转送的服务。用户从日本国内的销售公司以邮购方式购买的商品，由本公司接收后再发送给用户。
+ 2. 由于不是本公司与销售公司达成商品的买卖关系，因此本公司不成为买卖合同的当事人。公司不承担一切与商品相关的瑕疵、侵害知识产权等责任。但是，如果用户有证据证明商品的遗失、破损发生在本公司保管期间，则不受本条限制。
+ 3. 由于不是本公司与运输公司缔结运输合同，因此本公司不成为运输合同的当事人。由于运输事故造成未送达、延误、破损及其他与运输有关的问题而导致用户蒙受损失，本公司不承担任何责任。
+  用户赋予本公司以用户的名义缔结运输合同的权限。
+ 4. 可以使用本服务的销售公司、运输公司以及商品种类、尺寸大小、重量、金额、运达地及诸条件，仅限于本公司规定的范围内。用户不得超越所定范围使用本服务。
+第１０条（本服务禁止使用的商品）
+以下商品，不能使用本服务。
+ (1) 现金及支票、汇票、证券以及其他有价证券类（包括机票，演唱会门票等）
+ (2) 信用卡、现金卡等卡类
+ (3) 金融机关的存折以及现金提款卡
+ (4) 包裹上的送达地不易识别为本公司商号，也没有其他文字记载
+ (5) 书信或根据现行法律定义为书信的通信方法
+ (6) 活的动植物、死的动物或剥制的动物（即标本）
+ (7) 人体或人体的一部分、遗体、遗骨、牌位
+ (8) 食品饮料及其他易变质腐败的物品
+ (9) 兴奋剂、大麻、麻药、作用于中枢神经影响精神状态的药物以及其他违禁药物
+ (10) 枪炮、刀剑、武器、兵器、火药类、爆炸物、有毒物、有毒化学物品
+ (11) 医药品、医疗器械
+ (12) 儿童色情画、成人色情录像带以及其他淫秽物品
+ (13) 使用不正当手段，方法取得的物品
+ (14) 其运送、进出口受包括经由国在内的进出口国、州、地方自治体的法令禁止或限制的物品
+ (15) 运输公司的运输条约中不允许承接的其他物品
+ (16) 本公司认为不符合规定的其他物品
+第１１条（本服务的价格和支付条件）
+ 1. 本服务费用如价格表所示。
+  本公司可对价格表进行变更，恕不另行通知。
+  计价依据的商品重量，以本公司的计量结果为准。
+ 2. 本服务费用包括从本公司运送到用户处的单程运输费。
+  关税、或发生从本公司到用户处的运输费以外的其他费用（以下简称为&ldquo;特别费用&rdquo;）时，由用户承担实际发生的费用。本公司没有义务垫付特别费用。
+ 3. 用户应在本公司规定的日期内，按规定的方法支付本服务的费用。
+第１２条（订购商品的联系方法）
+用户购入商品后，应立即按公司规定的方式，通知本公司发送商品所需的确切信息。
+第１３条（验货）
+ 1. 本公司可以开封检查商品内容。
+  但是，本公司并没有检验商品的义务，同时检验的结果也不对商品质量、有无瑕疵、真赝品做出保证，不保证商品不违反发出地、经由地、目的地所颁布的相关法令。
+ 2. 公司在进行前项规定的检验中，如果发现有违反&ldquo;防止转移犯罪收益&rdquo;相关的法律法令，当疑有违反可能性的商品时，本公司可以采取报告警察及相关公署，提交商品等措施。
+ 3. 若检验商品及采取本条规定的处理办法造成用户损失时，本公司不承担任何责任。
+第１４条（拒绝提供本服务）
+如发生或可能发生以下情况，即使已经承接的业务也可拒绝提供本服务。
+ (1) 属于第10条规定的商品时
+ (2) 不能确认用户的所在地或商品发送目的地的地址时
+ (3) 本公司的日本国内转送地址，与顾客的&ldquo;我的网页&rdquo;中记载的转送地址不一样的情况
+ (4) 货到付款等本公司无法收货的支付方式进行支付购买的商品
+ (5) 用户拒绝接收商品时
+ (6) 运输公司不进行商品的运输时
+ (7) 没有收到第12条的通知时
+ (8) 根据第12条的规定从用户处收到的有关商品信息的通知，与本公司收到的商品不相符时，或者第12条的通知内容不正确时
+ (9) 被海关扣留时
+ (10) 用户不支付本服务的费用时
+ (11) 用户违反本规约时
+ (12) 公司认为不符合规定的其他情况时
+第１５条（不能移交商品的处理）
+ 1. 本公司收到第10条规定的商品时，可以马上废弃或以其他方法处置。
+ 2. 当发生第14条规定的情况（不包括14(1)）时，如果本公司已经接收了商品，则从接收日开始保管60天。
+ 3. 用户如果在本条第2项规定的期限内，解决了与第14条规定相违的所有事由，可以要求本公司将商品发送到用户的地址或在本公司认可的方法中指定一种。
+ 4. 用户如果在本条第2项规定的期间内未能解决与第14条规定相违的所有事由，本公司有权出售该商品或采取其他方法处置。
+ 5. 公司根据本条第4项规定出售商品后，商品销售收入可以充当保管以及处置商品所需费用、本服务的费用以及其他费用。
+ 6. 按本条第5项规定处理后如还留有余额，本公司会将余额汇入用户指定的账户。汇款日为余额确定日或用户账户指定日中较晚的一天起20天内。
+  汇款手续费由用户承担。
+ 7. 前项的余额不计利息。
+ 8. 按本条规定处置商品时，即使用户受损失，本公司也不承担任何责任。
+ 9. 无论本条的规定如何，本公司均可以按民事执行法的规定办理。
+第１６条（本服务的变更和停止）
+本公司可以在任何时候变更或停止本服务内容，恕不另行通知。即使因内容的变更或废止，给用户带来不利或损失，本公司也不承担任何责任。
+第１７条（本服务的中断和停止）
+ 1. 发生以下任何情况时，本公司可以暂时中断或停止本服务的部分或全部内容，恕不另行通知。
+ (1) 对提供本服务的装置和系统进行保养检查以及更新时
+ (2) 遇到火灾、停电、天灾、系统故障等，难以提供本服务时
+ (3) 电力通信公司未提供必需的服务时
+ (4) 本公司认为必须暂时中断或停止此项服务的其他情况
+ 2. 即使因暂时中断或停止提供本服务，而使用户遭受损失时，本公司也不承担任何责任。
+第１８条（禁止行为）
+ 1. 用户在使用本服务中，不得有属于或有可能属于以下任何一项的行为。
+ (1) 以不正当的目的使用本服务的行为
+ (2) 侵害本公司以及第三方的商标权、著作权、外观专利权、发明专利权等知识产权以及肖像权、广告宣传权以及其他权利
+ (3) 涉及欺诈等犯罪的行为
+ (4) 伪装第三方使用本服务的行为
+ (5) 不正当地使用本公司以及第三方的设备，或阻碍运营的行为
+ (6) 违反法令、本规约或个别规约，以及违反公共秩序和社会道德的行为
+ (7) 妨害本服务运营的行为
+ (8) 公司认为不符合规定的其他行为
+ (9) 非法利用他人信用卡信息，账号等付款购买的情形，本公司将停止发送问题包裹，并通知警方处理。
+ 2. 由于用户违反本规约或个别规约，使得本公司遭到损失时，本公司可以要求用户赔偿损失。
+第１９条（适用法律和合意管辖）
+ 1. 本规约以及个别规约依据日本法律而定。
+ 2. 因本规约和个别规约发生纠纷时，第一审专署管辖裁判所为大阪地方法院。
+                            </textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="3">
+                            <span class="tjfh_qrzf_table_tui"></span>
+                            <input type="submit" value="同意条款提交发货" class="tjfh_qrzf_table_submit" />
+                        </td>
+                      </tr>
+		        </table>
+                </div>
+             </div>
+			  <!-- <button type="submit" onclick="">提交订单</button> -->
+			 <input type="hidden" name="tablecount" value="0" id="tablecount"/>
+			 
+			 <input type="hidden" name="pck_totalweights" value="0.00" id="pck_totalweights"/>
+			 
+			 <input type="hidden" name="pck_totallength" value="0.00" id="pck_totallength"/>
+			 
+			 <input type="hidden" name="pck_totalwidth" value="0.00" id="pck_totalwidth"/>
+			 
+			 <input type="hidden" name="pck_totalheight" value="0.00" id="pck_totalheight"/>
+			 <input type="hidden" name="pck_insurancecost" value="0.00" id="pck_insurancecost"/>
+			 <input type="hidden" name="pck_operatorcost" value="0.00" id="pck_operatorcost"/>
+			 <input type="hidden" name="pck_tariffcost" value="0.00" id="pck_tariffcost"/>
+			 <input type="hidden" name="pck_valueservicecost" value="0.00" id="pck_valueservicecost"/>
+			 <input type="hidden" name="pck_waybillcost" value="0.00" id="pck_waybillcost"/>
+			 <input type="hidden" name="pck_warehousecost" value="0.00" id="pck_warehousecost"/>
+			 <input type="hidden" name="pck_totalcost" value="0.00" id="pck_totalcost"/>
+			 
+			 <input type="hidden" name="exchangerate" value="1" id="exchangerate"/>
+			 
+			 <input type="hidden" name="rate_points" id="rate_points" value="0.01" />
+			 <input type="hidden" name="pay_points" id="pay_points" value="500"/>
+			 <input type="hidden" name="max_integral" id="max_integral" value="2000"/>
+			 <input type="hidden" name="pointspaymentcost" id="pointspaymentcost" value="0.00" />
+			 
+			 <input type="hidden" name="order_discount" id="order_discount" value="1.0000" />
+			 
+			 <input type="hidden" name="discount_waybillcost" value="0.00" id="discount_waybillcost"/>
+			 <input type="hidden" name="isuse_coupon" value="0" id="isuse_coupon"/>
+			</form>
+	   </div>
+	 </div>
+	 	<div id="clear"></div>
+	</div>
+    </div>
+    <div id="hyzxcontent_kong"></div>
+  
+ 
+<div id="ptpp_bghui">
+  <div id="ptpp">
+	<div class="ptpp_dan">
+		<div class="ptpp_dan_left"><img src="themes/default/images/rbhm/ptpp_01.png" border="0" /></div>
+		<div class="ptpp_dan_right">
+			<div class="ptpp_dan_right_title">迅捷的速度</div>
+			<div class="ptpp_dan_right_txt">最快一小时内出库！邮政内部仓库，发货当日上飞机
+</div>
+		</div>
+		<div id="clear"></div>
+	</div>
+	<div class="ptpp_kong"></div>
+	<div class="ptpp_dan">
+		<div class="ptpp_dan_left"><img src="themes/default/images/rbhm/ptpp_02.png" border="0" /></div>
+		<div class="ptpp_dan_right">
+			<div class="ptpp_dan_right_title">周到的服务</div>
+			<div class="ptpp_dan_right_txt">多客服渠道对应，包装按您备注所写，多种运输方式，丰富的增值服务满足您的个性化需求！
+		
+</div>
+		</div>
+		<div id="clear"></div>
+	</div>
+	<div class="ptpp_kong"></div>
+	<div class="ptpp_dan">
+		<div class="ptpp_dan_left"><img src="themes/default/images/rbhm/ptpp_03.png" border="0" /></div>
+		<div class="ptpp_dan_right">
+			<div class="ptpp_dan_right_title">实惠的价格</div>
+			<div class="ptpp_dan_right_txt">保证日常运营的前提，提供最低廉的价格</div>
+		</div>
+		<div id="clear"></div>
+	</div>
+	<div class="ptpp_kong"></div>
+	<div class="ptpp_dan">
+		<div class="ptpp_dan_left"><img src="themes/default/images/rbhm/ptpp_04.png" border="0" /></div>
+		<div class="ptpp_dan_right">
+			<div class="ptpp_dan_right_title">安心的保障</div>
+			<div class="ptpp_dan_right_txt">EMS20万以下免费保险，邮政铭东自有保险，理赔无需长久等待</div>
+		</div>
+		<div id="clear"></div>
+	</div>
+	<div id="clear"></div>
+ </div>
+</div>
+  {include file="footer_user.htm"}
+  <script type="text/javascript" src="themes/default/js/logisticssystem/member_ordersubmit.js"></script>
+
+ </body>
+ </html>
+ {literal}
+<script type="text/javascript">	
+$(function() {
+	load();
+});
+/**
+ * 初始化加载
+ */
+function load()
+{
+	//获得当前用户的金额
+	Ajax.call( 'member.php?act=getcurrentbalance', '', currentbalance_callback , 'GET', 'TEXT', true, true );
+}
+function currentbalance_callback(result)
+{
+	var current_balance = document.getElementById('current_balance');
+	if (result != 0) {
+		current_balance.innerHTML = formatNumber(result);
+		document.getElementById('userMoney').value = roundNumber(result,2);
+	}
+}
+</script>
+{/literal}
+
+
+ {literal}
+  <script language="JavaScript">
+
+function showdiv(targetid,objN){
+   
+	var target=document.getElementById(targetid);
+	var clicktext=document.getElementById(objN)
+
+	if (target.style.display=="block"){
+		target.style.display="none";
+		clicktext.innerText="查看详情>>";
+	} else {
+		target.style.display="block";
+		clicktext.innerText='隐藏详情>>';
+	}
+   
+}
+
+/**
+ * 表单验证
+ */
+function validate()
+{
+	try{
+	 //重新计算
+	 compute_coupon();
+	 var usermoney = document.getElementById('userMoney').value;
+	 var pay_moneny = document.getElementById('pay_moneny').innerHTML;
+	 
+	 var isCheckPayMoney = false;
+	 var chkObjs = document.getElementsByName("payment");
+     for(var i=0;i<chkObjs.length;i++){
+         if(chkObjs[i].checked){
+            if(chkObjs[i].value == "2"){
+            	isCheckPayMoney=true;
+            }else{
+            	isCheckPayMoney=false;
+            }
+            break;
+         }
+     }
+	 validator = new Validator("theForm");
+	 
+	 validator.checkboxesRequired("checkboxes[]",notnull_warehouse_goods);
+	 validator.selectRequired("pck_warehouseid",  warehouse_notnull);
+	 validator.selectRequired("shipping", shipping_notnull); 
+	 if(isCheckPayMoney)
+	 {
+	 	validator.isPayMoney(usermoney, pay_moneny, paymoneyis_usermoney);
+	 }
+	 validator.required('tb1_delivery_address',delivery_address_notnull);
+	 
+	 //获取table的数量
+	 var tableCount = $('#tablecount').val();
+	 for(var tableIndex = 1; tableIndex <= tableCount; tableIndex++)
+	 {
+	  //获取table所有行
+	  var table = document.getElementById('testTab'+tableIndex);
+	  var rows = table.rows.length;
+	  rows = rows - 2;
+	  for(var i=2;i<rows;i++)
+	  {
+	  		//获取第一列的值
+	  		var colIndex = parseInt(table.rows[i].cells[0].innerHTML);
+	  		var pckg_name = document.getElementsByName('tab1_goodsname'+colIndex);
+	
+			validator.selectRequired('tab'+tableIndex+'_ratename'+colIndex,'请选择商品类别');
+			validator.required('tab'+tableIndex+'_goodsname'+colIndex,'商品名称不能为空');
+			validator.required('tb'+tableIndex+'_num'+colIndex,'数量不能为空');
+			validator.required('tb'+tableIndex+'_price'+colIndex,'单价不能为空');
+	  }
+	 }
+	 if($('#isuse_coupon').val() == '0' && $('#coupon_desc').text()!='') 
+	 {
+	 	alert($('#coupon_desc').text());
+	 	return false;
+	 }
+	 return validator.passed();
+	}catch(e){
+		return false;
+	}
+}
+</script>
+{/literal}

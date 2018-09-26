@@ -1,0 +1,108 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js,validator.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_coupon_manage.php" method="post" name="theForm" onsubmit="return validate()">
+        <!-- table -->
+        <table cellspacing="1" cellpadding="3" width="100%">
+          <tr>
+            <td class="label">
+            {$lang.couponname} 
+            </td>
+            <td>
+              <input type="text" name="CouponName" value="{$coupon_info.CouponName}" size="30" />
+            </td>
+          </tr>
+		  <tr>
+		    <td class="label">{$lang.message}</td>
+		    <td><textarea name="Message" cols="40" rows="3">{$coupon_info.Message|escape}</textarea></td>
+		  </tr>
+          <tr>
+            <td class="label">{$lang.couponvalue}</td>
+            <td>
+              <input type="text" name="CouponValue" value="{$coupon_info.CouponValue}" size="15" />
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.rebatepoints}</td>
+            <td>
+              <input type="text" name="RebatePoints" value="{$coupon_info.RebatePoints}" size="15" />
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.days}</td>
+            <td>
+              <input type="text" name="Days" value="{$coupon_info.Days}" size="15" />
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.minamount}</td>
+            <td>
+              <input type="text" name="MinAmount" value="{$coupon_info.MinAmount}" size="15" /><span>&nbsp;{$lang.minamounttip}</span>
+            </td>
+          </tr>
+        </table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="CouponId" value="{$coupon_info.CouponId}"/>
+      </form>
+</div>
+<!-- end goods form -->
+
+<script language="JavaScript">
+{literal}
+	//初始化
+	if(document.all) { 
+		window.attachEvent('onload', load);
+	}
+	else { 
+		window.addEventListener('load', load);
+	}
+	
+	/**
+	 * 初始化加载
+	 */
+	function load()
+	{
+		document.forms['theForm'].elements['CouponName'].focus();
+	}
+	/**
+	 * 表单验证
+	 */
+	function validate()
+	{
+	  validator = new Validator("theForm");
+	  validator.required("CouponName", CouponName_notnull);
+	  validator.required("CouponValue", CouponValue_notnull);
+	  validator.required("RebatePoints", RebatePoints_notnull);
+	  validator.required("Days", Days_notnull);
+	  validator.required("MinAmount", MinAmount_notnull);
+	  
+	  validator.isNumber("CouponValue", CouponValue_isnumber);
+	  validator.isNumber("RebatePoints", RebatePoints_isnumber);
+	  validator.isInt("Days", Days_isint);
+	  validator.isNumber("MinAmount", MinAmount_isnumber);
+
+	  validator.gtInt("CouponValue",0, CouponValue_gtint);
+	  validator.gtInt("RebatePoints",0, RebatePoints_gtint);
+	  validator.gtInt("Days",0, Days_gtint);
+	  validator.gtInt("MinAmount",0, MinAmount_gtint);
+
+	  return validator.passed();
+	}
+
+	{/literal}
+</script>
+{include file="pagefooter.htm"}

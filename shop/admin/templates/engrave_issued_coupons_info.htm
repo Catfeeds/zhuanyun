@@ -1,0 +1,151 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js,validator.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_issued_coupons.php" method="post" name="theForm" onsubmit="return validate()">
+        <!-- table -->
+        <table cellspacing="1" cellpadding="3" width="100%">
+          <tr>
+            <td class="label">
+            {$lang.coupontype} 
+            </td>
+            <td>
+              <select name="CouponType" ><option value="0">{$lang.select_please}{html_options options=$coupon_list}</select>
+            </td>
+          </tr>
+		  <tr>
+		    <td class="label">{$lang.issuedtarget}</td>
+		    <td>
+		    	<input type="radio" onclick="showuser(0);" value="0" checked="checked" name="User" />{$lang.specuser} 
+		    	<input type="text" id="SpecUser" name="SpecUser" value="{$issue_info.SpecUser}" size="10" />
+		    	<span id="selectuser"><a onclick="openSpecUser();">{$lang.select_user}</a></span>
+				<input type="radio" onclick="showuser(1);" value="1" name="User" />{$lang.gourpmember} 
+				<select disabled="false" id="GourpMem" name="GourpMember" >
+				<option value="0">
+					{$lang.select_please}
+					{html_options options=$rank_list}
+				</select>
+			</td>
+		  </tr>
+          <tr>
+            <td class="label">{$lang.issuednumber}</td>
+            <td>
+              <input type="text" name="IssuedNumber" value="1" size="5" />&nbsp;{$lang.numberunit}
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.validdays}</td>
+            <td>
+              <input type="text" name="ValidDays" value="{$issue_info.ValidDays}" size="5" />&nbsp;{$lang.validtip}
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.description}</td>
+            <td>
+              <textarea name="Description" cols="40" rows="3">{$issue_info.Description|escape}</textarea>
+            </td>
+          </tr>
+        </table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="hidUserId" id="hidUserId" />
+      </form>
+</div>
+<!-- end goods form -->
+
+<script language="JavaScript">
+{literal}
+	//初始化
+	if(document.all) { 
+		window.attachEvent('onload', load);
+	}
+	else { 
+		window.addEventListener('load', load);
+	}
+	
+	/**
+	 * 初始化加载
+	 */
+	function load()
+	{
+		document.forms['theForm'].elements['SpecUser'].focus();
+	}
+	/**
+	 * 表单验证
+	 */
+	function validate()
+	{
+	  validator = new Validator("theForm");
+	  var obj = document.getElementsByName("User");
+	  var selected_user_value="0";
+		for(var i=0; i<obj.length; i ++){
+		    if(obj[i].checked){
+		    	selected_user_value = obj[i].value;
+		    }
+		}
+
+	  validator.selectRequired("CouponType", CouponType_notnull);
+	  if(selected_user_value == "0")
+	  {
+		  validator.required("SpecUser",  SpecUser_notnull);
+	  }
+	  else if(selected_user_value == "1")
+	  {
+		  validator.selectRequired("GourpMem", GourpMem_notnull);
+	  }
+	  validator.required("IssuedNumber", IssuedNumber_notnull);
+	  validator.isInt("IssuedNumber", IssuedNumber_isint);
+	  validator.gtInt("IssuedNumber",0, IssuedNumber_gtint);
+	  validator.required("ValidDays", ValidDays_notnull);
+	  validator.isInt("ValidDays", ValidDays_isint);
+	  validator.gtInt("ValidDays",0, ValidDays_gtint);
+
+	  return validator.passed();
+	}
+	
+	function gObj(obj)
+	{
+	  var theObj;
+	  if (document.getElementById)
+	  {
+	    if (typeof obj=="string") {
+	      return document.getElementById(obj);
+	    } else {
+	      return obj.style;
+	    }
+	  }
+	  return null;
+	}
+   function showuser(get_value)
+   {
+   	  gObj("selectuser").style.display =  (get_value == 0) ? "" : "none";
+   	  document.forms['theForm'].elements['SpecUser'].disabled  = (get_value == 1);
+      document.forms['theForm'].elements['GourpMember'].disabled  = (get_value == 0);
+   }
+   function openSpecUser()
+   {
+       var modaldialogparam = 'dialogwidth:' + 420 + 'px;dialogheight:' + 500 + 'px;center:yes;help:no;resizable:no;status:no;minimize:no;maximize:no;';
+       result = showModalDialog('engrave_issued_coupons.php?act=userlist', '鐢ㄦ埛鍒楄〃', modaldialogparam);
+	   document.getElementById("hidUserId").value = result;
+       Ajax.call('engrave_issued_coupons.php?act=getusername',"userId="+result,act_calusername,"POST","TEXT",true,true);
+   }
+   function act_calusername(result)
+   {
+   	 document.getElementById("SpecUser").value=result;
+   }
+
+	{/literal}
+</script>
+{include file="pagefooter.htm"}

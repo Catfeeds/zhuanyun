@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+body,ul,p,h1,h2,h3,h4,h5,h6,dl,dd,dt,.header{ margin:0; padding:0}
+body{ font-family:"微软雅黑";}
+ul,li,dl,dd,dt{list-style: none;}
+a{text-decoration: none;color:#000;}
+.clear{ clear:both;}
+/*.big{ width:1600px; margin:auto;}*/
+/*top*/
+.top{ background:url(../images/top1.png) repeat-x; height:39px;}
+.top_main{ width:1000px; margin:auto; color:#6f6f6f; line-height:39px; font-size:12px;}
+.topm_left{ width:500px; float:left;}
+.topm_right{ width:500px; float:right; text-align:right; }
+.topm_right a{ color:#6f6f6f; padding:0px 5px;}
+.topm_right span{ font-size:14px; color:#d23e45;}
+/*top end*/
+/*header*/
+.header{background:url(../images/header1.png) repeat-x; height:91px;}
+.head_main{ width:1000px; margin:auto;}
+.head_main img{ float:left; width:200px;}
+  /***nav**/
+   .nav{ width:650px; float:right; font-size:14px;}
+   .nav li a{ float:left;color:#fff; padding:30px 10px; text-align:center;}
+   .nav li span{ display:none;}
+   .nav li a:hover{background:url(../images/header2.png) no-repeat; padding:25px 10px 25px 10px; }
+   .nav li a:hover span{ display:block;}
+  /***nav end**/
+/*header end*/
+
+/*footer*/
+.footer{ height:169px;background:url(../images/footer1.png) repeat-x;}
+.footmain{ width:1000px; margin:auto; color:#6f6f6f; text-align:center; font-size:12px; line-height:23px;}
+.footmain a{color:#6f6f6f; padding:0px 8px;}
+.footimg{background:url(../images/footer3.png) no-repeat bottom;}
+.footimg img{ padding:20px 5px 25px 5px;}
+/*footer eng*/

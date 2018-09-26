@@ -1,0 +1,351 @@
+<!-- $Id: snatch_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+
+
+<div class="form-div">
+    <form  name="searchForm"   action="javascript:searchForm()" method="post">
+        <input type="hidden" name="act" value="export">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        年份： <select name="inmon_add_year">
+        <option value="">不限</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+
+    </select>
+        &nbsp;月份：<select name="inmon_add_month">
+        <option value="">不限</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+
+    </select>
+        每页(导出数量)：<input type="number" min="12" value="3000" name="page_size">
+
+
+        <input type="button"  id="searchFormbtn"  value="{$lang.button_search}" class="button" />
+        <input name="submit" type="button" id="export" value="导出查询" class="button" />
+    </form>
+</div>
+<div class="form-div">
+    <form action="javascript:saveForm()" name="saveForm">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        年份： <select name="inmon_save_year"  id="inmon_save_year">
+        <option value="">不限</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+
+    </select>
+        &nbsp;月份：<select name="inmon_save_month" id="inmon_save_month">
+        <option value="">不限</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+
+    </select>
+
+        <input name="submit" type="submit" id="submitb" value="生成月份统计" class="button" />
+        （重新生成以前月份的统计数据;[注意: 系统会自动统计上个月的数据]）
+    </form>
+</div>
+
+<form method="post" action="" name="listForm">
+    <div class="list-div" id="listDiv">
+        {/if}
+
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th>{$lang.record_id}</th>
+                <th>总额</th>
+                <th>已收</th>
+                <th>已收订单数</th>
+                <th>未收</th>
+                <th>未收订单数</th>
+
+                <th>年份</th>
+                <th>月份</th>
+                <th>生成时间</th>
+
+            </tr>
+            {foreach from=$data_list item=data}
+            <tr>
+                <td align="center">{$data.inmon_id}</td>
+                <td align="center">{$data.inmon_amount}</td>
+                <td align="center"><span>{$data.inmon_received}</span></td>
+                <td align="center">{$data.inmon_received_order_amount}</td>
+                <td align="center"> {$data.inmon_pending}                </td>
+
+                <td align="center">{$data.inmon_pending_order_amount}</td>
+                <td align="center">{$data.inmon_add_year}</td>
+                <td align="center">{$data.inmon_add_month}</td>
+                <td align="center">{$data.inmon_add_time}</td>
+
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="9">{$lang.no_records}</td></tr>
+            {/foreach}
+            <tr>
+                <td align="right" nowrap="true" colspan="9">{include file="page.htm"}</td>
+            </tr>
+        </table>
+
+
+        <div id="container" style="height: 400px"></div>
+        <div id="container_count" style="height: 400px"></div>
+
+        <script type="text/javascript">
+
+
+            var app = {};
+            var option = null;
+            var optionCount = null;
+            option = {
+                title: {
+                    text: '收入月度走势',
+                    subtext: '单位：元'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['总额','已收总额','未收总额']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                xAxis:  {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: [{$echartLabel}]
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} '
+                    }
+                },
+                series: [
+                    {foreach from=$echartData item=data}
+                    {
+                        name:'{$data.name}',
+                        type:'line',
+                        data:[{$data.data}],
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
+                    },
+                     {/foreach}
+
+                ]
+            };
+            optionCount = {
+                title: {
+                    text: '订单数月度走势',
+                    subtext: '单位：个'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:['已收订单数','未收订单数']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                xAxis:  {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: [{$echartLabel}]
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} '
+                    }
+                },
+                series: [
+                    {foreach from=$echartCountData item=data}
+                    {
+                        name:'{$data.name}',
+                        type:'line',
+                        data:[{$data.data}],
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
+                    },
+                    {/foreach}
+
+            ]
+            };
+
+        </script>
+
+        {if $full_page}
+    </div>
+</form>
+<!-- end article list -->
+
+<script >
+    function drawChart() {
+        dom = document.getElementById("container");
+        myChart = echarts.init(dom);
+        domCount = document.getElementById("container_count");
+        myChartCount = echarts.init(domCount);
+
+
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+        if (optionCount && typeof option === "object") {
+            myChartCount.setOption(optionCount, true);
+        }
+
+    }
+    var dom,myChart,domCount,myChartCount;
+    $(function() {
+
+
+
+        drawChart();
+    });
+
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+{literal}
+onload = function()
+{
+    //document.forms['searchForm'].elements['keyword'].focus();
+    // 开始检查订单
+    startCheckOrder();
+}
+
+/**
+ * 搜索文章
+ */
+listTable.loadListCb = function(result) {
+    drawChart();
+};
+$(document).on('click', '#export', function() {
+    searchForm(true);
+});
+function searchForm(isExport)
+{
+
+    var inmon_add_month = Utils.trim(document.forms['searchForm'].elements['inmon_add_month'].value);
+    var inmon_add_year = Utils.trim(document.forms['searchForm'].elements['inmon_add_year'].value);
+    var page_size = Utils.trim(document.forms['searchForm'].elements['page_size'].value);
+
+    listTable.filter.inmon_add_month = inmon_add_month;
+    listTable.filter.inmon_add_year = inmon_add_year;
+
+
+    listTable.filter.page = 1;
+    listTable.filter.page_size = page_size;
+
+    if(isExport) {
+        listTable.loadExport('export');
+    }  else  listTable.loadList();
+}
+
+function saveForm() {
+    var inmon_save_month = Utils.trim(document.forms['saveForm'].elements['inmon_save_month'].value);
+    var inmon_save_year = Utils.trim(document.forms['saveForm'].elements['inmon_save_year'].value);
+    if(!inmon_save_month || !inmon_save_year) {
+        alert("请选择要生成的年份, 月份")
+        return false;
+
+    }
+    var date=new Date;
+    var year=date.getFullYear();
+    var month=date.getMonth()+1;
+    if(inmon_save_year>year || inmon_save_month>=month) {
+        alert("只能选择当前月份之前的月份");
+        return false;
+    }
+
+
+    var args = "act=saveym&month="+inmon_save_month+"&year="+inmon_save_year;
+    Ajax.call("income_month.php", args, function(result) {
+        if (result.error > 0) {
+            alert(result.message);
+        }
+    }, "POST", "JSON");
+}
+{/literal}
+
+</script>
+{include file="pagefooter.htm"}
+{/if}

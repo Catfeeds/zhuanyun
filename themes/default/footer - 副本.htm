@@ -1,0 +1,67 @@
+<div class="footer">
+    
+    <div class="footer_shang_bg">
+        <div class="footer_shang">
+        <div class="footer_shang_link">
+
+	   <!--{foreach from=$daohang key=info item=dh}-->
+        <a href="{$dh.url}"  >{if $language_name=='Chinese'}{$dh.title}{elseif $language_name=='English'}{$dh.titleen}{elseif $language_name=='taiwan'} {$dh.titletw}{/if}</a>
+
+      
+ <!--{/foreach}-->
+         </div>
+         <div class="footer_shang_tel"></div>
+	     <div class="footer_shang_time">{$dibubanquan}</div>
+		 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256467808'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1256467808' type='text/javascript'%3E%3C/script%3E"));</script>
+      </div>
+	</div>
+    
+	<div class="footer_line"></div>
+    
+	<div class="footer_xia_bg">
+		<div class="footer_xia">
+			<div class="footer_xia_txt">
+				&copy; 2013  銘東株式会社    
+			</div>
+		</div>
+	</div>
+  </div>
+{literal}  
+<script type="text/javascript">
+
+function delivery_submit()
+{
+	//获取运单信息
+	var delivery_numbers = $('#delivery_numbers').val();
+	if(Utils.trim(delivery_numbers) == "")
+	{
+		alert(waybillno_notnull);
+		return;
+	}
+	delivery_numbers = delivery_numbers.replace(/\r/g,"|");
+	delivery_numbers = delivery_numbers.replace(/\n/g,"|") 
+	window.location.href="package_track.php?id="+delivery_numbers; 
+}
+
+function cost_submit()
+{
+	var area=$('#area').val();
+	var weight=$('#weight').val();
+	var size=$('#size').val();
+
+	if(area==undefined)
+	{
+		area='';
+	}
+	if(weight==undefined)
+	{
+		weight='';
+	}
+	if(size==undefined)
+	{
+		size='1x1x1';
+	}
+	window.location.href="index.php?act=list_cost&area="+area+"&weight="+weight+"&size="+size; 
+}
+</script>
+{/literal}

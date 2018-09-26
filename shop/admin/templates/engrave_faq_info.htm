@@ -1,0 +1,152 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+{literal}
+<style type="text/css">
+	.colored-key {
+		border-radius: 10px;
+		color : #fff;
+		width:20px;
+		height:20px;
+		line-height:20px;
+		display: inline-block;
+		text-align: center;
+		background-color: #0e90d2;
+	}
+</style>
+{/literal}
+<!-- start goods form -->
+<div class="main-div">
+	{if $form_action != 'view'}
+      <form enctype="multipart/form-data" action="engrave_faq.php" method="post" name="theForm" onsubmit="return validate()">
+		  {/if}
+        <!--  -->
+        <table width="90%" id="tab_channel_basic-table" align="center">
+           <tr>
+			 <td class="label">{$lang.faq_title}:</td>
+			 <td>{$faq.faq_title}</td>
+		   </tr>
+			<tr>
+			 <td class="label">提问者:</td>
+			 <td>{$faq.user_name}  {$faq.faq_time}</td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.faq_expressnumber}:</td>
+			 <td>{$faq.faq_expressnumber}</td>
+		   </tr>
+			<tr>
+			 <td class="label">{$lang.faq_orderno}:</td>
+			 <td>{$faq.faq_orderno}</td>
+		   </tr>
+			<tr>
+			 <td class="label">{$lang.faq_deliverynumber}:</td>
+			 <td>{$faq.faq_deliverynumber}</td>
+		   </tr>
+			<tr>
+				<td class="label" style="padding-top:5px;">{$lang.faq_remark}:</td>
+				<td style="padding-top:0px;">
+					{$faq.faq_remark}
+				</td>
+			</tr>
+			<tr>
+				<td  class="label" style="padding-top:5px;font-size: 18px;font-weight: bold;">管理员回复列表:</td>
+				<td ></td>
+			</tr>
+			{foreach from=$pfaq item=item key=akey}
+			<tr>
+				<td class="label" style="padding-top:5px;">
+					<span class="colored-key">{$akey}</span>
+					管理员、时间:</td>
+				<td style="padding-top:0px;">
+					{$item.user_name} {$item.faq_time}
+				</td>
+			</tr>
+			<tr>
+		     <td class="label" style="padding-top:5px;">内容:</td>
+		     <td style="padding-top:0px;">
+		     	{$item.faq_remark}
+		     </td>
+		   </tr>
+			{/foreach}
+			{if $form_action != 'view'}
+			<tr>
+		     <td class="label" style="padding-top:5px;">管理员回复:</td>
+		     <td style="padding-top:0px;">
+		     	<textarea id="CntContent" name="faq_remark"></textarea>
+		     </td>
+		   </tr>
+			{/if}
+        </table>
+		  {if $form_action != 'view'}
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="faq_id" value="{$faq_id}"/>
+      </form>
+	{/if}
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+<script language="JavaScript">
+{literal}
+	//鍒濆鍖�
+	if(document.all) { 
+		window.attachEvent('onload', load);
+	}
+	else { 
+		window.addEventListener('load', load);
+	}
+	
+	/**
+	 * 鍒濆鍖栧姞杞�
+	 */
+	function load()
+	{
+		document.forms['theForm'].elements['faq_remark'].focus();
+	}
+	/**
+	 * 琛ㄥ崟楠岃瘉
+	 */
+	function validate()
+	{
+	  validator = new Validator("theForm");
+	  validator.required("faq_remark", "回复内容不能为空");
+
+	  return validator.passed();
+	}
+	$(function() {
+
+		$('.colored-key').each(function() {
+			$(this).text(parseInt($(this).text())+1)
+		});
+	});
+	{/literal}
+</script>
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+
+<script language="JavaScript">
+    {literal}
+    KindEditor.ready(function(K) {
+        var editor1 = K.create('textarea[id="CntContent"]', {
+            cssPath : '../plugins/code/prettify.css',
+            allowFileManager : true,
+            afterCreate : function() {
+                this.sync('#CntContent');
+            },
+            afterBlur:function(){
+                this.sync('#CntContent');
+            }
+        });
+    });
+    {/literal}
+</script>
+{include file="pagefooter.htm"}

@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+{literal}
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+{/literal}
+ </head>
+ <body>
+ 
+{include file="header.htm"}
+
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+		 <div class="member_stock">
+		  <div class="cr_bot">
+		  <form enctype="multipart/form-data" action="member_order.php?act=2112" method="post" name="theForm" onsubmit="return validate()">
+			<div id="contents">
+			<div style="padding-top:5px;">
+				<span style="font-size:16px;font-weight:bold;">{$goods_isaccept}</span>
+			</div>
+			  <table>
+			  	<tr>
+			  		<td style="width:200px; text-align:right;padding-right:2px;">
+			  			<span>{$lang.eva_value}：</span>
+					</td>
+					<td>
+						<input type="radio" name="eval_value" id="eval_best" checked="checked">
+							<label for="eval_best"><img src="images/best.gif"></img></label>
+						</input>
+						<input type="radio" name="eval_value" id="eval_good">
+							<label for="eval_good"><img src="images/good.gif"></img></label>
+						</input>
+						<input type="radio" name="eval_value" id="eval_bad">
+							<label for="eval_bad"><img src="images/bad.gif"></img></label>
+						</input>
+					</td>
+				</tr>
+				<tr>
+					<td style="width:200px; text-align:right;padding-right:2px;">
+						{$lang.eva_message}：
+					</td>
+					<td>
+						<textarea name="eva_message" style="width:400px;height:100px;"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td style="padding:2px 0px 2px 120px;">
+					</td>
+				</tr>
+			  </table>
+			  <div style="text-align:center;"><input type="submit" value="{$lang.evalua_submit}"></input></div>
+				<input type="hidden" name="id" id="id" value="{$order_id}" />
+			</div>
+			</form>
+		  </div>
+		 </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  
+{include file="footer.htm"}
+
+ </body>
+ </html>
+
+ {literal}
+	<script type="text/javascript">
+	/**
+	** 优惠券计算
+	**/
+	function compute_coupon()
+	{
+		obj = $('#coupon');
+		var coupon_value=obj.val();
+		if(Utils.trim(coupon_value)=='')
+		{
+			$('#isused_coupon').val(0);
+			$('#coupon_value').val(0);
+			$('#coupon_desc').html('');
+			compute_points();
+			return;
+		}
+		//验证输入的优惠券号是否存在，是否过期
+		$.ajax({
+			type: 'POST',
+			url: 'member_order.php?act=2110&sn='+obj.val(),
+			data: {'sn':obj.val()},
+			dataType:'json',
+			success:function(result){
+				if(result==undefined)
+				{
+					return;
+				}
+				if(result.length!=0)
+				{
+					if(result.result == undefined)
+					{
+						var couponValue=parseFloat(result.CouponValue);//优惠券面值
+						var minAmount = parseFloat(result.MinAmount);//最小消耗
+						$('#coupon_desc').text(coupon_price + '：'+couponValue);
+						//获取实际需要交付价格
+						var payment_money_total = parseFloat($('#total_paymoney').val());
+						var payment_money_actual = parseFloat($('#actual_paymoney').val());
+						$('#coupon_value').val(couponValue);
+						//优惠券：最低消费金额
+						if(minAmount!=0)
+						{
+							if(payment_money_total < minAmount)
+							{
+								$('#coupon_desc').text(coupon_min_amount+minAmount);
+								return;
+							}
+						}
+						if(couponValue - payment_money_total > 0)
+						{
+							$('#payment_money_actual').html('0.00');
+							$('#actual_paymoney').val(0);
+						}
+						else{
+							//根据当前消耗的积分
+							var point_value=0;
+							var user_input_point=0;
+							if(Utils.isNumber($('#point').val()))
+							{
+								user_input_point = parseInt($('#point').val());
+							} 
+							var s_priceintegral = parseFloat($('#s_priceintegral').val());
+							var money = parseFloat(user_input_point*s_priceintegral);
+							
+							$('#payment_money_actual').html(Utils.roundNumber(payment_money_total - couponValue - money,2));
+							$('#actual_paymoney').val(Utils.roundNumber(payment_money_total - couponValue - money,2));
+						}
+						$('#isused_coupon').val(1);
+					}
+					else{
+						$('#coupon_desc').text(result.result);
+					}
+				}
+			},
+			error:function(){
+				alert(data_failed);
+			}
+		});
+	}
+	/**
+	**积分计算
+	**/
+	function compute_points()
+	{
+		obj = $('#point');
+		var point_value=obj.val();
+		if(Utils.trim(point_value)=='')
+		{
+			$('#points_desc').html('');
+			obj.val('');
+			point_value = 0;
+		}
+		var maxintegral = $('#maxintegral').val();
+		var point=point_value;
+		if(!Utils.isNumber(point))
+		{
+			obj.val('');
+			$('#points_desc').html(points_type_error);
+		}
+		else{
+			$('#points_desc').html('');
+			if(parseInt($('#maxintegral').val())<parseInt(point_value))
+			{
+				obj.val($('#maxintegral').val());
+				$('#points_desc').html(max_use_points+point_value);
+			}
+			//根据当前消耗的积分
+			var user_input_point = parseInt(point_value);
+			var s_priceintegral = parseFloat($('#s_priceintegral').val());
+			var money = parseFloat(user_input_point*s_priceintegral);
+			//总消费
+			var total_paymoney = parseFloat($('#total_paymoney').val());
+			var coupon_value = parseFloat($('#coupon_value').val());
+
+			if(total_paymoney >= money)
+			{
+				$('#payment_money_actual').html(Utils.roundNumber(total_paymoney-money-coupon_value,2));
+				$('#actual_paymoney').val(Utils.roundNumber(total_paymoney-money-coupon_value,2));
+			}
+			else{
+				$('#payment_money_actual').html('0.00');
+			}
+		}
+	}
+	/**
+	**验证
+	**/
+	function validate()
+	{
+		var actual_paymoney = parseFloat($('#actual_paymoney').val());
+		var user_money = parseFloat($('#user_money').val());
+		var user_jpymoney = parseFloat($('#user_jpymoney').val());
+		var user_subsidiarymoney = parseFloat($('#user_subsidiarymoney').val());
+		var exchageRate = parseFloat($('#exchageRate').val());
+		
+		var user_total_money=user_money+user_subsidiarymoney+user_jpymoney / exchageRate;
+		if(user_total_money<actual_paymoney)
+		{
+			alert(user_nomoney);
+			return false;
+		}
+		return true;
+	}
+	</script>
+ {/literal}

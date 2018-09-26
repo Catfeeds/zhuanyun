@@ -1,0 +1,230 @@
+<?php /* Smarty version 2.6.26, created on 2018-09-09 08:23:15
+         compiled from fee_query.htm */ ?>
+<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "header-top.htm", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "header.htm", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+<?php echo '
+<style type="text/css">
+.func-title{
+    margin: 20px 0 ;
+    display:flex;
+    line-height: 40px;
+}
+.func-title div:first-child {
+    font-size:20px;
+
+    font-size: 20px;
+    color: #E40025;
+    padding-right: 30px;
+
+}
+.func-title div:nth-child(2) {
+    font-size: 16px;
+    color: #666;
+}
+.sevice {
+    border: 1px solid #9BB9FF;
+    border-radius: 6px;
+    padding: 20px 0px 20px 0px;
+}
+select {
+    height: 34px;
+    border: 1px #ccc solid;
+    border-radius: 4px;
+    width: 200px;
+}
+.sevice .act_inp {
+    height: 34px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding-left: 5px;
+}
+.sevice button {
+    font-size: 16px;
+    background: #E00024;
+    color: #fff;
+    border: 1px solid #E00024;
+    border-radius: 3px;
+    padding: 7px 24px;
+}
+.point {
+    margin: auto;
+    width: 80%;
+}
+.d_note {
+
+    width: 200px;
+    height: 25px;
+   display: none;
+    color:#E00024;
+    text-align: center;
+    margin: 0 auto;
+    margin-top:20px;
+}
+.new_counter {
+    width: 100%;
+
+}
+.new_counter th, .new_counter td {
+    border: 1px solid #B7C1C5;
+    padding: 12px;
+}
+.new_counter th, .new_counter td {
+    border: 1px solid #B7C1C5;
+    padding: 12px;
+}
+.new_counter th {
+    font-weight: bold;
+}
+</style>
+'; ?>
+
+<div id="header_line"></div>
+<div id="huicontent">
+<div class="container ">
+    <div class="func-title">
+        <div>运费计算器</div><div>让你一次查询所有配送方式的费用(<span style="color:red">默认发货城市: 上海</span>)</div>
+    </div>
+    <div class="sevice">
+        <div style="text-align: center;">
+            <label>配送到国家: </label>
+            <select class="country" id="da_country" style="width: 135px;">
+                <option value='0'>选择国家</option>
+                <?php echo $this->_tpl_vars['area_country_option']; ?>
+
+            </select>
+            <!--<label style="padding-left: 25px;">使用线路: </label>-->
+            <!--<select class="diqu" style="width: 135px;">-->
+                <!--<option style="font-size: 14px;">中国（China）</option>-->
+            <!--</select>-->
+            <label style="padding-left: 25px;">货物重量:</label>
+            <input style="line-height: normal;width:135px; " class="package-weight act_inp" type="number" value="<?php echo $this->_tpl_vars['weight']; ?>
+" id="weight">
+            <label style="margin-left: 8px;">g</label>
+            <span class="new_note">
+                <span style="color:#E40025">*</span>
+                <span style="color:#E40025">1,000g=1千克</span>
+            </span>
+        </div>
+        <div style="text-align: center;margin-top: 15px;">
+            <button   onclick="get_freight()">试算</button>
+            <span class="b_note">
+                <div class="d_note">
+                    <i class="icon-caret-left"></i><div class="c_note">请输入正确的'配送到国家','重量'</div>
+                </div>
+            </span>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="text-center point" style="margin: 15px 0">
+        <p style="font-size: 16px;color: #666;"><label style="color:#E00024 ">下表运费为预估运费，仅供参考，不包含增值服务费、保险费，实际运费以订单打包完为准。</label> </p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12" style="min-height: 500px">
+            <table class=" new_counter" cellpadding="1">
+                <tbody><tr>
+                    <th  width="100">目的地国家</th>
+                    <th  width="80">线路</th>
+
+
+                    <th width="80">运费(人民币)</th>
+                    <th  width="80">预计时效</th>
+                    <th>线路说明</th>
+
+                </tr>
+                </tbody>
+                <tbody class="new_counter_info">
+                    <tr>
+                        <td colspan="5"  >暂无数据</td>
+                    </tr>
+                    </tbody>
+                    </table>
+            <p style="margin-top: 30px;padding: 0;"><a style="font-size: 14px;" href="index.php?act=shipping_restrictions">*详细信息请咨询客服</a></p>
+            <p style="margin-bottom: 100px;padding: 0;"><a style="font-size: 14px;" href="index.php?act=service_countries">*价格仅供参考</a></p>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "footer.htm", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+<script>
+var shipments = <?php echo $this->_tpl_vars['allShipment']; ?>
+;
+</script>
+<?php echo '
+<script>
+
+function get_freight() {
+    var countryId = $(\'#da_country\').val();
+    var countryName = $(\'#da_country\').find("option:selected").text();
+
+    var weight = parseInt($(\'#weight\').val());
+    if(!countryId || !weight) {
+        $(\'.d_note\').show();
+        return false;
+    } else {
+        $(\'.d_note\').hide();
+    }
+
+    $.post("/fee_query.php?act=query", {
+        weight:weight,
+        country : countryId,
+    }, function(result) {
+        var data = result.data;
+        var html = "";
+        for(var i in data) {
+            html+="<tr>\\
+                    <td>\\
+                    "+countryName+"\\
+                    </td>\\ \\
+                    <td>\\
+                    "+data[i].shipment_name+"\\
+                    </td>\\
+                    <td  style=\'color:red\'>\\
+                    "+data[i].price.toFixed(2)+" 元\\
+                    </td>\\
+                    <td>\\
+                    "+shipments[i].min_day+"天 -  "+shipments[i].max_day+" 天\\
+                    </td>\\
+                    <td  >\\
+                    " +shipments[i].description+"\\
+                    </td>\\
+                    </tr>\\
+                    ";
+
+        }
+        $(\'.new_counter_info\').html(html);
+    }, \'json\');
+}
+$(function () {
+    function getUrlParam(e) {
+        var t = new RegExp("(^|&)" + e + "=([^&]*)(&|$)"),
+            i = window.location.search.substr(1).match(t);
+        return null != i ? unescape(i[2]) : null
+    }
+    var urlWeight = parseInt(getUrlParam(\'weight\'));
+    $(\'#weight\').val(urlWeight);
+    if(urlWeight) {
+        $(\'#da_country\').val(1);
+        get_freight();
+    }
+});
+</script>
+'; ?>
+
+</body>
+</html>

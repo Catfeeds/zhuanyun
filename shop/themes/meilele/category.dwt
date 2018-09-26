@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<title>{$page_title}</title>
+<link rel="stylesheet" href="themes/meilele/css/mll_common.min.css" />
+<link href="themes/meilele/css/category_wide.min.css?1128" rel="stylesheet" type="text/css"/>
+<script src="themes/meilele/js/jq.js?1119"></script>
+<script src="themes/meilele/js/jquery.json.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">(function(){var screenWidth=window.screen.width;if(screenWidth>=1280){document.body.className='root_body';window.isWideScreen = true;window.LOAD = true;}else{window.LOAD = false;}})()</script>
+
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem --> 
+
+<div class="w clearfix mt10">
+  <div class="cat_r">
+    <div class="position">
+      <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem --> </div>
+      <!-- #BeginLibraryItem "/library/goods_hot.lbi" --><!-- #EndLibraryItem -->
+	<!--{if $brands.1 || $price_grade.1 || $filter_attr_list}-->
+    <div class="filter">
+      <script type="text/javascript">
+				var _fliterShowNum = 3;
+				var _fliterShowCount = 4;
+			</script>
+      <table class="filter_table" id="JS_fliterTable">
+	  <!--{if $brands.1}-->
+        <tr class="list">
+          <td class="lable">{$lang.brand}：</td>
+          <td class="value">
+		  <!--{foreach from=$brands item=brand}-->
+		  <a href='{$brand.url}' class="{if $brand.selected}current{/if}">{$brand.brand_name}<span></span></a> 
+		  <!--{/foreach}--> 
+		  </td>
+        </tr>
+      <!--{/if}-->  
+	  <!--{if $price_grade.1}-->
+        <tr class="list">
+          <td class="lable">{$lang.price}：</td>
+          <td class="value">
+		  <!--{foreach from=$price_grade item=grade}-->
+		  <a href='{$grade.url}' class="{if $grade.selected}current{/if}">{$grade.price_range}<span></span></a> 
+		  <!--{/foreach}--> 
+		  </td>
+        </tr>
+      <!--{/if}-->
+	  <!--{foreach from=$filter_attr_list item=filter_attr}-->
+        <tr class="list">
+          <td class="lable">{$filter_attr.filter_attr_name|escape:html}：</td>
+          <td class="value">
+		  <!--{foreach from=$filter_attr.attr_list item=attr}-->
+		  <a href='{$attr.url}' class="{if $attr.selected}current{/if}">{$attr.attr_value}<span></span></a> 
+		  <!--{/foreach}--> 
+		  </td>
+        </tr>
+      <!--{/foreach}-->
+
+      </table>
+    </div>
+	<!-- {/if} -->
+	<!-- {if $goods_list} -->
+    <div class="toggle">
+      <div class="bar"></div>
+      <div class="c">
+        <div id="JS_exp_fliter" class="nav_box clearfix">
+          <div class="nav nav_left Left"></div>
+          <div class="nav nav_content Left" id="JS_exp_fliter_text" data-show-text="更多选项<span class='nav_more_opt'></span>">更多选项<span class="nav_more_opt"></span></div>
+          <div class="nav nav_right Left"></div>
+        </div>
+      </div>
+    </div>
+	<!--{/if}-->
+    <!-- #BeginLibraryItem "/library/goods_list.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/pages2.lbi" --><!-- #EndLibraryItem -->
+  </div>
+  <div class="cat_l">
+    <script type="text/javascript">
+			var _currentCat = '0';
+		</script>
+    <div class="category">
+      <div class="cate_title">所有分类</div>
+	  <!--{foreach from=get_categories_tree() item=cat name=cat_tree}-->
+      <div class="category_title" onclick="toggleCatgory1({$smarty.foreach.cat_tree.index});return false;"><a class="" href="{$cat.url}" id="JS_category_title_{$smarty.foreach.cat_tree.index}" onclick="return false;">{$cat.name|escape:html}</a><span class="icon2" id="JS_category_icon2_{$smarty.foreach.cat_tree.index}">{if $cat.id eq $top_id}-{else}+{/if}</span></div>
+      <div id="JS_category_body_{$smarty.foreach.cat_tree.index}" class="category_body {if $cat.id neq $top_id}none{/if}">
+	  <!--{foreach from=$cat.cat_id item=child name=cat_cat_id}-->	
+        <dl class="wofang {if $smarty.foreach.cat_cat_id.iteration eq 1}first{/if}">
+          <dt><b class="{if $child.id eq $p_id || $child.id eq $category}current{/if}" onclick="toggleCatgory2(this);return false;">{if $child.id eq $p_id || $child.id eq $category}−{else}+{/if}</b><a href="{$child.url}" title="{$child.name|escape:html}">{$child.name|escape:html}</a></dt>
+          <dd class="{if $child.id eq $p_id || $child.id eq $category}{else}none{/if}"> <!--{foreach from=$child.cat_id item=childer}--><span><a {if $childer.id eq $category}class="current"{/if} href="{if $childer.id eq $category}{$child.url}{else}{$childer.url}{/if}">{$childer.name|escape:html}</a></span><!--{/foreach}--> </dd>
+        </dl>
+	   <!--{/foreach}-->	
+        
+      </div>
+	  <!--{/foreach}-->
+      
+    </div>
+    
+    
+	<div class="ranking mt10">
+  <div class="title_1"><span class="icon"></span><span class="zh">本月热卖排行榜</span></div>
+  <div class="rankbody">
+  <!--{foreach from=get_cat_hot_goods_5(0) item=goods_item name=best_goods}-->
+    <div id="JS_left_rank_{$smarty.foreach.best_goods.index}" class="list {if $smarty.foreach.best_goods.iteration eq 1}first{/if} {if $smarty.foreach.best_goods.last}current{/if}" onmouseover="setRankCurrent({$smarty.foreach.best_goods.index});">
+      <div class="titles"><span class="icon icon1">{$smarty.foreach.best_goods.iteration}</span><span style="width: auto;" class="name"><a href="{$goods_item.url}" title="{$goods_item.name|escape:html}" target="_blank">{$goods_item.short_name|truncate:8:"...":true}</a></span><span class="price yen red"><!-- {if $goods_item.promote_price neq ""} -->{$goods_item.promote_price}<!-- {else}-->{$goods_item.shop_price}<!--{/if}--></span></div>
+      <div class="extra">
+        <div class="img c"><a href="{$goods_item.url}" title="{$goods_item.name|escape:html}" target="_blank"><img data-src="{$goods_item.thumb}" src="{$goods_item.thumb}" alt="{$goods_item.name|escape:html}" height="160" width="160" style="padding:2px; border:solid 1px #e3e3e3; background:#fff"></a></div>
+        <div class="info c"> 本站价：<span class="red yen"><!-- {if $goods_item.promote_price neq ""} -->{$goods_item.promote_price}<!-- {else}-->{$goods_item.shop_price}<!--{/if}--></span> <span class="gray">销量：</span><span class="orange"><!--{foreach from=get_goods_ex($GLOBALS['smarty']->_var['goods_item']['id']) item=goods_data name=get_goods_ex}--><!-- {if $smarty.foreach.get_goods_ex.iteration eq 1}-->{$goods_data.total_sells}<!-- {/if} --><!--{/foreach}--></span> </div>
+      </div>
+    </div>
+	<!--{/foreach}--> 
+    
+  </div>
+</div>
+<script>
+var _currentRankId = 0;
+function setRankCurrent(j) {
+	if (!j) {
+		j = 0;
+	}
+	if (j == _currentRankId) {
+		return;
+	}
+	var h = $("#JS_left_rank_" + j);
+	var i = $("#JS_left_rank_" + _currentRankId);
+	if (h && i) {
+		var c = h.find("span").eq(1);
+		var g = i.find("span").eq(1);
+		if (c && g) {
+			var b = c.find("a").eq(0);
+			var e = g.find("a").eq(0);
+			if (b && e) {
+				
+			}
+		}
+		h.addClass("current");
+		i.removeClass("current");
+		_currentRankId = j;
+	}
+}
+</script>
+
+	
+    <div class="comment mt10">
+      <div class="title_1"><span class="icon"></span><span class="zh">本月新品</span></div>
+      <!--{foreach from=get_cat_new_goods_10(0) item=goods_item name=best_goods}-->
+      <div class="list clearfix {if $smarty.foreach.best_goods.iteration eq 1}first{/if}{if $smarty.foreach.best_goods.last}last{/if}">
+        <div class="Left"><a href="{$goods_item.url}" title="{$goods_item.name|escape:html}" target="_blank"><img width="70" height="70" src="{$goods_item.thumb}"  alt="{$goods_item.name|escape:html}" /></a></div>
+        <div class="Right"> <a href="{$goods_item.url}" title="{$goods_item.name|escape:html}" target="_blank">{$goods_item.short_name|escape:html}</a>
+          <p class="gray">本站价：<span class="red yen"></span><span class="red JS_show_price_ajax" data-goods_id=""><!-- {if $goods_item.promote_price neq ""} -->{$goods_item.promote_price}<!-- {else}-->{$goods_item.shop_price}<!--{/if}--></span></p>
+        </div>
+      </div>
+     <!--{/foreach}--> 
+    </div>
+	
+	
+    <div class="mt10" id="JS_adimg_rand"></div>
+  </div>
+</div>
+
+<!-- #BeginLibraryItem "/library/goods_history.lbi" --><!-- #EndLibraryItem -->
+<script type="text/javascript">
+var _fixture_url = [];
+
+var _fixture_bbs=[];
+</script>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+
+
+
+
+<script src="themes/meilele/js/back_to_top.min.js?1127"></script>
+<script src="themes/meilele/js/category_wide_b.min.js?1127"></script>
+<script type="text/javascript">
+
+var CG = CG || {};
+	CG.priceUrl = '';
+	var _basic_url = '';
+
+	CG.cat_id = 268;
+	new TabMouseover('JS_fixture_tag','fixture_show',0);
+
+</script>
+<script type="text/javascript">
+(function(){
+	$('#JS_more_link_g_new').click(function(){
+		var item =$(this),span=$('#JS_more'),arrow=$('#JS_more_arrow'),show_div=$('#JS_show_more');
+		if( item.data('link') == 'more'){
+			item.data('link','reduce');
+			span.html('收起');
+			arrow[0].className="arrow_up";
+			show_div.show();
+		}else{
+			item.data('link','more');
+			span.html('更多');
+			arrow[0].className="arrow_down";
+			show_div.hide();
+		}
+	});
+
+var select_div=$('#JS_new_pro_select');
+	$('#JS_new_select').mouseenter(function(){
+		select_div.show();
+	}).mouseleave(function(){
+		select_div.hide();
+	});
+})();
+
+</script>
+<script type="text/javascript" src="themes/meilele/js/viewHistory.min.js?0917"></script>
+
+
+
+</body>
+</html>
+
+

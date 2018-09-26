@@ -1,0 +1,77 @@
+
+ {literal}
+ <script type="text/javascript">
+     $(function(){
+         var $lis=$(".checked li");
+         $lis.click(function(){
+             $(this).addClass("current").siblings().removeClass("current");
+             var index=$lis.index(this);
+             $("#contents div").eq(index).show().siblings().hide();
+         })
+     })
+ </script>
+ {/literal}
+ {include file="header_user.htm"}
+ 
+   <!--conter-->
+    <div class="conter">
+	 <div class="member_sub">
+	   {include file="member_menu.htm"}
+	    <div class="conter_right">
+			<!--<div class="cr_top">{$lang.position}：{$ur_here}</div>-->
+			   <div class="cr_bot">
+				   <h2>交易详细</h2>
+				   <div class="cost myacc">
+					  <div class="cr_bot">
+						<div id="contents">
+						<table cellspacing="10px;">
+						   <tr>
+							 <td>操作时间:</td>
+							 <td>{$account.change_time}</td>
+						   </tr>
+						   <tr>
+							 <td>确认时间:</td>
+							 <td>{$account.change_time}</td>
+						   </tr>
+							<tr>
+							 <td>类型:</td>
+							 <td>{if $account.change_type==0 || $account.user_money>0}
+									充值
+									{else}
+												{if $account.change_type==1}
+											提现
+											{else}
+											订单扣款
+											{/if}
+									{/if}</td>
+						   </tr>
+							<tr>
+							 <td>金额:</td>
+							 <td>{$account.user_money}</td>
+						   </tr>
+						   <tr>
+							 <td>会员描述:</td>
+							 <td>
+								{$account.change_desc}
+							 </td>
+						   </tr>
+						   <tr>
+							 <td>管理员备注:</td>
+							 <td>
+								{$account.change_desc}
+							 </td>
+						   </tr>
+						</table>
+						</div>
+					   </div>
+					 </div>
+				   </div>
+				</div>
+				<div class="clear"></div>
+			</div>
+	    </div>
+  <!--footer-->
+   {include file="footer_user.htm"}
+  <!--/footer-->
+ </body>
+ </html>

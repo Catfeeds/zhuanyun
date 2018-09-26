@@ -1,0 +1,289 @@
+{include file="header_user.htm"}
+ <style type="text/css">
+	 {literal}
+	 .package-status li {
+		 display: none;
+	 }
+	 {/literal}
+ </style>
+   <!--conter-->
+<div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	        <div class="member_sub">
+
+			    <div class="cr_top">
+		 			<h2>预报详细<span>我的包裹</span></h2>
+				</div>
+				 <div class="member_stock pl10">
+				  
+				    
+				    <center>
+					    <table class="order_detail" style="margin-bottom:2px;">
+							<tr>
+								<th>{$lang.pck_id}</th>
+								<th>登记时间</th>
+								<th>包裹状态 </th>
+							</tr>
+							<tbody>
+								<tr>
+								<td>{$package.pck_id}</td>
+								<td>{$package.pck_intime}</td>
+									<td style="height:50px">
+										<ul class="checked package-status" style="    text-align: center;
+    display: inline-block;margin-top:0">
+											<li><div class="tb_kong">&nbsp;</div></li>
+											<li id="packagestatus0"
+												{if $package.pck_packagestatus==0} style="display: block" {/if}
+											><a href="javascript:;">入库途中</a></li>
+											<li id="packagestatus1"
+												{if $package.pck_packagestatus==1} style="display: block" {/if}
+											><a href="javascript:;">已入库</a></li>
+											<li id="packagestatus2"
+												{if $package.pck_packagestatus==2} style="display: block" {/if}
+											><a href="javascript:;">未处理</a></li>
+											<li id="packagestatus3"
+												{if $package.pck_packagestatus==3} style="display: block" {/if}
+											><a href="javascript:;">打包中</a></li>
+											<li id="packagestatus4"
+												{if $package.pck_packagestatus==4} style="display: block" {/if}
+											><a href="javascript:;">等待发出</a></li>
+											<li id="packagestatus5"
+												{if $package.pck_packagestatus==5} style="display: block" {/if}
+											><a href="javascript:;">已发出</a></li>
+											<li id="packagestatus6"
+												{if $package.pck_packagestatus==6} style="display: block" {/if}
+											><a href="javascript:;">历史预报</a></li>
+											<li id="packagestatus7"
+												{if $package.pck_packagestatus==7} style="display: block" {/if}
+											><a href="javascript:;">问题件</a></li>
+											<!--<li id="packagestatus8" ><a href="#">问题件</a></li>-->
+										</ul>
+
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<table class="order_detail" style="margin-bottom:2px;">
+							<tr>
+
+								<th>{$lang.pck_ordernumber}</th>
+								<th>包裹单号</th>
+								<th>{$lang.pck_warehouseid}</th>
+								<th>{$lang.pck_userremark}</th>
+							</tr>
+							<tbody>
+								<tr>
+
+								<td>{$package.order_no}</td>
+								<td>{$package.pck_expressnumber}</td>
+								<td>{$package.HouseName}</td>
+								<td>{$package.pck_userremark}</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="order_detail" style="margin-bottom:2px;">
+							<tr><th colspan="4" >{$lang.pck_goods}</th></tr>
+							<tr>
+								<th>{$lang.pckg_name}</th>
+								<th>{$lang.pckg_amount}</th>
+								<th>{$lang.pckg_unitprice} (元)</th>
+								<th>{$lang.pckg_totalprice} (元)</th>
+							</tr>
+							<tbody>
+								{foreach from = $packagegoods_list item=packagegoods name="name_packagegoods"}
+								<tr>
+									<td>{$packagegoods.pckg_name}</td>
+									<td>{$packagegoods.pckg_amount}</td>
+									<td>{$packagegoods.pckg_unitprice}</td>
+									<td>{$packagegoods.pckg_totalprice}</td>
+								</tr>
+						        {/foreach}
+							</tbody>
+						</table>
+					    <table class="order_detail" style="margin-bottom:2px;">
+							<tr>
+								<th>{$lang.pck_adminremark}</th>
+
+							</tr>
+							<tbody>
+								<tr>
+									<td><span id="checkresult">{$package.pck_adminremark}</span></td>
+
+								</tr>
+							</tbody>
+						</table>
+						<table class="order_detail" style="margin-bottom:2px;">
+							<tr>
+								<th>{$lang.pck_weight}</th>
+								<th>{$lang.pck_asses}  (元)</th>
+								<th>{$lang.pck_size} mm³</th>
+							</tr>
+							<tbody>
+								<tr>
+									<td>{$package.pck_weight} {$package.WeightUnit}</td>
+									<td>{$package.Symbol}{$package.pck_assess}</td>
+									<td>{$package.pck_sizelength}*{$package.pck_sizewidth}*{$package.pck_sizeheight}</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="order_detail" style="margin-bottom:2px;">
+							<tr>
+								<th colspan="2">{$lang.pck_service}</th>
+							</tr>
+							<tr>
+								<th style="width:200px;">{$lang.pck_service}</th>
+								<th>{$lang.pck_service_des}</th>
+							</tr>
+							{foreach from=$package_service_list item=package_service name="name_package_service"}
+								<tr>
+									<td>{$package_service.ServiceName}</td>
+									<td><span class="span_des">{$package_service.Description}</span></td>
+								</tr>
+							{/foreach}
+						</table>
+
+						<table class="order_detail" style="margin-bottom:2px;">
+							<tr>
+								<th colspan="2">购物凭证</th>
+							</tr>
+							<tr>
+								<td>
+							{foreach from = $shoppingvouchers_list item=shoppingvouchers name="name_shoppingvouchers"}
+								<A href="{$shoppingvouchers.psv_vouchersvalue}" target="_blank">
+									<IMG src="{$shoppingvouchers.psv_vouchersvalue}" width="150px" height="100px">
+								</A>
+			    			{/foreach}
+								</td>
+							</tr>
+						</table>
+						{if count($packageattachs)>0}
+						<table class="order_detail" style="margin-bottom:2px;">
+							<tr>
+								<th colspan="2">附件</th>
+							</tr>
+							<tr>
+								<td>
+							{foreach from = $packageattachs item=attach name="name_attach"}
+			    				<a target="_blank" href="{$attach.pa_attach}">
+									<img src="{$attach.pa_attach}" style="width:60px;height:60px;" title="{$lang.pck_attach_mastermap}"></img>
+			    				</a>
+			    			{/foreach}
+								</td>
+							</tr>
+						</table>
+						{/if}
+						<!--
+					    	<table  border="0" cellspacing="1" cellpadding="0">
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_id}：</td>
+									<td class="tr_left">{$package.pck_id}</td>
+								</tr>
+					    		{if $package.pck_packagestatus gt 0 && $package.pck_packagestatus lt 6}
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_ordernumber}：</td>
+									<td class="tr_left">{$package.order_no}</td>
+								</tr>
+					    		{/if}
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_warehouseid}：</td>
+									<td class="tr_left">{$package.HouseName}</td>
+								</tr>
+					    		<tr><td class="tr_right">{$lang.pck_goods}：</td>
+					    			<td class="tr_left">
+					    				<table style="font-weight:bold;">
+						            	{foreach from = $packagegoods_list item=packagegoods name="name_packagegoods"}
+						            	<tr>
+						            		<td>
+						            			{$lang.pckg_name}：{$packagegoods.pckg_name}
+						            		    {$lang.pckg_amount}：{$packagegoods.pckg_amount}
+						            		    {$lang.pckg_unitprice}：{$packagegoods.pckg_unitprice}
+						            		    {$lang.pckg_totalprice}：{$packagegoods.pckg_totalprice}
+											</td>
+						            	</tr>
+						            	{/foreach}
+					    				</table>
+					    			</td>
+					    		</tr>
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_userremark}：</td>
+									<td class="tr_left">{$package.pck_userremark}</td>
+								</tr>
+					    		<tr>
+					    			<td class="tr_right">
+					    				{$lang.pck_adminremark}：
+					    			</td>
+					    			<td  class="tr_left">
+					    				<span id="checkresult">{$package.pck_adminremark}</span>
+					    			</td>
+					    		</tr>
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_weight}：</td>
+									<td class="tr_left">{$package.pck_weight} {$package.WeightUnit}</td>
+								</tr>
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_asses}：</td>
+									<td class="tr_left">{$package.Symbol}{$package.pck_assess}</td>
+								</tr>
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_size}：</td>
+									<td class="tr_left">{$package.pck_sizelength}*{$package.pck_sizewidth}*{$package.pck_sizeheight}</td>
+								</tr>		    		
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_service}：</td>
+					    			<td class="tr_left">
+						    			<ul>
+											{foreach from=$package_service_list item=package_service name="name_package_service"}
+											<li>{$package_service.ServiceName} <span class="span_des">{$package_service.Description}</span></li>
+											{/foreach}
+										</ul>
+									</td>
+					    		</tr>
+					    		<tr>
+					    			<td class="tr_right">{$lang.pck_attach}：</td>
+					    			<td style="text-align:center; font-size:16px; font-family:微软雅黑;">
+					    			{foreach from = $packageattachs item=attach name="name_attach"}
+					    				<a target="_blank" href="{$attach.pa_attach}">
+					    					<img src="{$attach.pa_attach}" style="width:60px;height:60px;" title="{$lang.pck_attach_mastermap}"></img>
+					    				</a>
+					    			{/foreach}
+					    			</td>
+					    		</tr>
+					    	</table>
+					    	 -->
+					    	</center>
+				    
+					<div class="clear"></div>
+				  
+				 </div>
+		    </div>
+	   </div>
+	   <div class="clear"></div>
+	</div>
+</div>
+  <!--footer-->
+ {include file="footer.htm"}
+  <!--/footer-->
+ </body>
+ </html>
+ <script type="text/javascript">
+{literal}
+   var htmlContent = $('#checkresult').html();
+   var img='';
+   var text='';
+   text = htmlContent.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/gi, function (match,capture) {
+	   match = match.replace('>',' width="100px" height="100px" >');
+	   match = match.replace('alt=""','alt="点击查看原图"')
+	   img+="<a target='_blank' href='"+capture+"'>"+match+"</a>";
+	});
+   text = "</br>"+text.replace(/undefined/ig,'');
+   $('#checkresult').html(img+text);
+   /*
+   var data = htmlContent.replace(/<img.*>.*<\/img>/ig,"");   //过滤如<img></img>形式的图片元素
+   data = data.replace(/<img.*\/>/ig, "");   //过滤如<img />形式的元素
+   data = data.replace(/<img.*>/ig, "");   //过滤如<img >形式的元素
+   */
+{/literal}
+</script>

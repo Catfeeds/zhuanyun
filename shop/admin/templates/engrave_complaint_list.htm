@@ -1,0 +1,101 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+<!-- Ͷ������ -->
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start cmp list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('cmp_id'); ">{$lang.cmp_id}</a>{$sort_cmp_id}
+    </th>
+    <th><a href="javascript:listTable.sort('cmp_title'); ">{$lang.cmp_title}</a>{$sort_cmp_title}</th>
+    <th><a href="javascript:listTable.sort('cmp_expressnumber'); ">{$lang.cmp_expressnumber}</a>{$sort_cmp_expressnumber}</th>
+    <th><a href="javascript:listTable.sort('cmp_orderno'); ">{$lang.cmp_orderno}</a>{$sort_cmp_orderno}</th>
+    <th><a href="javascript:listTable.sort('cmp_deliverynumber'); ">{$lang.cmp_deliverynumber}</a>{$sort_cmp_deliverynumber}</th>
+    <th><a href="javascript:listTable.sort('cmp_username'); ">{$lang.cmp_username}</a>{$sort_cmp_username}</th>
+    <th>状态</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$cmp_list item=cmp name='name_cmp'}
+  <tr>
+    <td style="width:50px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$cmp.cmp_id}" />{$cmp.cmp_id}
+    </td>
+    <td>
+    	{$cmp.cmp_title}
+    </td>
+    <td>
+    	{$cmp.cmp_expressnumber}
+    </td>
+    <td>
+    	{$cmp.cmp_orderno}
+    </td>
+    <td>
+    	{$cmp.cmp_deliverynumber}
+    </td>
+    <td>
+    	{$cmp.user_name}
+    </td>
+    <td align="center">
+      {if $cmp.reply_status eq 0}<span style="color:black;">未回复</span>
+      {else}<span style="color:green;">已回复</span>
+      {/if}
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_complaint.php?act=reply&cmp_id={$cmp.cmp_id}" title="{$lang.reply}"><img src="images/icon_reply.png" width="16" height="16" border="0" /></a>
+      <a href="engrave_complaint.php?act=view&cmp_id={$cmp.cmp_id}" title="{$lang.view}"><img src="images/icon_view.png" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$cmp.cmp_id}, '{$lang.trash_cmp_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" width="16" height="16" border="0" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end cmp list -->
+
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+  /**
+   * @param: bool ext 
+   */
+  function confirmSubmit(frm, ext)
+  {
+      
+  }
+
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

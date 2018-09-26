@@ -1,0 +1,679 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+{literal}
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<script type="text/javascript" src="themes/default/js/logisticssystem/member_ordersubmit.js"></script>
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+<script type="text/javascript">	
+if(document.all) 
+{ 
+	window.attachEvent('onload', load); 
+}
+else 
+{ 
+	window.addEventListener('load', load);
+}
+
+/**
+ * 初始化加载
+ */
+function load()
+{
+	//获得当前用户的金额
+	Ajax.call( 'member.php?act=getcurrentbalance', '', currentbalance_callback , 'GET', 'TEXT', true, true );
+}
+function currentbalance_callback(result)
+{
+	var current_balance = document.getElementById('current_balance');
+	if (result != 0) {
+		current_balance.innerHTML = formatNumber(result);
+		document.getElementById('userMoney').value = roundNumber(result,2);
+	}
+}
+</script>
+{/literal}
+ </head>
+ <body>
+ {include file="header.htm"}
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	  {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+		 <div class="member_sub">
+		 <div class="member_right">
+		   <form enctype="multipart/form-data" action="member.php?act={$act}" method="post" name="theForm" onsubmit="return validate();">
+		   	 <div class="div_step_des">
+   				<span class="span_required">提示：</span>
+   			 </div>
+   			  <div class="div_step_des">
+   				<span class="span_required">提交发货前，请先维护好收货地址，避免重填单据！</span>
+   			 </div>
+   			 <div class="div_step_des">
+   				<span class="span_step">第一步：选择仓库</span>
+   			 </div>
+   			 <table>
+   				<tr>
+		     		<td class="tb_left">请选择仓库：</td>
+		     		<td>
+		     			<select id="pck_warehouseid" name="pck_warehouseid" onchange="select_warehouse(this.options[this.options.selectedIndex].value)">
+				 			<option value='0'>{$lang.select_warehouse}</option>
+				 			{$warehouse_list}
+			 			</select>
+			 			<span class="span_des">选择货物所在仓库，一个运单只能选择一个仓库内货物提交！</span>
+			 			<span id="housewarn" class="span_control"></span>
+			 		</td>
+		     	</tr>
+		     	<tr>
+		    		<td style="vertical-align:top;padding-top:5px;" id="datd" style="display:none;">
+		    			<span class="tb_left" style="padding:4px 0px 3px 18px; ">预报运单（勾选）：</span>
+		    		</td>
+					<td>
+						<ul id="warehouse_goods" class="class_ul" style="display:none;">
+						</ul>
+					</td>
+		    	</tr>
+		     </table>
+   			 <div class="div_step_des">
+   				<span class="span_step">第二步：填写货相关信息</span>
+   			 </div>
+   			 <table>
+   				<tr>
+		     		<td class="tb_left">线路选择：</td>
+		     		<td>
+		     			<select id="shipping" name="shipping" onchange="select_shipping(this.options[this.options.selectedIndex].value)">
+			    			<option value=0>请选择线路</option>
+			    		</select>
+			 		</td>
+		     	</tr>
+		     	<tr>
+                       <td></td>
+					<td>
+						<ul>
+						  <li id="shippingweight" style="line-height:20px; margin-left:100px; color:red; display:none;">该线路支持每箱最大重量：10LBS，超重将无法提交！
+						   
+						  </li>
+						  <li style="line-height:20px; color:red; display:none;">请选择运输方式！</li>
+						</ul>
+					</td>
+		    	</tr>
+   				<tr>
+		     		<td class="tb_left" style="height:30px;">操作要求：</td>
+		     		<td>
+	     			  <p style="
+    width: 600px;
+">
+		     			<input type="radio" name="service" id="baseservice" onclick="showservice(0);" checked="checked" value="0" />
+		     			<label for="baseservice">不需合箱</label>
+		     			<input type="radio" id="moreservice" onclick="showservice(1);" name="service" value="1" />
+		     			<label for="moreservice">需要分箱</label>
+						<input class="checkbox" type="checkbox" name="AService" id="AService" onclick="showboxNumber0(this);" disabled="false" value="3" />
+						<label for="AService">A.合箱服务</label>
+						<input type="checkbox" class="checkbox" name="BService" id="BService" onclick="showboxNumber1(this);" disabled="false" value="2" />
+						<label for="BService">B.分箱服务</label>
+						分箱数量：	
+		                <select id="boxNumber" name="boxNumber" onchange="SelectBoxNumber();" disabled="false" style="width:40px;height:20px;">
+		                  <option value=0>2</option>
+		                  <option value=1>3</option>
+		                  <option value=2>4</option>
+		                  <option value=3>5</option>
+		                  <option value=4>6</option>
+		                  <option value=5>7</option>
+		                  <option value=6>8</option>
+		                  <option value=7>9</option>
+		                  <option value=8>10</option>
+		                  <option value=9>11</option>
+		                  <option value=10>12</option>
+		                  <option value=11>13</option>
+		                  <option value=12>14</option>
+		                  <option value=13>15</option>
+		                  <option value=14>16</option>
+		                  <option value=15>17</option>
+		                  <option value=16>18</option>
+		                  <option value=17>19</option>
+		                  <option value=18>20</option>
+		                  </select>
+		     			</p></br>
+	     			  <p><p>
+		         <label>
+		         针对包裹您期望<input type="radio" name="RadioGroup1" value="单选" id="RadioGroup1_0" />
+		           价格优先</label>
+		         
+		         <label>
+		           <input type="radio" name="RadioGroup1" value="单选" id="RadioGroup1_1" />
+		           安全优先</label>
+		         <br />若物品无法合箱的情况 <input type="radio" name="RadioGroup1" value="单选" id="RadioGroup1_0" />
+		           请先联系我</label>
+		         
+		         <label>
+		           <input type="radio" name="RadioGroup1" value="单选" id="RadioGroup1_1" />
+		           不需联系我</label>
+                 
+	           </p></p>
+			 		</td>
+		     	</tr>
+		     </table>
+		     <div id="detail_goods_info" style="display:none;">
+		       
+		     <table>
+		     	<tr>
+		     		<td class="tb_lefts" style="vertical-align: top;color:#FFA244;"><p>详细商品信息：</p></td>
+		     		<td id="table_goods">
+		     		
+		     		</td>
+		     	</tr>
+		     </table>
+		     </div>
+			<table>	
+		    	<tr>
+                    <td class="tb_lefts"><p>备注说明：</p></td>
+					<td>
+						<textarea name="description"></textarea>
+					</td>
+		    	</tr>
+		    	<tr>
+                    <td></td>
+					<td>
+						<ul>
+						  <li style="line-height:20px;"></li>
+						</ul>
+					</td>
+		    	</tr>
+		    	<tr>
+		    		<td class="tb_left">升级包装：</td>
+		    		<td>
+		    			需要加固的散件个数：
+						<select style="width:70px;" onchange="SelectUpgradePackage();" id="UpgradePackage" name="UpgradePackage">
+							<option value=0>请选择</option>
+							<option value=1>1</option>
+							<option value=2>2</option>
+							<option value=3>3</option>
+							<option value=4>4</option>
+							<option value=5>5</option>
+							<option value=6>6</option>
+							<option value=7>7</option>
+							<option value=8>8</option>
+							<option value=9>9</option>
+							<option value=10>10</option>
+							<option value=11>11</option>
+							<option value=12>12</option>
+							<option value=13>13</option>
+							<option value=14>14</option>
+							<option value=15>15</option>
+							<option value=16>16</option>
+							<option value=17>17</option>
+							<option value=18>18</option>
+							<option value=19>19</option>
+							<option value=20>20</option>
+						</select>
+						<p id="upgradepackage" style="float:right; margin-right:215px; display:none;"></p>
+		    		</td>
+		    	</tr>
+		    	<tr>
+                    <td></td>
+					<td>
+						<ul>
+						  <li style="line-height:20px; "><input style="margin-top:2px; vertical-align:middle;" id="oustsidebrane" name="oustsidebrane" onclick="OustSide_Click();" type="checkbox" value="1" />外箱缠绕膜 <p id="outsidecost" style="float:right; margin-right:342px; display:none;"></p></li>
+						  <li style="line-height:20px; color:red;"></li>
+						  <li style="line-height:20px; "><textarea name="addinformation"></textarea></li>
+						  <li style="line-height:20px; color:red;"></li>
+						</ul>
+					</td>
+		    	</tr>
+		    </table>
+			<div class="div_step_des">
+				<span class="span_step">第三步：选择增值服务</span>
+			</div>	
+			<div class="mdiv3">
+				<table class="order_detail">
+					<tr>
+						<th style="width:120px;">增值服务名称</th>
+						<th>增值服务描述</th>
+					</tr>
+					<tbody id="service_name">
+					</tbody>
+				</table>
+			</div>
+		  
+			<div class="div_step_des">
+				<span class="span_step">第四步：确认支付方式和条框</span>
+			</div>	
+		 	<div id="confirmpayment" style="display:none;">
+		     <table id="cal_info" style="border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 255); display: table; background-position: initial initial; background-repeat: initial initial;">
+                  <tbody>
+                  	<tr>
+                     <td valign="top" class="tb_left_detils">费用详细：</td>
+                     <td>
+                     	<ul id="costdetail">
+					</ul>
+                     </td>
+                   </tr>
+                   <tr>
+                     <td valign="top" class="tb_left_detils">支付选项：</td>
+                     <td>
+                        <ul class="pay_options">
+                         <li style="line-height:20px;"><a href="#this" onclick="changeClass();" id="points" class="pay_toggle">使用积分支付</a></li>
+                         <li id="payoptions" style="display:none;">
+                             <div class="option_item">
+                                 <div class="option_setting" id="option_setting">                                                                                                 
+                                                                                                                本次使用&nbsp;<input id="usePointstb" name="usePointstb" onkeyup="usepoints_Key();" size="5" type="text">&nbsp;个积分                                                                                                   
+                                     <input id="confirmPointsbtn" type="button" onclick="usepoints_Click();" class="combtn2" value="使用">
+                                     <div class="option_desc">
+                                     	您有{$pay_points}个积分，本次最多可用{$max_integral}个
+								  </div>
+                                 </div>
+                                 <div style="display:none;" id="option_result">
+									本次使用<a id="thispaypoints">0</a>点积分支付，折 {$currency_symbol}<strong id="currency_val">0.00</strong>{$currency_name}。 <a id="points_btn" onclick="points_Click();" class="cancelbtn">取消使用</a>
+                                 </div>
+                             </div>
+                         </li>
+                        </ul>
+                      </td>
+                   </tr>
+                   <tr>
+	                   <td colspan="2">
+	                   <table id="coupon_type" {if $payment_way eq '0'}style="display:none;"{/if}>
+	                   	<tr>
+	                   		<td class="tb_left_detils" style="width:135px;">{$lang.user_coupon}：</td>
+							<td>
+								<input type="text" id="coupon" name="coupon"></input>
+								<span style="color:red;">{$lang.user_coupon_des}</span>
+								<span id="coupon_desc"></span>
+								<input id="confirmCouponbtn" type="button" onclick="compute_coupon();" class="combtn2" value="使用">
+								&nbsp;&nbsp;<a id="coupon_btn" style="display:none;" onclick="coupon_Click();" class="cancelbtn">取消使用</a>
+							</td>
+	                   	</tr>
+	                   </table>
+	                   </td>
+                   </tr>		   
+                   <tr>
+                      <td valign="top" class="tb_left_detils">实际需支付：</td>
+                      <td>
+                         <ul>
+                           <li style="line-height:20px;">{$currency_symbol}<strong id="pay_moneny" name='pay_moneny'>0.00</strong>{$currency_name}</li>
+                           <li style="line-height:20px;">您当前余额：{$currency_symbol}<a id="current_balance">0.00</a>{$currency_name}</li>
+                           <input type="hidden" name="userMoney" id="userMoney" value="0.00">
+                           <li id="coupon_type_1" style="color:red;line-height:20px;">您的余额满足订单要求，请在确认无误后点击提交。</li>
+                           <li style="color:red;line-height:20px;">费用提示：运费只是根据提供的数据预估，以实际测量为主。</li>
+				      </ul>
+                      </td>
+                   </tr>
+                 </tbody>
+		    </table>
+		 	</div>
+			<table>	
+		    	<tr>
+                    <td class="tb_left" style="height:30px;">支付方式：</td>
+					<td>
+						<ul>
+						  <li style="line-height:20px;">
+							  <input type="radio" name="payment" id="payment_manual" value="1" onclick="change_payment()" {if $payment_way eq '0'}checked="checked"{/if}/>
+							  	<label for="payment_manual">手动确认支付&nbsp;</label>
+							  <input type="radio" name="payment" id="payment_auto" value="2" onclick="change_payment()" {if $payment_way eq '1'}checked="checked"{/if}/>
+							  	<label for="payment_auto">称重后自动结算&nbsp;（需有足够金额）</label>
+						  </li>
+						</ul>
+					</td>
+		    	</tr>
+		    	<tr>
+		    		<td class="tb_left" style="height:30px;">支付账户：</td>
+		    		<td>
+					  <input type="radio" name="user_account" id="user_money" value="2" checked="checked"/>
+					  	<label for="user_money">主账户<span class="span_required">（{$users.user_money}）（需有足够金额）</span></label>
+					  <input type="radio" name="user_account" id="user_jpymoney" value="1"/>
+					  	<label for="user_jpymoney">日元账户<span class="span_required">（{$users.user_jpymoney}）</span></label>
+					  <input type="radio" name="user_account" id="user_subsidiarymoney" value="3"/>
+					  	<label for="user_subsidiarymoney">副账户<span class="span_required">（{$users.user_subsidiarymoney}）</span></label>
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<td></td>
+		    		<td>
+		    			<span class="span_des">系统会默认先除扣选中的支付账户，如果选中的支付账户余额不足，则扣除主账户、副账户余额！</span>
+		    		</td>
+		    	</tr>
+		    	<tr>
+                    <td class="tb_lefts" valign="top"><p>同意条款：</p></td>
+					<td>
+						<ul>
+						  <li style="line-height:20px;">
+						  	<input id="clause" class="checkbox" type="checkbox" checked="checked" />
+						  	<label for="clause">我已阅读，并同意本站相关支付条款。</label>
+						  	<a href="#" style="color:#FF0000;">【阅读条款】</a>
+						  </li>
+						  <li style="line-height:20px; color:red;"><h4>同时请确保拼音收货信息完整（请到“国内收货地址”中维护）</h4></li>
+						</ul>
+					</td>
+		    	</tr>
+		    </table>
+		  <!-- 
+			 <div class="mdiv1"><span>请选择仓库：</span>
+			   <select name="pck_warehouseid" id="pck_warehouseid" onchange="select_warehouse(this.options[this.options.selectedIndex].value)">
+			 	    <option value='0'>{$lang.please_select_warehouse}</option>
+			 		{$warehouse_list}
+			   </select>
+			   (选择货物所在仓库，一个运单只能选择一个仓库内货物提交)
+			   </br>
+			   <table>	
+			    	<tr>
+			    		<th id="datd" style="display:none;"><span>预报运单（勾选）：</span></th>
+						<td>
+							<ul id="warehouse_goods" style="display:none;">
+							</ul>
+						</td>
+			    	</tr>
+			    </table>		 
+			 </div>
+			 <h2>第二步：填写货相关信息</h2>
+			 <div class="mdiv1"><span>线路选择：</span>
+			    <select id="shipping" name="shipping" onchange="select_shipping(this.options[this.options.selectedIndex].value)">
+			    	<option value=0>请选择线路</option>
+			    </select>
+				</br>
+				<table>	
+			    	<tr>
+                        <td></td>
+						<td>
+							<ul>
+							  <li id="shippingweight" style="line-height:20px; margin-left:100px; color:red; display:none;">该线路支持每箱最大重量：10LBS，超重将无法提交！</li>
+							  <li style="line-height:20px; margin-left:100px;">请选择相应的配送线路，以确保您的货物能及时发出，如您不能确认服务类别请查看 "收费说明" 或 与您的客服专员联系。</li>
+							  <li style="line-height:20px; margin-left:100px; color:red; display:none;">请选择运输方式！</li>
+							</ul>
+						</td>
+			    	</tr>
+			    </table>
+			    <span>操作要求：</span>
+				<input type="radio" name="service" id="baseservice" onclick="showservice(0);" checked="checked" value="0" />基本服务&nbsp;<input type="radio" id="moreservice" onclick="showservice(1);" name="service" value="1" />高级服务
+				<input class="checkbox" type="checkbox" name="AService" id="AService" onclick="showboxNumber0(this);" disabled="false" value="3" />A.合箱服务<input type="checkbox" class="checkbox" name="BService" id="BService" onclick="showboxNumber1(this);" disabled="false" value="2" />B.分箱服务
+				分箱数量：	
+                <select id="boxNumber" name="boxNumber" onchange="SelectBoxNumber();" disabled="false" style="width:40px;height:20px;">
+			    	<option value=0>2</option>
+					<option value=1>3</option>
+					<option value=2>4</option>
+					<option value=3>5</option>
+					<option value=4>6</option>
+					<option value=5>7</option>
+					<option value=6>8</option>
+					<option value=7>9</option>
+					<option value=8>10</option>
+					<option value=9>11</option>
+					<option value=10>12</option>
+					<option value=11>13</option>
+					<option value=12>14</option>
+					<option value=13>15</option>
+					<option value=14>16</option>
+					<option value=15>17</option>
+					<option value=16>18</option>
+					<option value=17>19</option>
+					<option value=18>20</option>
+			    </select>
+			         （不保证百分百分箱正确，请慎重选择）
+			 </div>
+			  -->
+			  <!-- 
+			 <div id="detail_goods_info" class="subdiv" style="display:none;">
+			  <span>详细商品信息：</span>
+			  <div id="table_goods">			 
+			  </div>
+		     </div> -->
+		     
+		     <!-- 
+			 <div class="clear"></div>
+			 <div class="mdiv1">
+			 	<span style="position:relative; top:10px;">备注说明：</span>
+			    <textarea name="description"></textarea>
+				</br>
+				<table>	
+			    	<tr>
+                        <td></td>
+						<td>
+							<ul>
+							  <li style="line-height:20px; margin-left:100px;">注：货物说明描述信息有助于核对到件货物的准确性，准确的转运号码不仅有助于跟踪货物进程，并能核对货物准确以确保时效。</li>
+							</ul>
+						</td>
+			    	</tr>
+			    </table>
+				<span>升级包装：</span>
+				需要加固的散件个数：
+				<select style="width:70px;" onchange="SelectUpgradePackage();" id="UpgradePackage" name="UpgradePackage">
+					<option value=0>请选择</option>
+					<option value=1>1</option>
+					<option value=2>2</option>
+					<option value=3>3</option>
+					<option value=4>4</option>
+					<option value=5>5</option>
+					<option value=6>6</option>
+					<option value=7>7</option>
+					<option value=8>8</option>
+					<option value=9>9</option>
+					<option value=10>10</option>
+					<option value=11>11</option>
+					<option value=12>12</option>
+					<option value=13>13</option>
+					<option value=14>14</option>
+					<option value=15>15</option>
+					<option value=16>16</option>
+					<option value=17>17</option>
+					<option value=18>18</option>
+					<option value=19>19</option>
+					<option value=20>20</option>
+				</select>
+				  <p id="upgradepackage" style="float:right; margin-right:215px; display:none;"></p>
+				</br>
+				<table>	
+			    	<tr>
+                        <td></td>
+						<td>
+							<ul>
+							  <li style="line-height:20px; margin-left:100px;"><input style="margin-top:2px; vertical-align:middle;" id="oustsidebrane" name="oustsidebrane" onclick="OustSide_Click();" type="checkbox" value="1" />外箱缠绕膜 <p id="outsidecost" style="float:right; margin-right:342px; display:none;"></p></li>
+							  <li style="line-height:20px; margin-left:100px; color:red;">请填写哪些货品需要单独包装加固，我们的库房人员会严格按照您的散件个数以及填写的内容进行升级包装。</li>
+							  <li style="line-height:20px; margin-left:100px;"><textarea name="addinformation"></textarea></li>
+							  <li style="line-height:20px; margin-left:100px; color:red;">升级加固：除奶粉之外的物品需要单独包裹气泡膜，请选择升级加固。奶粉如果需要使用气泡柱，也请选择升级加固。
+                                                                                           例如：会员待邮寄商品为6罐奶粉+4盒酸奶+1个洗面奶。选择标准加固的出库包装为：六罐奶粉均有单独的气泡膜包裹，并放置于一个内箱。4盒酸奶+1个洗面奶作为散件没有单独的气泡膜包装，将放置于另外的一个
+							       内箱，空间有填充物塞满。2个内箱放入一个5层外箱并使用填充物出库。如果希望使用气泡膜单独包装每盒酸奶与洗面奶之后再放入内箱，需选用升级加固散件，并备注升级加固的具体物品。</li>
+							</ul>
+						</td>
+			    	</tr>
+			    </table>
+			 </div>		
+			  --> 
+			  <!-- 
+			 <h2>第三步：选择增值服务</h2>
+			  <div class="mdiv2" id="service_name">
+			  </div> 
+			  -->
+			  <!-- 
+			 <h2>第四步：确认支付方式和条框</h2>
+			 <div class="mdiv1">
+			 	<div id="confirmpayment" style="display:none;">
+			     <table id="cal_info" class="userTable" style="border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 255); display: table; background-position: initial initial; background-repeat: initial initial;">
+                   <tbody>
+                   	<tr>
+                      <th valign="top">费用详细：</th>
+                      <td>
+                      	<ul id="costdetail">
+						</ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th valign="top">支付选项：</th>
+                      <td>
+                         <ul class="pay_options">
+                          <li style="line-height:20px;"><a href="#this" onclick="changeClass();" id="points" class="pay_toggle">使用积分支付</a></li>
+                          <li id="payoptions" style="display:none;">
+                              <div class="option_item">
+                                  <div class="option_setting" id="option_setting">                                                                                                 
+                                                                                                                 本次使用&nbsp;<input id="usePointstb" name="usePointstb" onkeyup="usepoints_Key();" size="5" type="text">&nbsp;个积分                                                                                                   
+                                      <input id="confirmPointsbtn" type="button" onclick="usepoints_Click();" class="combtn2" value="使用">
+                                      <div class="option_desc">
+                                      	您有{$pay_points}个积分，本次最多可用{$max_integral}个
+									  </div>
+                                  </div>
+                                  <div style="display:none;" id="option_result">
+                                                                                                                   本次使用<a id="thispaypoints">0</a>点积分支付，折 {$currency_symbol}<strong id="currency_val">0.00</strong>{$currency_name}。 <a id="points_btn" onclick="points_Click();" class="cancelbtn">取消使用</a>
+                                  </div>
+                              </div>
+                          </li>
+                         </ul>
+                       </td>
+                    </tr>			   
+                    <tr>
+                       <th valign="top">实际需支付：</th>
+                       <td>
+                          <ul>
+                            <li style="line-height:20px;">{$currency_symbol}<strong id="pay_moneny" name='pay_moneny'>0.00</strong>{$currency_name}</li>
+                            <li style="line-height:20px;">您当前余额：{$currency_symbol}<a id="current_balance">0.00</a>{$currency_name}</li>
+                            <input type="hidden" name="userMoney" id="userMoney" value="0.00">
+                            <li style="color:red;line-height:20px;">您的余额满足订单要求，请在确认无误后点击提交。</li>
+                            <li style="color:red;line-height:20px;">费用提示：运费只是根据提供的数据预估，以实际测量为主。</li>
+					      </ul>
+                       </td>
+                    </tr>
+                  </tbody>
+			    </table>
+			 	</div>
+				<table id="paymentway" style="display:none;">	
+			    	<tr>
+                        <td><span>支付方式：</span></td>
+						<td>
+							<ul>
+							  <li style="line-height:20px;"><input type="radio" name="payment" id="payment_manual" value="1" />手动确认支付&nbsp;<input type="radio" name="payment" id="payment_auto" value="2" checked="checked" />称重后自动结算&nbsp;（需有足够金额）</li>
+							</ul>
+						</td>
+			    	</tr>
+			    </table>
+				<table>	
+			    	<tr>
+                        <td><span>同意条款：</span></td>
+						<td>
+							<ul>
+							  <li style="line-height:20px;"><input class="checkbox" type="checkbox" checked="checked" />我已阅读，并同意本站相关支付条款。<a href="#" style="color:#FF0000;">【阅读条款】</a></li>
+							  <li style="line-height:20px; color:red;"><h4>同时请确保拼音收货信息完整（请到“国内收货地址”中维护）</h4></li>
+							</ul>
+						</td>
+			    	</tr>
+			    </table>
+			 </div>
+			 -->
+			 <button type="submit" >同意协议</br>提交订单</button>
+			 <input type="hidden" name="tablecount" value="0" id="tablecount"></input>
+			 <!--订单包裹的总重量-->
+			 <input type="hidden" name="pck_totalweights" value="0.00" id="pck_totalweights"></input>
+			 <!--订单包裹的总长度-->
+			 <input type="hidden" name="pck_totallength" value="0.00" id="pck_totallength"></input>
+			 <!--订单包裹的总宽度-->
+			 <input type="hidden" name="pck_totalwidth" value="0.00" id="pck_totalwidth"></input>
+			 <!--订单包裹的总高度-->
+			 <input type="hidden" name="pck_totalheight" value="0.00" id="pck_totalheight"></input>
+			 <input type="hidden" name="pck_insurancecost" value="0.00" id="pck_insurancecost"></input>
+			 <input type="hidden" name="pck_operatorcost" value="0.00" id="pck_operatorcost"></input>
+			 <input type="hidden" name="pck_tariffcost" value="0.00" id="pck_tariffcost"></input>
+			 <input type="hidden" name="pck_valueservicecost" value="0.00" id="pck_valueservicecost"></input>
+			 <input type="hidden" name="pck_waybillcost" value="0.00" id="pck_waybillcost"></input>
+			 <input type="hidden" name="pck_warehousecost" value="0.00" id="pck_warehousecost"></input>
+			 <input type="hidden" name="pck_totalcost" value="0.00" id="pck_totalcost"></input>
+			 <!--货币和默认货币对应的汇率-->
+			 <input type="hidden" name="exchangerate" value="1" id="exchangerate"></input>
+			 <!--支付积分-->
+			 <input type="hidden" name="rate_points" id="rate_points" value="{$rate_points}" />
+			 <input type="hidden" name="pay_points" id="pay_points" value="{$pay_points}"></input>
+			 <input type="hidden" name="max_integral" id="max_integral" value="{$max_integral}"></input>
+			 <input type="hidden" name="pointspaymentcost" id="pointspaymentcost" value="0.00" />
+			 <!--运单折扣-->
+			 <input type="hidden" name="order_discount" id="order_discount" value="{$waybill_discount}" />
+			 <!--折扣后的费用-->
+			 <input type="hidden" name="discount_waybillcost" value="0.00" id="discount_waybillcost"></input>
+			 <input type="hidden" name="isuse_coupon" value="0" id="isuse_coupon"></input>
+			</form>
+		 </div>
+	   </div>
+	 </div>
+	 	<div class="clear"></div>
+	</div>
+    </div>
+  <!--footer-->
+ {include file="footer.htm"}
+  <!--/footer-->
+ </body>
+ </html>
+  <script language="JavaScript">
+{literal}
+/**
+ * 表单验证
+ */
+function validate()
+{
+	try{
+	 //重新计算
+	 compute_coupon();
+	 var usermoney = document.getElementById('userMoney').value;
+	 var pay_moneny = document.getElementById('pay_moneny').innerHTML;
+	 
+	 var isCheckPayMoney = false;
+	 var chkObjs = document.getElementsByName("payment");
+     for(var i=0;i<chkObjs.length;i++){
+         if(chkObjs[i].checked){
+            if(chkObjs[i].value == "2"){
+            	isCheckPayMoney=true;
+            }else{
+            	isCheckPayMoney=false;
+            }
+            break;
+         }
+     }
+	 validator = new Validator("theForm");
+	 
+	 validator.checkboxesRequired("checkboxes[]",notnull_warehouse_goods);
+	 validator.selectRequired("pck_warehouseid",  warehouse_notnull);
+	 validator.selectRequired("shipping", shipping_notnull); 
+	 if(isCheckPayMoney)
+	 {
+	 	validator.isPayMoney(usermoney, pay_moneny, paymoneyis_usermoney);
+	 }
+	 validator.required('tb1_delivery_address',delivery_address_notnull);
+	 
+	 //获取table的数量
+	 var tableCount = $('#tablecount').val();
+	 for(var tableIndex = 1; tableIndex <= tableCount; tableIndex++)
+	 {
+	  //获取table所有行
+	  var table = document.getElementById('testTab'+tableIndex);
+	  var rows = table.rows.length;
+	  rows = rows - 2;
+	  for(var i=2;i<rows;i++)
+	  {
+	  		//获取第一列的值
+	  		var colIndex = parseInt(table.rows[i].cells[0].innerHTML);
+	  		var pckg_name = document.getElementsByName('tab1_goodsname'+colIndex);
+	
+			validator.selectRequired('tab'+tableIndex+'_ratename'+colIndex,'请选择商品类别');
+			validator.required('tab'+tableIndex+'_goodsname'+colIndex,'商品名称不能为空');
+			validator.required('tb'+tableIndex+'_num'+colIndex,'数量不能为空');
+			validator.required('tb'+tableIndex+'_price'+colIndex,'单价不能为空');
+	  }
+	 }
+	 if($('#isuse_coupon').val() == '0' && $('#coupon_desc').text()!='') 
+	 {
+	 	alert($('#coupon_desc').text());
+	 	return false;
+	 }
+	 return validator.passed();
+	}catch(e){
+		return false;
+	}
+}
+{/literal}
+</script>

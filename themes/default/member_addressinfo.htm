@@ -1,0 +1,240 @@
+{include file="header_user.htm"}
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	   
+		 <div class="cost myacc member_sub">
+		  <div class="cr_bot">
+			  {if !$users_deliveryaddress.da_isvalidate}
+		  <form enctype="multipart/form-data" action="member_datamanage.php?act=member_address" method="post" name="theForm" onsubmit="return validate()">
+			  {/if}
+			<h2>资料管理<span>({if $users_deliveryaddress.da_id}编辑{else}添加{/if}收货地址。)</span></h2>
+			<table class="datum" cellspacing="10px;">
+			   <tr>
+			     <td class="datd">{$lang.da_name}：</td>
+			     <td>
+					 {if !$users_deliveryaddress.da_isvalidate}
+					 <input name="da_name" id="da_name" class="textt" type="text" value="{$users_deliveryaddress.da_name}"/>
+				<span class="shouhuname">家里</span>
+				<span class="shouhuname">公司</span>
+				<span class="shouhuname">父母家</span>
+					 {else}
+					 {$users_deliveryaddress.da_name}
+					 {/if}
+			     </td>
+			   </tr>
+			   <tr>
+				 <td class="datd"><b>*</b>{$lang.da_consignee}：</td>
+				 <td><input name="da_consignee" class="textt" type="text" {if $users_deliveryaddress.da_isvalidate} disabled {/if} value="{$users_deliveryaddress.da_consignee}"/></td>
+			   </tr>
+			   <tr>
+			   	<td class="datd"><b>*</b>{$lang.da_consigneetelephone}：</td>
+			   	<td><input name="da_consigneetelephone" class="textt" type="text" value="{$users_deliveryaddress.da_consigneetelephone}" {if $users_deliveryaddress.da_isvalidate} disabled {/if}/></td>
+			   </tr>
+			   <tr>
+			   	<td class="datd">{$lang.da_sparetelephone}：</td>
+			   	<td><input name="da_sparetelephone" class="textt" type="text" value="{$users_deliveryaddress.da_sparetelephone}" {if $users_deliveryaddress.da_isvalidate} disabled {/if}/></td>
+			   </tr>
+			   
+			   <tr>
+			   	<td class="datd"><b>*</b>所在国家：</td>
+			   	<td>
+			   	<select id="da_country" class="textt"  name="da_country" onchange="country_change(this.options[this.options.selectedIndex].value)" {if $users_deliveryaddress.da_isvalidate} disabled {/if}>
+				 	<option value='0'>{$lang.select_country}</option>
+				 	{$area_country_option}
+				 </select>
+				
+				 </td>
+			   </tr>
+			   <tr>
+			   	<td class="datd"><b>*</b>{$lang.da_address}：</td>
+			   	<td><input name="da_address" {if $users_deliveryaddress.da_isvalidate} disabled {/if} class="textt" type="text" value="{$users_deliveryaddress.da_address}"/></td>
+			   </tr>
+			   <!--<tr>-->
+			   	<!--<td class="datd">邮编：</td>-->
+			   	<!--<td><input name="da_zipcode" {if $users_deliveryaddress.da_isvalidate} disabled {/if} class="textt" type="text" value="{$users_deliveryaddress.da_zipcode}"/></td>-->
+			   <!--</tr>-->
+			   <tr>
+			   	<td class="datd">{$lang.da_remark}：</td>
+			   	<td><input name="da_remark" {if $users_deliveryaddress.da_isvalidate} disabled {/if}  class="textt" type="text" value="{$users_deliveryaddress.da_remark}"/></td>
+			   </tr>
+
+			   <tr>
+			   	<td class="datd">{$lang.da_identitycard}：</td>
+			   	<td>
+			   		<input name="da_identitycard" class="textt" type="text"
+			   	 value="{$users_deliveryaddress.da_identitycard}"/>
+			   	</td>
+			   </tr>
+			   <tr>
+			   	<td class="datd"><b>*</b>{$lang.da_identitycardfront}：</td>
+			   	<td>
+					{if !$users_deliveryaddress.da_isvalidate}
+					<input type="file" name="da_identitycardfront" />
+					{/if}
+
+			   		<br>
+			   		 {if $operate eq "update"}
+			   		 	 <img src="{$users_deliveryaddress.da_identitycardfront}" />
+			   		 {/if}
+			   	</td>
+			   </tr>
+			 
+			 
+			   
+			   <tr>
+			   	<td class="datd"><b>*</b>{$lang.da_identitycardbehind}：</td>
+			   	<td>
+					{if !$users_deliveryaddress.da_isvalidate}
+					<input type="file" name="da_identitycardbehind"/>
+					{/if}
+					<br>
+					 {if $operate eq "update"}
+						 <img src="{$users_deliveryaddress.da_identitycardbehind}" />
+					 {/if}
+			   	</td>
+			   </tr>
+			  
+			
+			  
+			   <tr>
+			   	<td class="datd">{$lang.da_attach}：</td>
+			   	<td>
+			   		<input type="file" name="da_attach"/>
+			   		<br>
+					{if $operate eq "update"}
+					 <img src="{$users_deliveryaddress.da_attach}" />
+					{/if}
+			   	</td>
+			   </tr>
+			  
+		
+			 {if $operate eq "update"}   
+			   <tr>
+			   	<td style="text-align:right;">
+			   	<span class="datd" style="padding:3px;">身份证组合：</span></td>
+			   	<td>
+			   		<a href="{$users_deliveryaddress.da_identityassemble}" target="_blank">
+			   		<img src="{$users_deliveryaddress.da_identityassemble}" style="height:150px;widht:300px"></img>
+			   		</a>
+			   	</td>
+			   </tr>
+
+
+			   <tr>
+			   	<td class="datd">验证状态：</td>
+			   	<td>
+			   		<span class="span_required">
+			   		{if $users_deliveryaddress.da_isvalidate}<font color="green"> 已通过验证(禁止修改) </font>{else}<font color="red"> 未通过验证 </font>{/if}
+			   		</span>
+			   	</td>
+			   </tr>
+				{/if}
+
+
+			   {if $users_deliveryaddress.da_adminremark}
+			   <tr>
+			   	<td class="datd">管理员备注：</td>
+			   	<td><span class="span_required">{$users_deliveryaddress.da_adminremark}</span></td>
+			   </tr>
+			   {/if}
+			</table>
+			<input type="hidden" name="old_da_identitycardfront" value="{$users_deliveryaddress.da_identitycardfront}"></input>
+			<input type="hidden" name="old_da_identitycardbehind"  value="{$users_deliveryaddress.da_identitycardbehind}"></input>
+			<input type="hidden" name="old_da_attach"  value="{$users_deliveryaddress.da_attach}"></input>
+			<input type="hidden" name="da_id" value="{$users_deliveryaddress.da_id}"></input>
+			<input type='hidden' name="operate" value="{$operate}"></input>
+			  {if $users_deliveryaddress.da_isvalidate}
+			  	<button type="button" onclick="javascript:history.back()">返回</button>
+			  {else}
+				<button type="submit">提交</button>
+			  {/if}
+			  {if !$users_deliveryaddress.da_isvalidate}
+		  </form>
+			  {/if}
+		  </div>
+		 </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+
+{ $users.is_validated}
+{if $users.is_validated==1} 
+<script language="JavaScript">
+{literal}
+	document.forms['theForm'].elements['da_name'].focus();
+	/**
+	 * 表单验证
+	 */
+	function validate()
+	{
+		validator = new Validator("theForm");
+		//非空验证
+		validator.required("da_consignee",  "收货人不能为空！");
+		validator.required("da_consigneetelephone", "收货人电话不能为空！");
+		validator.selectRequired("da_country", '所在国家不能为空！');
+		//validator.selectRequired("da_province", notnull_da_area);
+		//validator.selectRequired("da_city", notnull_da_area);
+		validator.required("da_address", '收货地址不能为空！');
+		//validator.required("da_zipcode", notnull_da_zipcode);
+
+		if(document.forms['theForm'].elements['operate'].value == 'insert')
+		{
+		  validator.required("da_identitycardfront", '身份证正面不能为空！');
+		  validator.required("da_identitycardbehind", '身份证正面不能为空！');
+		}
+		//指定类型验证
+		// validator.isPostalCode("da_zipcode",type_da_zipcode);
+		return validator.passed();
+	}
+{/literal}
+</script> 
+{else}
+<script language="JavaScript">
+{literal}
+document.forms['theForm'].elements['da_name'].focus();
+/**
+ * 表单验证
+ */
+function validate()
+{
+  validator = new Validator("theForm");
+  //非空验证
+  validator.required("da_consignee",  "收货人不能为空！");
+  validator.required("da_consigneetelephone",  "收货人电话不能为空！");
+  validator.selectRequired("da_country", "所在国家不能为空！");
+  //validator.selectRequired("da_province", notnull_da_area);
+  //validator.selectRequired("da_city", notnull_da_area);
+  validator.required("da_address", '收货地址不能为空！');
+  //validator.required("da_zipcode", notnull_da_zipcode);
+ 
+  if(document.forms['theForm'].elements['operate'].value == 'insert')
+  {
+	 // validator.required("da_identitycardfront", notnull_da_identitycardfront);//身份证验证
+	 // validator.required("da_identitycardbehind", notnull_da_identitycardbehind);
+  }
+  //指定类型验证
+ // validator.isPostalCode("da_zipcode",type_da_zipcode);
+  return validator.passed();
+}
+{/literal}
+</script>
+{/if}
+{literal}
+<script>
+	$(function() {
+$('.shouhuname').on('click', function() {
+	$('#da_name').val($(this).text());
+});
+
+	});
+
+</script>
+{/literal}
+ </body>
+ </html>
+ 
+ 

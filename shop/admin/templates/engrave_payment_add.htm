@@ -1,0 +1,261 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_payment_manage.php" method="post" name="theForm" onsubmit="return validate()" >
+        <!-- table -->
+        <table width="90%" id="tab_channel_basic-table" align="center">
+         <tr>
+            <td class="label">
+            {$lang.paymentname} 
+            </td>
+            <td>
+              <input type="text" name="paymentname" value="{$payment_add.PaymentName}" size="20" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.gateway}</td>
+            <td>
+            <select name="gateway" id="PaymentInterface" onclick="GetPayment();">
+            	<option value="0">{$lang.select_please_payment}
+            	{html_options options=$interface_list selected=$payment_add.InterfaceId}
+            </select>
+			</td>
+          </tr>
+		  <tr id="img" style="display:none;">
+		  	 <td></td>
+			 <td><img id="imgLogo" src='images/pay/pay_alipay.gif' /></td>
+		  </tr>
+		  <tr id="merchant" style="display:none;">
+		  	 <td class="label">{$lang.merchantcode}</td>
+			 <td>
+			 	<input type="text" name="MerchantCode" value="{$payment_add.MerchantCode}" size="20" />
+			 </td>
+		  </tr>
+		  <tr id="email" style="display:none;">
+		  	 <td class="label">{$lang.email}</td>
+			 <td>
+			 	<input type="text" name="Email" value="{$payment_add.Email}" size="20" />
+			 </td>
+		  </tr>
+		  <tr id="secret" style="display:none;">
+		  	 <td class="label">{$lang.secretkey}</td>
+			 <td>
+			 	<input type="text" name="SecretKey" value="{$payment_add.SecretKey}" size="20" />
+			 </td>
+		  </tr>
+          <tr>
+            <td class="label">{$lang.charge}</td>
+            <td>
+              <input type="text" name="Charge" value="{$payment_add.Charge}" size="10" /><input type="checkbox" name="IsPercent" value="1" {if $payment_add.IsPercent}checked="checked"{/if} />{$lang.ispercent}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label">{$lang.description}</td>
+            <td>
+	            <textarea id="Description" name="Description" style="width:700px;height:150px;visibility:hidden;">
+	          		{$payment_add.Description}
+	          	</textarea>
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+				{$lang.sortid}
+			</td>
+            <td>
+	            <input type="text" name="SortId" value="{$payment_add.SortId}" size="5" />
+			</td>
+          </tr>
+        </table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="PaymentId" value="{$payment_add.PaymentId}"/>
+      </form>
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+
+<script language="JavaScript">
+	//页面加载时读取数据
+	var id = document.getElementById("PaymentInterface").value;
+    document.forms['theForm'].elements['gateway'].disabled  = (id != 0);
+	if(id == 1)
+	{
+		gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "";
+		gObj("secret").style.display = "";
+	}
+		else if(id == 2)
+	{
+		gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "";
+		gObj("secret").style.display = "";
+	}
+	else if(id == 3)
+	{
+		gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "";
+	}
+	else if(id == 4)
+	{
+ 	    gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "";
+	}
+	else if(id == 5)
+	{
+ 	    gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "";
+	}
+    else if(id == 6)
+	{
+ 	    gObj("img").style.display = "none";
+		gObj("merchant").style.display = "none";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "none";
+	}
+	else if(id == 7)
+	{
+ 	    gObj("img").style.display = "none";
+		gObj("merchant").style.display = "none";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "none";
+	}
+	else if(id == 8)
+	{
+ 	    gObj("img").style.display = "none";
+		gObj("merchant").style.display = "none";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "none";
+	}
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="Description"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#Description');
+	       },
+       	afterBlur:function(){
+           this.sync('#Description');
+        } 
+	});
+});
+
+/* 选择支付类型时才填写 */
+function gObj(obj)
+{
+  var theObj;
+  if (document.getElementById)
+  {
+    if (typeof obj=="string") {
+      return document.getElementById(obj);
+    } else {
+      return obj.style;
+    }
+  }
+  return null;
+}
+function GetPayment()
+{
+	var id = document.getElementById("PaymentInterface").value;
+	if(id == 1)
+	{
+		gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "";
+		gObj("secret").style.display = "";
+	}
+	else if(id == 2)
+	{
+		gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "";
+		gObj("secret").style.display = "";
+	}
+	else if(id == 3)
+	{
+		gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "";
+	}
+	else if(id == 4)
+	{
+ 	    gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "";
+	}
+	else if(id == 5)
+	{
+ 	    gObj("img").style.display = "";
+		gObj("merchant").style.display = "";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "";
+	}
+    else if(id == 6)
+	{
+ 	    gObj("img").style.display = "none";
+		gObj("merchant").style.display = "none";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "none";
+	}
+	else if(id == 7)
+	{
+ 	    gObj("img").style.display = "none";
+		gObj("merchant").style.display = "none";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "none";
+	}
+	else if(id == 8)
+	{
+ 	    gObj("img").style.display = "none";
+		gObj("merchant").style.display = "none";
+		gObj("email").style.display = "none";
+		gObj("secret").style.display = "none";
+	}
+	//动态获得图片的URL
+    Ajax.call('engrave_payment_manage.php?act=getimgurl',"InterfaceId="+id,act_InterfaceUrl,"POST","TEXT",true,true);
+	//alert(document.getElementById("PaymentInterface").value);
+	
+}
+function act_InterfaceUrl(result)
+{
+   document.getElementById("imgLogo").src = result;
+}
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required('paymentname', paymentname_not_null);
+	validator.selectRequired('gateway', gateway_not_null);
+	validator.isFloat('Charge',import_charge_error,0);
+	return validator.passed();
+}
+</script>
+{include file="pagefooter.htm"}

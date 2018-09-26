@@ -1,0 +1,78 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+
+<div class="main-div">
+<form method="post" action="engrave_emailtemplate.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label_2" style="width:200px;">{$lang.et_egid}:</td>
+    <td>
+		<select name="et_egid">
+            {$eamilgroup_option}
+        </select>
+	</td>
+  </tr>
+  <tr>
+    <td class="label_2">{$lang.et_tag}:</td>
+    <td>
+		<textarea name="et_tag" style="width:300px;height:80px">{$emailtemplate_info.et_tag}</textarea>
+	</td>
+  </tr>
+  <tr>
+    <td class="label_2">{$lang.et_des}:</td>
+    <td><input type="text" name="et_des" maxlength="60" value="{$emailtemplate_info.et_des}" /></td>
+  </tr>
+  <tr>
+    <td class="label_2">{$lang.et_title}:</td>
+    <td><input type="text" id="et_title" name="et_title" maxlength="60" value="{$emailtemplate_info.et_title}" /></td>
+  </tr>
+  <tr>
+    <td class="label_2">{$lang.et_content}:</td>
+    <td>
+    	<textarea id="et_content" name="et_content">{$emailtemplate_info.et_content}</textarea>
+	</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="id" value="{$emailtemplate_info.et_id}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="et_content"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#et_content');
+	       },
+       	afterBlur:function(){
+           this.sync('#et_content');
+        } 
+	});
+});
+<!--
+document.forms['theForm'].elements['et_tag'].focus();
+/**
+ * 表单验证
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("et_title",  et_title_not_null);
+    validator.required("et_content",  et_content_not_null);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

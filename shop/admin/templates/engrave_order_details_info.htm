@@ -1,0 +1,264 @@
+<!-- $Id: engrave_shipping.htm 14216 2014-12-05 02:27:21Z testyang $ -->
+{include file="engrave_pageheader_details.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_all_orders.php" method="post" name="theForm" onsubmit="return validate()" >
+        <table width="90%" id="tab_channel_basic-table" align="center">
+          <tr>
+			 <td class="label">{$lang.relate_orderno}:</td>
+			 <td><input type="text" name="order_no" value="{$order_detail_list.order_no}" disabled="false" /></td>
+		  </tr>
+		  <tr>
+			 <td class="label">{$lang.user_name}:</td>
+			 <td><input type="text" name="order_username" value="{$order_detail_list.user_name}" disabled="false" /></td>
+		  </tr>
+		  <tr>
+			 <td class="label">{$lang.package_location}:</td>
+			 <td>
+			 	<select name="housename" disabled="false"><option value="0">{$lang.pleasehouse}</option>{html_options options=$waybillhouse_list selected=$order_detail_list.HouseId}</select>
+			 	<input type="text" name="houselocation" value="{$order_detail_list.pck_inventorylocation}"/>
+				<span style="color:red;">{$lang.waybillhouse_note}</span>
+		     </td>
+		   </tr>  
+		   <tr>
+			 <td class="label">{$lang.storage_code}:</td>
+			 <td><input type="text" name="storagecode" value="{$order_detail_list.pck_storagecode}"/></td>
+		   </tr>   
+		   <tr>
+			 <td class="label">{$lang.goods_number}:</td>
+			 <td><input type="text" name="goodsnumber" value="{$order_detail_list.pck_expressnumber}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.shipping_name}:</td>
+			 <td>
+			 	<select name="shippingname"><option value="0">{$lang.pleaseshipping}</option>{html_options options=$shipping_list selected=$order_detail_list.order_shippingid}</select>
+		     </td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.waybill_no}:</td>
+			 <td><input type="text" name="waybillno" value="{$order_detail_list.ordw_assistno}" /></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.internal_express}:</td>
+			 <td><input type="text" name="internalexpress" value="{$order_detail_list.LogisticsName}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.express_number}:</td>
+			 <td><input type="text" name="expressnumber" value="{$order_detail_list.CollCode}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.express_no}:</td>
+			 <td><input type="text" name="expressno" value="{$order_detail_list.ordw_waybillno}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_consignee}:</td>
+			 <td><input type="text" name="daconsignee" value="{$order_detail_list.da_consignee}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_identitycard}:</td>
+			 <td><input type="text" name="daidentitycard" value="{$order_detail_list.da_identitycard}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_identitycardfront}:</td>
+			 <td>
+			 	<input type="file" id="identitycardfront" name="identitycardfront" />
+				<br />
+				<img src="{$order_detail_list.da_identitycardfront}" />
+			 </td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_identitycardbehind}:</td>
+			 <td>
+			 	<input type="file" id="identitycardbehind" name="identitycardbehind" />
+				<br />
+				<img src="{$order_detail_list.da_identitycardbehind}" />
+			 </td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.conginee_area}:</td>
+			 <td>
+			   	<select id="da_country" name="da_country" onchange="country_change(this.options[this.options.selectedIndex].value)">
+				 	<option value='0'>{$lang.pleaseselect}</option>
+				 	{$area_country_option}
+				 </select>
+				 <select id="da_province" name="da_province" onchange="province_change(this.options[this.options.selectedIndex].value)">
+				 	<option value='0'>{$lang.pleaseselect}</option>
+				 	{$area_province_option}
+				 </select>
+				 <select id="da_city" name="da_city">
+				 	<option value='0'>{$lang.pleaseselect}</option>
+				 	{$area_city_option}
+				 </select>
+		     </td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_address}:</td>
+			 <td>
+			 	<textarea id="daaddress" name="daaddress" style="width:240px;height:50px;">{$order_detail_list.da_address}</textarea>
+			 </td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_zipcode}:</td>
+			 <td><input type="text" name="dazipcode" value="{$order_detail_list.da_zipcode}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_email}:</td>
+			 <td><input type="text" name="daemail" value="{$order_detail_list.da_email}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_consigneetelephone}:</td>
+			 <td><input type="text" name="daconsigneetelephone" value="{$order_detail_list.da_consigneetelephone}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.da_sparetelephone}:</td>
+			 <td><input type="text" name="dasparetelephone" value="{$order_detail_list.da_sparetelephone}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.ordw_applyprice}:</td>
+			 <td><input type="text" name="ordwapplyprice" value="{$order_detail_list.ordw_applyprice}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.ordw_insurprice}:</td>
+			 <td><input type="text" name="ordwinsurprice" value="{$order_detail_list.ordw_insurprice}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.ordw_waybillcost}:</td>
+			 <td><input type="text" name="ordwwaybillcost" value="{$order_detail_list.ordw_waybillcost}"/></td>
+		   </tr>
+		   <tr>
+			 <td class="label">{$lang.status}:</td>
+			 <td>
+			 	<input type="radio" value="2" name="sent" {if $order_detail_list.order_isdelivery neq 5}checked="checked"{/if} />{$lang.unsent} 
+				<input type="radio" value="5" name="sent" {if $order_detail_list.order_isdelivery eq 5}checked="checked"{/if} />{$lang.sent} 
+			 </td>
+		   </tr>                         
+        </table>    
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_update}" class="button" />
+          <input type="button" name="reset" onclick="engrave_waybill_manage.php?act=list" value="{$lang.back}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="pck_id" value="{$order_detail_list.pck_id}"/>
+		<input type="hidden" name="order_id" value="{$order_detail_list.order_id}"/>
+		<input type="hidden" name="LogisticsId" value="{$order_detail_list.LogisticsId}"/>
+		<input type="hidden" name="ordw_waybillid" value="{$order_detail_list.ordw_waybillid}"/>
+		<input type="hidden" name="da_id" value="{$order_detail_list.da_id}"/>
+      </form>
+</div>
+
+{literal}
+{insert_scripts files="validator.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+<script language="JavaScript">
+if(document.all) 
+{ 
+	window.attachEvent('onload', load);
+}
+else 
+{ 
+	window.addEventListener('load', load);
+}
+
+/**
+ *加载
+ */
+function load()
+{
+	//缁戝畾鍥藉
+	//Ajax.call('member_datamanage.php?act=area', 'areaid=0', area_callback , 'GET', 'TEXT', true, true );
+}
+
+/**
+ * 鑾峰彇鏁版嵁
+ * @param result
+ */
+function area_callback(result)
+{
+	var obj = eval('('+result+')');
+	var da_country = document.getElementById('da_country');
+	da_country.options.length = 1;
+	
+	for(var i=0; i<obj.length; i++)
+	{
+		var option=new Option(obj[i].Name , obj[i].Id);
+		da_country.options.add(option);
+	}
+}
+
+/**
+ * 国家改变
+ * @param val
+ */
+function country_change(val)
+{
+	//国家-省
+	Ajax.call('engrave_all_orders.php?act=area', 'areaid='+val, province_callback , 'GET', 'TEXT', true, true );
+}
+
+/**
+ * 国家-省
+ * @param result
+ */
+function province_callback(result)
+{
+	var obj = eval('('+result+')');
+	var da_province = document.getElementById('da_province');
+	da_province.options.length = 1;
+	var da_city = document.getElementById('da_city');
+	da_city.options.length = 1;
+	
+	for(var i=0; i<obj.length; i++)
+	{
+		var option=new Option(obj[i].Name , obj[i].Id);
+		da_province.options.add(option);
+	}
+}
+
+/**
+ * 省
+ * @param val
+ */
+function province_change(val)
+{
+	//省-城市
+	Ajax.call('engrave_all_orders.php?act=area', 'areaid='+val, city_callback , 'GET', 'TEXT', true, true );
+}
+
+/**
+ * 省-城市
+ * @param result
+ */
+function city_callback(result)
+{
+	var obj = eval('('+result+')');
+	var da_city = document.getElementById('da_city');
+	da_city.options.length = 1;
+	
+	for(var i=0; i<obj.length; i++)
+	{
+		var option=new Option(obj[i].Name , obj[i].Id);
+		da_city.options.add(option);
+	}
+}
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required('houselocation', houselocation_not_null);
+	validator.required('daconsignee', daconsignee_not_null);
+	validator.required('daidentitycard', daidentitycard_not_null);
+	validator.selectRequired('shippingname', shippingname_not_null);
+	validator.selectRequired('daaddress', daaddress_not_null);
+    validator.isEmail('daemail',import_daemail_error,0);
+	validator.isTel('daconsigneetelephone',import_daconsigneetelephone_error,0);
+	validator.isMobilephone('dasparetelephone',import_dasparetelephone_error,0);
+	validator.isFloat('ordwapplyprice',import_ordwapplyprice_error,0);
+	validator.isFloat('ordwinsurprice',import_ordwinsurprice_error,0);
+	validator.isFloat('ordwwaybillcost',import_ordwwaybillcost_error,0);
+	return validator.passed();
+}
+//-->
+</script>
+{include file="engrave_pagefooter.htm"}

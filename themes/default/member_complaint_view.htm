@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 投诉理赔 -->
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+{literal}
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+<script type="text/javascript">
+$(function(){
+	var $lis=$(".checked li");
+	$lis.click(function(){
+		$(this).addClass("current").siblings().removeClass("current");
+		var index=$lis.index(this);
+		$("#contents div").eq(index).show().siblings().hide();
+	})
+})
+</script>
+{/literal}
+ </head>
+ <body id="listDiv">
+ {include file="header.htm"}
+ 
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+		 <div class="cost myacc">
+		  <div class="cr_bot">
+			<div id="contents">
+			<table cellspacing="10px;">
+			   <tr>
+				 <td>标题:</td>
+				 <td>{$cmp.cmp_title}</td>
+			   </tr>
+			   <tr>
+				 <td>相关包裹单号:</td>
+				 <td>{$cmp.cmp_expressnumber}</td>
+			   </tr>
+				<tr>
+				 <td>相关转运单号:</td>
+				 <td>{$cmp.cmp_orderno}</td>
+			   </tr>
+				<tr>
+				 <td>相关发货单号:</td>
+				 <td>{$cmp.cmp_deliverynumber}</td>
+			   </tr>
+			   <tr>
+			     <td>问题详细描述:</td>
+			     <td>
+			     	{$cmp.cmp_remark}
+			     </td>
+			   </tr>
+			   <tr>
+			     <td>投诉时间:</td>
+			     <td>
+			     	{$cmp.cmp_time}
+			     </td>
+			   </tr>
+			</table>
+			  
+			{foreach from = $complaint_list item = complaint name="name_complaint"}
+			  <div style="border:1px #E7E7E7 solid;"></div>
+			   <table cellspacing="10px;">
+				   <tr>
+					 <td class="datd">回复人:</td>
+					 <td>{$complaint.user_name}</td>
+				   </tr>
+				   <tr>
+				     <td class="datds" style="padding-top:5px;"><p>问题详细解答:<p></td>
+				     <td style="padding-top:0px;">
+				     	{$complaint.cmp_remark}
+				     </td>
+				   </tr>
+			  </table>
+			{/foreach}
+			</div>
+		   </div>
+		 </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  <!--footer-->
+   {include file="footer.htm"}
+  <!--/footer-->
+ </body>
+ </html>

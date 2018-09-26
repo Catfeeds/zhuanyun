@@ -1,0 +1,265 @@
+{literal}
+<script type="text/javascript">
+
+$(function(){
+    // 加入触发函数
+    var  $selCon =    $("div.vcon:has(a[class='select'])");
+    if( $selCon) {
+        setTimeout(function() {$selCon.slideDown();}, 0);
+
+    }
+   
+
+
+    $selCon.removeAttr("style");
+	var tabs_i=-1;
+	$('.vtitle').click(function(){
+		var _self = $(this);
+		var  j = $('.vtitle').index(_self);
+		if( tabs_i == j ) return false; tabs_i = j;
+		$('.vtitle em').each(function(e){
+			if(e==tabs_i){
+				$('em',_self).removeClass('v01').addClass('v02');
+			}else{
+				$(this).removeClass('v02').addClass('v01');
+			}
+		});
+		$('.vcon:visible').slideUp();
+         $('.vcon').eq(tabs_i).slideDown();
+	});  
+})
+
+</script>
+{/literal}
+   <div class="cr_top">{$weizhi}：{$ur_here}</div>
+	<div class="conter_left">
+
+             <div class="vtitle">
+                <div class="vtitle_img"><img src="themes/default/images/rbhm/left_07.png" border="0" /></div>
+                <div class="vtitle_txt">{$menu20}</div>
+                <div id="clear"></div>
+             </div>
+
+              <div class="vcon" >
+                    <ul class="vconlist clearfix">
+                      <li>
+                             <a href="member.php?act=member_account"  {if $aacct=='member_account'}class="select"{/if}>
+                                 <div class="vconlist_left">{$menu21}</div>
+                                 <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                               <div id="clear"></div>
+                             </a>
+                          </li>
+                      <li>
+                             <a href="member.php?act=member_datum"  {if $aacct=='member_datum'}class="select"{/if}>
+                                 <div class="vconlist_left">{$menu22}</div>
+                                 <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                               <div id="clear"></div>
+                             </a>
+                          </li>
+                      <li>
+                              <a href="member.php?act=member_revisepass"  {if $aacct=='member_revisepass'}class="select"{/if}>
+                                  <div class="vconlist_left">{$menu23}</div>
+                                  <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                                <div id="clear"></div>
+                              </a>
+                          </li>
+                      <li>
+                             <a href="member.php?act=member_address"  {if $aacct=='member_address'}class="select"{/if}>
+                                 <div class="vconlist_left">{$menu24}</div>
+                                 <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                                 <div id="clear"></div>
+                             </a>
+                          </li>
+                    </ul>
+               </div>
+
+
+              <div class="vtitle">
+      				<div class="vtitle_img"><img src="themes/default/images/rbhm/left_06.png" border="0" /></div>
+      				<div class="vtitle_txt">{$menu1}</div>
+      				<div id="clear"></div>
+      	    </div>
+              <div class="vcon" >
+                 <ul class="vconlist clearfix">
+      		     <li>
+                     <a href="member.php?act=package_forecast"  {if $aacct=='package_forecast'}class="select"{/if}>
+                       <div class="vconlist_left">{$menu2}</div>
+                       <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                       <div id="clear"></div>
+                     </a>
+                   </li>
+      		     <li>
+                     <a href="member.php?act=package_atonce"  {if $aacct=='package_atonce'}class="select"{/if}>
+                       <div class="vconlist_left">{$menu3}</div>
+                       <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                       <div id="clear"></div>
+                     </a>
+                   </li>
+      		     <li>
+                     <a href="member.php?act=member_12" {if $aacct=='member_12'}class="select"{/if}>
+                        <div class="vconlist_left">{$menu4}</div>
+                        <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                        <div id="clear"></div>
+                     </a>
+                   </li>
+      		     <!--<li>-->
+                     <!--<a href="member.php?act=member_13" {if $aacct=='member_13'}class="select"{/if}>-->
+                        <!--<div class="vconlist_left">{$menu5}</div>-->
+                        <!--<div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>-->
+                        <!--<div id="clear"></div>-->
+                     <!--</a>-->
+                   <!--</li>-->
+      		   </ul>
+              </div>
+
+        <div class="vtitle">
+				<div class="vtitle_img"><img src="themes/default/images/rbhm/left_07.png" border="0" /></div>
+				<div class="vtitle_txt">{$menu6}</div>
+				<div id="clear"></div>
+	    </div>
+        <div class="vcon" >
+		  <ul class="vconlist clearfix">
+		    <li>
+               <a href="member_order_add.php" {if $aacct=='member_submit'}class="select"{/if}>
+                  <div class="vconlist_left">{$menu7}</div>
+                  <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                  <div id="clear"></div>
+               </a>
+            </li>
+		    <li>
+               <a href="member.php?act=21" >
+                  <div class="vconlist_left">{$menu8}</div>
+                  <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                  <div id="clear"></div>
+               </a>
+            </li>
+              <li>
+                  <a href="member_zhuanyun.php" >
+                      <div class="vconlist_left">{$menu29}</div>
+                      <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                      <div id="clear"></div>
+                  </a>
+              </li>
+
+		  </ul>
+        </div>
+
+        <!--<div class="vtitle">-->
+				<!--<div class="vtitle_img"><img src="themes/default/images/rbhm/left_08.png" border="0" /></div>-->
+				<!--<div class="vtitle_txt">{$menu9}</div>-->
+				<!--<div id="clear"></div>-->
+		<!--</div>-->
+        <!--<div class="vcon" >-->
+		  <!--<ul class="vconlist clearfix">-->
+		    <!--<li>-->
+              <!--<a href="member.php?act=member_30"  {if $aacct=='member_30'}class="select"{/if}>-->
+                <!--<div class="vconlist_left">{$menu10}</div>-->
+                <!--<div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>-->
+				<!--<div id="clear"></div>-->
+              <!--</a>-->
+            <!--</li>-->
+		    <!--<li>-->
+               <!--<a href="member.php?act=member_31" {if $aacct=='member_31'}class="select"{/if} >-->
+                 <!--<div class="vconlist_left">{$menu11}</div>-->
+                 <!--<div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>-->
+				 <!--<div id="clear"></div>-->
+               <!--</a>-->
+            <!--</li>-->
+		  <!--</ul>-->
+        <!--</div>-->
+
+        <div class="vtitle">
+				<div class="vtitle_img"><img src="themes/default/images/rbhm/left_09.png" border="0" /></div>
+				<div class="vtitle_txt">{$menu12}</div>
+				<div id="clear"></div>
+		</div>
+
+		<div class="vcon"  >
+          <ul class="vconlist clearfix">
+		   <li>
+             <a href="member.php?act=member_onlinerecharge"  {if $aacct=='member_onlinerecharge'}class="select"{/if}  >
+                <div class="vconlist_left">{$menu13}</div>
+                <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+	            <div id="clear"></div>
+             </a>
+           </li>
+		   <li>
+             <a href="member.php?act=member_withdraws"  {if $aacct=='member_withdraws'}class="select"{/if}>
+                <div class="vconlist_left">{$menu14}</div>
+                <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+	            <div id="clear"></div>
+             </a>
+           </li>
+		   <li>
+              <a href="member.php?act=member_myacc"  {if $aacct=='member_myacc'}class="select"{/if}>
+                 <div class="vconlist_left">{$menu15}</div>
+                 <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+	             <div id="clear"></div>
+              </a>
+           </li>
+		   <!--<li>-->
+              <!--<a href="member.php?act=member_preferential"  {if $aacct=='member_preferential'}class="select"{/if}>-->
+                 <!--<div class="vconlist_left">{$menu16}</div>-->
+                 <!--<div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>-->
+	             <!--<div id="clear"></div>-->
+              <!--</a>-->
+           <!--</li>-->
+		   <!--<li>-->
+              <!--<a href="member.php?act=member_integral" {if $aacct=='member_integral'}class="select"{/if} >-->
+                  <!--<div class="vconlist_left">{$menu17}</div>-->
+                  <!--<div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>-->
+	              <!--<div id="clear"></div>-->
+              <!--</a>-->
+           <!--</li>-->
+		   <!--<li>-->
+              <!--<a href="member.php?act=member_FAD"  {if $aacct=='member_FAD'}class="select"{/if}>-->
+                  <!--<div class="vconlist_left">{$menu18}</div>-->
+                  <!--<div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>-->
+	              <!--<div id="clear"></div>-->
+              <!--</a>-->
+           <!--</li>-->
+		   <!--<li>-->
+              <!--<a href="member.php?act=member_myinfo"  {if $aacct=='member_myinfo'}class="select"{/if}>-->
+                  <!--<div class="vconlist_left">{$menu19}</div>-->
+                  <!--<div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>-->
+	              <!--<div id="clear"></div>-->
+              <!--</a>-->
+           <!--</li>-->
+		  </ul>
+        </div>
+       
+
+
+
+        <div class="vtitle">
+				<div class="vtitle_img"><img src="themes/default/images/rbhm/left_10.png" border="0" /></div>
+				<div class="vtitle_txt">{$menu25}</div>
+				<div id="clear"></div>
+		</div>
+        <div class="vcon">
+		  <ul class="vconlist clearfix">
+		    <li>
+               <a href="member.php?act=member_insider" {if $aacct=='member_insider'}class="select"{/if}>
+                   <div class="vconlist_left">{$menu26}</div>
+                   <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                   <div id="clear"></div>
+               </a>
+            </li>
+		    <!--<li>-->
+               <!--<a href="member.php?act=list_about" {if $aacct=='list_about'}class="select"{/if}> -->
+                   <!--<div class="vconlist_left">{$menu27}</div>-->
+                   <!--<div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>-->
+                   <!--<div id="clear"></div>-->
+               <!--</a>-->
+            <!--</li>-->
+		    <li>
+                <a href="member.php?act=member_complaint" {if $aacct=='member_complaint'}class="select"{/if}>
+                    <div class="vconlist_left">{$menu28}</div>
+                    <div class="vconlist_right"><img src="themes/default/images/rbhm/left_05.png" border="0" /></div>
+                    <div id="clear"></div>
+                </a>
+            </li>
+		  </ul>
+        </div>
+
+      </div> <!--#hyzxcontent_left-->

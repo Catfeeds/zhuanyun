@@ -1,0 +1,121 @@
+<!-- $Id: goods_type_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,validator.js"}
+<style type="text/css">
+    {literal}
+    .list-div table {
+        border-width:1px;
+    }
+    {/literal}
+</style>
+<h4>
+    <span class='span-tip-header'>提醒：</span>
+    <span class="span-tip">
+      <pre>
+            请为每个订单录入快递信息
+      </pre>
+	</span>
+</h4>
+<div class="main-div">
+    <form action="" method="post" name="theForm" onsubmit="return validate();">
+        <table cellspacing="1" cellpadding="3" width="100%">
+            <tr>
+                <td class="label"  style="width:100%;text-align: left">发货单信息:
+                    {$detail.city_name}-->{$detail.port_name}<img src="images/fj.png" width="15">
+                    {$detail.airline_name}  {$detail.flight_no} 号航班 ({$detail.leave_date} {$detail.leave_time} 起飞)
+                    到港时间: {$detail.dispatch_arrival_time}
+                </td>
+            </tr>
+
+            <tr>
+                <td    >
+                    <div class="list-div">
+                        <table cellpadding="3" cellspacing="1">
+                            <tr>
+
+                                <th>订单号</th>
+                                <th>下单时间</th>
+                                <th>状态</th>
+                                <th>客户备注</th>
+                                <th>客户名</th>
+
+                                <th>收货人</th>
+                                <th>重量</th>
+                                <th>操作</th>
+
+
+                                <th style="width:120px;">{$lang.handler}</th>
+                            </tr>
+                            {foreach from=$orders item=detail}
+                            <tr>
+
+                                <td>{$detail.order_no}</td>
+                                <td>{$detail.order_time}</td>
+                                <td>
+                                    {assign var='order' value=$detail}
+                                    {if $order.order_paymentstatus}<span style="color:green;">{$lang.paymented}</span>{else}<span style="color:#f60;">{$lang.unpayment}</span>{/if}
+                                    {if $order.order_isdelivery eq 0}<span style="color:black;">{$lang.notpick}</span>
+                                    {elseif $order.order_isdelivery eq 1}<span style="color:black;">{$lang.pick}</span>
+                                    {elseif $order.order_isdelivery eq 2}<span style="color:black;">{$lang.processing}</span>
+                                    {elseif $order.order_isdelivery eq 4}<span style="color:black;">{$lang.shipping_ready}</span>
+                                    {elseif $order.order_isdelivery eq 51}<span style="color:black;">{$lang.shipping_part}</span>
+                                    {elseif $order.order_isdelivery eq 5}<span style="color:green;">{$lang.shipped}</span>  <br>  快递公司:{$order.waybill_shipment_name} 快递单号: {$order.ordw_waybillno} 发货时间: {if $order.ordw_sendtime>0}{$order.ordw_sendtime|time}{/if}
+                                    {elseif $order.order_isdelivery eq 6}<span style="color:green;">{$lang.finished}</span>
+                                    {/if}
+                                    {if $order.order_iscolsed}<span style="color:red;">{$lang.colsed}</span>{/if}
+
+                                </td>
+                                <td>{$detail.order_note}</td>
+                                <td>{$detail.user_name}</td>
+                                <td>{$detail.da_consignee} <br>{$detail.country_name} {$detail.da_address}
+                                <br>{$detail.da_consigneetelephone}</td>
+                                <td>{$detail.order_weight} g</td>
+                                <td>快递公司</td>
+
+
+                                <td style="width:120px;">
+                                    <a  class = "link-btn" href="engrave_all_orders.php?act=order_view&order_id={$detail.order_id}" title="查看" target="_blank">查看</a>
+                                    {if $order.order_isdelivery==4}
+                                    <a  class = "link-btn" href="engrave_all_orders.php?act=delivery&order_id={$detail.order_id}" title="发货" target="_blank">发货</a>
+                                    {/if}
+                                </td>
+                            </tr>
+                            {/foreach}
+                        </table>
+                    </div>
+                </td>
+            </tr>
+           
+            <tr align="center">
+                <td  >
+                    <input type="hidden" name="dispatch_id" value="{$detail.cat_id}" />
+                    <input type="submit" value="{$lang.button_submit}" class="button" />
+                    <input type="reset" value="{$lang.button_reset}" class="button" />
+                    <input type="hidden" name="act" value="{$form_act}" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    <!--
+    {literal}
+    onload = function() {
+        // document.forms['theForm'].elements['cat_name'].focus();
+        startCheckOrder();
+    }
+
+    function validate()
+    {
+        var validator = new Validator('theForm');
+        validator.required('cat_name', type_name_empty);
+
+        return validator.passed();
+    }
+    {/literal}
+    //-->
+</script>
+
+{include file="pagefooter.htm"}

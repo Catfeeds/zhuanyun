@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 关于我们 -->
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<!--[if IE 6]>
+<script src="themes/default/js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+ </head>
+ <body>
+ 
+{include file="header.htm"}
+   <!--conter-->
+    <div class="conter">
+	 
+	   <div class="conter_left">
+	   <h2>关于我们<span></span></h2>
+		<ul class="left_ul">
+		  {foreach from=$about_list item=about name="slider"}
+				<li><a href="index.php?act=list_about&id={$about.categoryid}">{$about.typename}</a></li>
+			{/foreach}
+		</ul>
+	    <h2>新闻中心<span></span></h2>
+		<ul class="left_ul">
+		  {foreach from=$channel_list item=channeltemp name="slider"}
+				<li><a href="index.php?act=list_news&id={$channeltemp.categoryid}">{$channeltemp.typename}</a></li>
+			{/foreach}
+		</ul>
+	   </div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+	    <div class="cr_bot">
+		  <p>{$aboutObj.cutformcontent}</p>
+		</div>
+	    <!-- 
+		<div class="cr_bot">
+		 {foreach from=$article_list item=article name="article_div"}
+		<dl class="news_infos">
+			<dt><h1>{$article.CntTimeShortYear}</h1>{$article.CntTimeYear}-{$article.CntTimeMonth}</dt>
+			<dd>   
+				<h3><a href="article.php?act=article_news&amp;articleid={$article.CntId}">{$article.CntTitle}</a></h3>
+          		<p>{$article.CntBriefIntroduction|truncate:80}<a href="article.php?act=article_news&amp;articleid={$article.CntId}">&gt;&gt;&gt;</a></p>
+		  </dd>
+		</dl>
+		{/foreach}
+		 <div class="tres">
+		 	{if $currentpage neq 1}
+			<A id="page_first" href="engrave_news.php?act=query&amp;page=1&amp;pagecount={$pagecount}" >{$lang.page_first}</A>
+			{else}
+			<A id="page_first" class="notedit" href="engrave_news.php?act=query&amp;page=1&amp;pagecount={$pagecount}" >{$lang.page_first}</A>
+			{/if}    
+			<A id="page_prev" href="engrave_news.php?act=query&amp;page={math equation='x-1' x=$currentpage  format='%d'}&amp;pagecount={$pagecount}">{$lang.page_prev}</A>
+			 {foreach from=$record_count item=recordcount name="record_a"}
+				<A id="page{$recordcount}" href="engrave_news.php?act=query&amp;page={$recordcount}&amp;pagecount={$pagecount}">{$recordcount}</A>
+			 {/foreach}
+	        <A id="page_next" href="engrave_news.php?act=query&amp;page={math equation='x+1' x=$currentpage  format='%d'}&amp;pagecount={$pagecount}">
+				{$lang.page_next}</A>
+	        <A id="page_last" href="engrave_news.php?act=query&amp;page={$pagecount}&amp;pagecount={$pagecount}">{$lang.page_last}</A>
+	        <input type="hidden" id="currentpage" name="currentpage" value="{$currentpage}"></input>
+	        <input type="hidden" id="pagecount" name="pagecount" value="{$pagecount}"></input>
+          </div>
+		</div>-->
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+
+{include file="footer.htm"}
+ </body>
+ </html>
+<!-- 
+{literal}
+<script type="text/javascript">
+var currentpage= document.getElementById('currentpage');
+var pagecount = document.getElementById('pagecount');
+
+if(pagecount.value==1){
+	//只有一页
+	var pagefirst=document.getElementById("page_first");//首页
+	var pageprev=document.getElementById("page_prev");//上一页
+	var pagelast=document.getElementById("page_last");//末页
+	var pagenext=document.getElementById("page_next");//下一页
+	pagefirst.setAttribute("disabled",true);
+	pageprev.setAttribute("disabled",true);
+	pagelast.setAttribute("disabled",true);
+	pagenext.setAttribute("disabled",true);
+}
+else if(currentpage.value==1)
+{
+	//第一页
+	var pagefirst=document.getElementById("page_first");//首页
+	var pageprev=document.getElementById("page_prev");//上一页
+	pagefirst.setAttribute("disabled",true);
+	pageprev.setAttribute("disabled",true);
+}
+else if(pagecount.value==currentpage.value)
+{
+	//当前页
+	var pagelast=document.getElementById("page_last");//末页
+	var pagenext=document.getElementById("page_next");//下一页
+	pagelast.setAttribute("disabled",true);
+	pagenext.setAttribute("disabled",true);
+}
+var pagecurrent=document.getElementById("page"+currentpage.value);//当前页
+pagecurrent.setAttribute("disabled",true);
+</script>
+{/literal}
+ -->

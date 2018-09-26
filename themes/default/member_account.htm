@@ -1,0 +1,180 @@
+{include file="header_user.htm"}
+	{literal}
+	<style >
+		.warehouse_process{
+			height: 45px;
+			width: 100%;
+			background-color: #ffeef1;
+			border-radius: 5px;
+		}
+		.warehouse_process .warehouse_process_title{
+			color: #3c3c3c;
+			font-size: 20px;
+			line-height: 45px;
+			margin-left: 20px;
+		}
+	</style>
+	{/literal}
+   <!--conter-->
+    <div class="conter">
+	 <div class="member_sub">
+	  {include file="member_menu.htm"}
+	</div>
+	   <div class="conter_right">
+	  
+		  <div class="cr_bot">
+		    <dl>
+			  <dt>
+			  	<a href="user.php?act=member_headsculpture">
+			  		<img src="{$users.user_headsculpture}" width="68px" height="68px"/>
+			  	</a>
+			  </dt>
+			  <dd class="dds1">
+		  		<h2 style="float:left;">{$users.user_name}
+				  <span style="font-size:14px;">（{$rlm}：{$users.storage_code}）
+					{if $users.is_validated==1}<font color="red"> {$yyz}  </font>{else}<font color="green"> {$wtgyz}</font>{/if}</span>
+		  		<!-- (编码：{$users.storage_code}&nbsp; -->
+		  		</h2>
+		  		<p style="float:left;padding:7px 5px;"> {$lang.member_rank}：
+		  		<span {if $users.ur_color}style="color:{$users.ur_color}"{/if}>{$users.rank_name}{if $users.ur_icon}<img style="float:right;" src="{$users.ur_icon}"></img>{/if}</span>
+		  		</p>
+			  </dd>
+			  <dd>
+			  	<p class="ddpl">{$xfze}：<span>{$currency_symbol.Symbol}{$cost}</span></p>
+			  	<p class="ddpr">{$kxfjf}：<span>{$users.pay_points}</span></p>
+				  <p class="ddpr">订单支付方式：<span>{$users.user_payment_type}</span></p>
+			  	<!-- <p class="ddpr">{$ryzhye}：<span>{$currency_jpy.Symbol}{$users.user_jpymoney}{$currency_jpy.Name}</span></p> -->
+			  </dd>
+			  <dd>
+			  	<p class="ddpl">{$zhye}：<span>{$currency_symbol.Symbol}{$users.user_money}{$currency_symbol.Name}</span></p>
+			  	<p class="ddpr">{$yfzk}：<span>{if $users.discount neq 0}{math equation='x/10' x=$users.discount format='%.2f'}{else}10.00{/if}折</span></p>
+			  	<!--<p class="ddpr">{$fszhye}：<span>{$currency_symbol.Symbol}{$users.user_subsidiarymoney}{$currency_symbol.Name}</span></p>-->
+			  </dd>
+			</dl>
+			<div class="clear"></div>
+			<table class="actable">
+				<tr>
+					<td class="dengj">{$ybtx}</td>
+					<td class="dengjs">
+						<a href="member.php?act=member_12&type=0">{$wdh}（{$package.package0}）</a>
+					</td>
+					<td class="dengjs">
+						<a href="member.php?act=member_12&type=4">{$ych}（{$package.package4}）</a>
+					</td>
+					<td class="dengjs">
+						<a href="member.php?act=member_12&type=5">{$ddfc}（{$package.package5}）</a>
+					</td>
+					<td class="dengjs"></td>
+				</tr>
+				<tr>
+					<td class="dengj">{$ddtx}</td>
+					<td class="dengjs">
+						<a href="member.php?act=21&type=0">{$wcl}（{$order.order0}）</a>
+					</td>
+					<td class="dengjs">
+						<a href="member.php?act=21&type=3">{$wfk}（{$order.order3}）</a>
+					</td>
+					<td class="dengjs">
+						<a href="member.php?act=21&type=4">{$dbz}（{$order.order4}）</a>
+					</td>
+					<td class="dengjs">
+						<a href="member.php?act=21&type=5">{$yfc}（{$order.order5}）</a>
+					</td>
+				</tr>
+			 </table>
+			 {foreach from=$warehouse_list item=warehouse}
+		 	<table class="actables">
+				<tr>
+					<th colspan="2"><span></span>{$warehouse.HouseName}</th>
+				</tr>
+		 
+				<tr>
+					<td class="dengj" colspan="2">（Address）：{$warehouse.Address}</td>
+				</tr>
+				<tr>
+					<td class="dengj">{$city}（City）：{$warehouse.City}</td>
+					<td class="dengj">省（Province）：{$warehouse.Province}</td>
+				</tr>
+				<tr>
+					<td class="dengj">{$zip}（Zip Code）：{$warehouse.ZipCode}</td> 
+					<td class="dengj">{$tel}（Tel）:{$warehouse.Tel}</td>
+				</tr>	
+				<!-- <tr>
+					<td class="dengj">{$mfccts}：{$warehouse.WarehousingBM}{$days}，{$cssq}￥{$warehouse.Warehousing}/{$days}</td>
+					<td style="color: #f00; font-style: oblique;">{$zdxhts}{$warehouse.RolloverBM}{$twfhjzd}</td>
+				</tr> -->
+				<tr>
+					<td class="dengj" colspan="2" style="color: #f00; font-style: oblique;">{$zysx}（attentions）：{$warehouse.Note}</td>
+				</tr>
+			 </table>
+			 {/foreach}
+
+			 <div id="hyzxzylc">
+					<div class="warehouse_process">
+						<div class="warehouse_process_title">转运流程</div>
+					</div>
+					<div id="hyzxzylc_neirong">
+						<div id="hyzxzylc_neirong_01">
+							<img src="themes/default/images/rbhm/hyzx_13.jpg" border="0">
+						</div>
+						<div id="hyzxzylc_neirong_02">
+							<div class="hyzxzylc_neirong_img"><img src="themes/default/images/rbhm/hyzx_07.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_txt">
+								注册用户获得上方下单地址<br>
+								购买完毕后得到商家发货单号通常为12位数字<br>
+								将得到的日本国内物流公司的货运单号到到货预报填写，可只填写单号即可，为方便提交发货，建议在预报页面将购物的物品名称，数量和单价填写完整。
+							</div>
+						</div>
+						<div id="hyzxzylc_neirong_03">
+							<div class="hyzxzylc_neirong_03_jt"><img src="themes/default/images/rbhm/hyzx_12.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_03_sz"><img src="themes/default/images/rbhm/hyzx_14.jpg" border="0"></div>
+						</div>
+						<div id="hyzxzylc_neirong_04">
+							<div class="hyzxzylc_neirong_img"><img src="themes/default/images/rbhm/hyzx_08.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_txt">
+	待购买过的包裹入库之后，到【提交发货】页面，勾选需要发货的包裹，选择运输线路，如果在预报时没有填写商品内容或没有预报的包裹，需要在提交发货页面填写商品内容向收件国海关进行申报。
+							</div>
+						</div>
+						<div id="hyzxzylc_neirong_05">
+							<div class="hyzxzylc_neirong_03_jt"><img src="themes/default/images/rbhm/hyzx_12.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_03_sz"><img src="themes/default/images/rbhm/hyzx_15.jpg" border="0"></div>
+						</div>
+						<div id="hyzxzylc_neirong_06">
+							<div class="hyzxzylc_neirong_img"><img src="themes/default/images/rbhm/hyzx_09.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_txt">
+	提交发货后等待处理，如选择手动确认方式支付，则在打包完成后需要手动在订单列表确认支付，如果选择自动支付且余额足够，则会自动进入发货程序.						</div>
+						</div>
+						<div id="hyzxzylc_neirong_07">
+							<div class="hyzxzylc_neirong_03_jt"><img src="themes/default/images/rbhm/hyzx_12.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_03_sz"><img src="themes/default/images/rbhm/hyzx_16.jpg" border="0"></div>
+						</div>
+						<div id="hyzxzylc_neirong_08">
+							<div class="hyzxzylc_neirong_img"><img src="themes/default/images/rbhm/hyzx_10.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_txt">
+	发货后，订单列表会显示发货单号，通常为E和C开头，中间数字以 JP结尾，直接点击该单号可以链接追踪信息，此号码为国际运输查询单号，中途不会进行改变。						</div>
+						</div>
+						<div id="hyzxzylc_neirong_09">
+							<div class="hyzxzylc_neirong_03_jt"><img src="themes/default/images/rbhm/hyzx_12.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_03_sz"><img src="themes/default/images/rbhm/hyzx_17.jpg" border="0"></div>
+						</div>
+						<div id="hyzxzylc_neirong_10">
+							<div class="hyzxzylc_neirong_img"><img src="themes/default/images/rbhm/hyzx_11.jpg" border="0"></div>
+							<div class="hyzxzylc_neirong_txt">
+	收到包裹后，首先确认重量是否与出库重量有差异，如果有请先不要签收，尽量开箱查验是否有缺少，并尽快联系我司客服，如商品正常，则签收，转运流程结束。						</div>
+						</div>
+						<div id="clear"></div>
+					</div>
+				</div>
+
+
+		  </div>
+		 </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  
+{include file="footer_user.htm"}
+
+ </body>
+ </html>

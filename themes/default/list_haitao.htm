@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<!--[if IE 6]>
+<script src="themes/default/js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+ </head>
+ <body>
+ 
+{include file="header.htm"}
+
+<div id="header_line"></div>
+
+
+<div id="huicontent_bg">
+	 <div id="huicontent">
+	   
+       <div id="xzdwz">
+		{$weizhi}：<a href="index.php?act=index">首页</a> > <a href="index.php?act=list_faq">FAQ</a>
+       </div>
+       
+     <div id="hbjzdh">
+       <ul>
+        <li>
+		   <div id="hbjzdh_cbt">FAQ</div>
+		</li>
+        <li>
+		  <div class="hbjzdh_flbt hbjzdh_curr">
+				<a href="index.php?act=list_faq">
+				  <div id="hbjzdh_flbt_img01"></div>
+		  		  <div class="hbjzdh_flbt_txt">帮助中心FAQ</div>
+				  <div id="clear"></div>
+				</a>
+		  </div>
+		</li>
+		
+		 {foreach from=$article_list item=article name="article_div"} 
+                 <li>
+		  <div class="hbjzdh_xxbt">
+				<a href="article.php?act=article_news&amp;articleid={$article.CntId}">
+				  <span class="hbjzdh_xxbt_txt">{$article.CntTitle|truncate:26}</span>
+				</a>
+		  </div>
+		 </li>
+                {/foreach}
+                <li>
+		  <div id="hbjzdh_kong"></div>
+		</li>
+       </ul>
+     </div>
+		
+		<div id="hbjynr">
+			<div id="hbjynr_img"><img src="themes/default/images/rbhm/hbjzdh_08.jpg" border="0" /></div>
+            <div id="hbjynr_liebiao">
+				<ul> {foreach from=$article_list item=article name="article_div"}  
+									<li><a href="article.php?act=article_news&amp;articleid={$article.CntId}">{$article.CntTitle}</a></li>
+			        				 {/foreach}
+			        				</ul>
+			</div>
+			<div id="hbjynr_yeshu_bg">
+				<div id="hbjynr_yeshu">
+					<ul>
+						<li class="hbjynr_yeshu_jiantou"><a href="#"><</a></li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li class="hbjynr_yeshu_jiantou"><a href="#">></a></li>
+					</ul>
+					<div id="clear"></div>
+				</div>
+				<div id="clear"></div>
+			</div>
+		</div>	 
+		<!-- <div class="cr_bot">
+		  <p class="MsoNormal">
+	<br />
+</p>
+<p class="MsoNormal">
+	<br />
+</p>
+		</div> -->
+	   <div id="clear"></div>
+	 </div>
+     <div id="huicontent_kong"></div>
+	</div>
+ 
+
+<div id="ptpp_bghui">
+  <div id="ptpp">
+  
+    {foreach from=$article_list item=article name="article_div"}  
+	<div class="ptpp_dan">
+		<div class="ptpp_dan_left"><img src="themes/default/images/rbhm/ptpp_01.png" border="0" /></div>
+		<div class="ptpp_dan_right">
+			<div class="ptpp_dan_right_title">迅捷的速度</div>
+			<div class="ptpp_dan_right_txt">最快一小时内出库！邮政内部仓库，发货当日上飞机</div>
+		</div>
+		<div id="clear"></div>
+	</div>
+	<div class="ptpp_kong"></div>
+	 {/foreach}
+	
+	<div id="clear"></div>
+ </div>
+</div>
+ 
+{include file="footer.htm"}
+ </body>
+ </html>

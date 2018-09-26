@@ -1,0 +1,262 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+<!--椤甸潰鐨勬煡璇�-->
+{include file="engrave_added_services_search.htm"}
+
+{insert_scripts files="../js/utils.js,listtable.js"}
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+<div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('RecordId'); ">{$lang.sort_id}</a>{$sort_RecordId}
+    </th>
+    <th><a href="javascript:listTable.sort('RecordNo'); ">{$lang.record_no}</a>{$sort_RecordNo}</th>
+	<th>{$lang.shipping_order}</th>
+	<th>{$lang.service_name}</th>
+	<th>{$lang.house_name}</th>
+	<th><a href="javascript:listTable.sort('IsPaid'); ">{$lang.service_paid}</a>{$sort_IsPaid}</th>
+	<th>{$lang.description}</th>
+	<th>{$lang.user}</th>
+	<th>{$lang.user_storage_code}</th>
+	<th>{$lang.stock_location}</th>
+	<th>{$lang.stock_status}</th>
+	<th><a href="javascript:listTable.sort('AddTime'); ">{$lang.add_time}</a>{$sort_AddTime}</th>
+	<th><a href="javascript:listTable.sort('StatusId'); ">{$lang.status_id}</a>{$sort_StatusId}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$services_list item=services}
+  <tr>
+    <td style="width:130px;" align="center">
+    	<input type="checkbox" name="checkboxes[]" value="{$services.RecordId}" />{$services.RecordId}
+    </td>
+    <td align="center">
+    <a href="engrave_added_services.php?act=edit&amp;id={$services.RecordId}" title="{$lang.edit}">
+    	<span>{$services.RecordNo}</span>
+    	</a>
+    </td>
+    <td align="center">
+    	<span>{$services.ShippingOrder}</span>
+    </td>
+	<td align="center">
+    	<span>{$services.ServiceName}</span>
+    </td>
+    <td align="center">
+    	<span>{$services.HouseName}</span>
+    </td>
+	<td align="center">
+    	<span>{if $services.IsPaid}{$lang.have_pay}{else}{$lang.fail_pay}{/if}</span>
+    </td>
+	<td align="center">
+    	<span>{$services.Description}</span>
+    </td>
+    <td align="center">
+    	<span>{$services.user_name} / Tel:{$services.Tel}</span>
+    </td>
+	<td align="center">
+    	<span>{$services.storage_code}</span>
+    </td>
+    	<td align="center">
+    	<span>{$services.pck_inventorylocation}</span>
+    </td>
+    <td align="center">
+    	<span>{$services.pck_packagestatus}</span>
+    </td>
+	<td align="center">
+    	<span>{$services.AddTime}</span>
+    </td>
+	<td align="center">
+    	{if $services.StatusId eq 1}
+    		<span style="color:blue;">{$lang.processed}</span>
+    	{else}
+    		<span style="color:red;">{$lang.untreated}</span>
+    	{/if}
+    </td>
+    <td align="center" class="order" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_added_services.php?act=edit&amp;id={$services.RecordId}" title="{$lang.edit}">{$lang.edit}</a>
+      <!-- <img src="images/icon_edit.gif" width="16" height="16" border="0" /> -->
+      <!-- <img src="images/icon_drop.gif" border="0" height="16" width="16" /> -->
+      <a href="javascript:;" onclick="listTable.remove({$services.RecordId},'{$lang.drop_confirm}')" title="{$lang.remove}">{$lang.remove}</a>
+      <a href="javascript:void(0)" onclick="upload_attach('{$services.RecordId}')">{$lang.upload_attach}</a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 锟斤拷页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+/********************************************************************
+ * 涓婁紶闄勪欢
+ *******************************************************************/
+var index=10;
+function upload_attach(pck_id)
+{
+	index=10;
+   var newMaskID = "mask";  //閬僵灞俰d
+   var  newMaskWidth =document.body.scrollWidth;//閬僵灞傚搴�
+   var  newMaskHeight =document.body.scrollHeight;//閬僵灞傞珮搴�    
+   //mask閬僵灞�  
+  var newMask = document.createElement("div");//鍒涘缓閬僵灞�
+ newMask.id = "shade_mask"+pck_id;//璁剧疆閬僵灞俰d
+ newMask.style.position = "absolute";//閬僵灞備綅缃�
+ newMask.style.zIndex = "1";//閬僵灞倆Index
+ newMask.style.width = newMaskWidth + "px";//璁剧疆閬僵灞傚搴�
+ newMask.style.height = newMaskHeight + "px";//璁剧疆閬僵灞傞珮搴�
+ newMask.style.top = "0px";//璁剧疆閬僵灞備簬涓婅竟璺濈
+ newMask.style.left = "0px";//璁剧疆閬僵灞傚乏杈硅窛绂�
+ newMask.style.background = "#B3B3B3";//#33393C//閬僵灞傝儗鏅壊
+ newMask.style.filter = "alpha(opacity=40)";//閬僵灞傞€忔槑搴E
+ newMask.style.opacity = "0.40";//閬僵灞傞€忔槑搴F
+ document.body.appendChild(newMask);//閬僵灞傛坊鍔犲埌DOM涓�
+
+ //鏂板脊鍑哄眰
+ var newDivWidth = 400;//鏂板脊鍑哄眰瀹藉害
+ var newDivHeight = 300;//鏂板脊鍑哄眰楂樺害
+ var newDiv = document.createElement("div");//鍒涘缓鏂板脊鍑哄眰
+ newDiv.style.overflow="auto";
+ newDiv.id = "shade_div"+pck_id;//璁剧疆鏂板脊鍑哄眰锛╋激
+ newDiv.style.position = "absolute";//鏂板脊鍑哄眰浣嶇疆
+ newDiv.style.zIndex = "9999";//鏂板脊鍑哄眰zIndex
+
+ newDiv.style.width = newDivWidth + "px";//鏂板脊鍑哄眰瀹藉害
+ newDiv.style.height = newDivHeight + "px";//鏂板脊鍑哄眰楂樺害
+ var newDivtop=(document.body.scrollTop +150) ;//鏂板脊鍑哄眰璺濈涓婅竟璺濈
+ var newDivleft=(document.body.scrollLeft + document.body.clientWidth/2 
+         - newDivWidth/2);//鏂板脊鍑哄眰璺濈宸﹁竟璺濈
+ newDiv.style.top = newDivtop+ "px";//鏂板脊鍑哄眰璺濈涓婅竟璺濈
+ newDiv.style.left = newDivleft + "px";//鏂板脊鍑哄眰璺濈宸﹁竟璺濈
+ newDiv.style.background = "#FFFFFF";//鏂板脊鍑哄眰鑳屾櫙鑹�
+ newDiv.style.border = "1px solid #9DE3F1";///鏂板脊鍑哄眰杈规鏍峰紡
+ newDiv.style.padding = "5px";//鏂板脊鍑哄眰
+ document.body.appendChild(newDiv);//鏂板脊鍑哄眰娣诲姞鍒癉OM涓�
+
+ var form_file = document.createElement("form");
+ form_file.action="engrave_added_services.php?act=upload&RecordId="+pck_id;
+ form_file.method="post";
+ form_file.name="fileForm";
+ form_file.enctype="multipart/form-data"
+ 
+ newDiv.appendChild(form_file);
+ 
+ //鍏抽棴鏂板浘灞傚拰mask閬僵灞�
+ var divClose = document.createElement("div");
+ divClose.href = "#";
+ divClose.style.position = "absolute";//span浣嶇疆
+ divClose.style.left=newDivWidth -20 + "px";
+ divClose.style.cursor="pointer";
+ divClose.innerHTML = "鍏抽棴";
+ divClose.onclick = function()//澶勭悊鍏抽棴浜嬩欢
+ {
+     if(document.all)
+     {
+         window.detachEvent("onscroll",newDivCenter);
+     }
+     else
+     {
+         window.removeEventListener('scroll',newDivCenter,false);
+     }
+      document.body.removeChild(newMask);//绉婚櫎閬僵灞�   
+      document.body.removeChild(newDiv);////绉婚櫎寮瑰嚭妗�
+     return false;
+  }
+ form_file.appendChild(divClose);//娣诲姞鍏抽棴span
+
+ //鎻愪氦琛ㄥ崟
+ var divSubmit = document.createElement("input");
+ divSubmit.type="submit"
+ divSubmit.style.position = "absolute";//span浣嶇疆
+ divSubmit.style.left=newDivWidth/2-10 + "px";
+ divSubmit.style.bottom=5 + "px";
+ divSubmit.style.cursor="pointer";
+ divSubmit.name="submit";
+ divSubmit.value = "鎻愪氦";
+ form_file.appendChild(divSubmit);//娣诲姞鍏抽棴span
+  
+  var div_File=document.createElement("div");
+  form_file.appendChild(div_File);
+  var file1=document.createElement("input");
+  file1.type="file";
+  file1.name="file1";
+  form_file.appendChild(file1);
+  var index=1;
+  var newFile=document.createElement("input");
+  newFile.type="button";
+  newFile.value="娣诲姞涓婁紶鏂囦欢";
+  newFile.onclick=function()
+  {
+	  var file=document.createElement("input");
+	  file.type="file";
+	  file.name="file"+(index+1);
+	  form_file.appendChild(file);
+	  var removeFile=document.createElement("input");
+	  removeFile.type="button";
+	  removeFile.value="绉婚櫎";
+	  removeFile.onclick=function()
+	  {
+		  form_file.removeChild(file);
+		  form_file.removeChild(removeFile);
+	  }
+	  form_file.appendChild(removeFile);
+  }
+  div_File.appendChild(newFile);
+  
+ 
+ //寮瑰嚭灞傛粴鍔ㄥ眳涓�
+ function newDivCenter()
+ {
+    newDiv.style.top = (document.body.scrollTop +150) + "px";
+    newDiv.style.left = (document.body.scrollLeft + document.body.clientWidth/2
+             - newDivWidth/2) + "px";
+ }
+ if(document.all)//澶勭悊婊氬姩浜嬩欢锛屼娇寮瑰嚭灞傚缁堝眳涓�
+ {
+     window.attachEvent("onscroll",newDivCenter);
+ }
+ else
+ {
+     window.addEventListener('scroll',newDivCenter,false);
+ }
+
+}
+/********************************************************************
+ * ------涓婁紶闄勪欢
+ *******************************************************************/
+ 
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

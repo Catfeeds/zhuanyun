@@ -1,0 +1,73 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_site_classification.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.HelpTitle}</td>
+    <td><input type="text" name="ClassName" maxlength="60" value="{$class.ClassName}" />{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpTop}</td>
+    <td><select name="parent_id" onchange="catChanged()" {if $disabled }disabled="disabled"{/if} >
+        <option value="0">{$lang.cat_top}</option>
+        {$cat_select}
+      </select>{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpClassify}</td>
+    <td> <input type="file" name="goods_img" size="35" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpLink}</td>
+    <td><input type="text" name="ClassName" maxlength="60" value="{$class.ClassName}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpBrief}</td>
+    <td><textarea name="goods_brief" cols="40" rows="3"></textarea></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpOutside}</td>
+    <td><input type="text" name="ClassName" maxlength="60" value="{$class.ClassName}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.HelpPosi}</td>
+    <td><select name="item_type">
+  <option value='top' {$rt.item_type_top}>{$lang.Posi1}</option><option value='middle' {$rt.item_type_middle}>{$lang.Posi2}</option><option value='middle' {$rt.item_type_middle}>{$lang.Posi3}</option>  <option value='bottom' {$rt.item_type_bottom}>{$lang.Posi4}</option>
+  </select></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="old_ClassName" value="{$class.ClassName}" />
+      <input type="hidden" name="id" value="{$class.ClassId}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['ClassName'].focus();
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("ClassName",  no_classname);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

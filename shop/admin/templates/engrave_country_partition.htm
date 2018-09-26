@@ -1,0 +1,66 @@
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+	<!-- start currecys list -->
+	<div class="list-div" id="listDiv">
+		<table cellpadding="3" cellspacing="1">
+		  <tr>
+		    <th>
+		      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+		      <a href="javascript:listTable.sort('CId'); ">{$lang.record_id}</a>{$sort_CId}
+				</th>
+				<th> 物流</th>
+		    <th> 名称</th>
+		    
+				
+				<th> 国家 </th>
+				<th> 时效 </th>
+				<th> 说明 </th>
+
+		    <th>{$lang.handler}</th>
+		  </tr>
+		  {foreach from=$data_list  item=country}
+		  <tr>
+		    <td style="width:50px;" align="center">
+		    	{$country.cp_id}
+				</td>
+
+				<td align="center">
+						{assign var="temp" value=$allShipments[$country.shipment_id]}
+					
+
+						<span>{$temp.shipment_name} </span>
+				</td>
+		    <td align="center">
+		    	<span>{$country.cp_name} </span>
+		    </td>
+		 
+		    <td align="center">
+		    	<span>{$country.country_list}</span>
+				</td>
+				<td align="center">
+		    	<span>{$country.day_long}</span>
+		    </td>
+				<td align="center">
+						<span>{$country.description}</span>
+					</td>
+		    <td align="center" style="width:150px; padding:0px; margin:0px">
+					<a href="engrave_country_partition.php?act=edit&id={$country.cp_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+
+		    </td>
+		  </tr>
+		  {foreachelse}
+		  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+		  {/foreach}
+		</table>	
+
+		{include file="engrave_page.htm"}
+
+
+	</div>
+ </form>
+ <script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+</script>
+{include file="engrave_pagefooter.htm"}

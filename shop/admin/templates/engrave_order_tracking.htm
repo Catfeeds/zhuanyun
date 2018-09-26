@@ -1,0 +1,132 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+<style>
+table {border-collapse: separate;border-spacing: 2px;border-color: gray;}
+table.orderTb tr td{border:solid 1px #ccc;}
+table.orderTb {border-collapse: collapse;}
+th {font-weight: bold;}
+h2.track_tit {font-size: 14px;line-height: 32px;height: 31px;overflow: hidden;border-bottom: solid 1px #ccc;margin-bottom: 10px;}
+table.orderTb tr th{text-align:center;background:#efefef;border-bottom:solid 1px #ccc;padding:5px;}
+</style>
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_order_tracking.php" method="post" name="theForm" >
+        <!-- ������ -->
+        <table cellspacing="1" cellpadding="3" width="100%">
+          <tr>
+          	<td class="label">
+          	   {$lang.OrderNo}
+          	</td>
+			<td>
+				<input type="text" id="OrderNo" name="OrderNo" onchange="orderTrack();" size="15" />
+			</td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.operatortip}</td>
+            <td>
+              <textarea id="Message" name="Message" cols="40" rows="3">{$track_info.tr_message|escape}</textarea>
+			      ←
+			  <select id="ordermenssage" name="ordermenssage" onchange = "SelectOrderMess();" >
+			  	<option value="0">{$lang.select_please}</option>
+			  	<option value="1">{$lang.message1}</option>
+				<option value="2">{$lang.message2}</option>
+				<option value="3">{$lang.message3}</option>	
+			  </select>
+            </td>
+          </tr>
+        </table> 
+		<div class="button-div">
+          <input type="submit" value="{$lang.button_update}" class="button" />
+          <input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+        </div>  
+		<div id="logInfo" style="margin:10px; padding:10px;display:none;">
+		    <h2 class="track_tit">历史跟踪</h2>
+			<table class="orderTb" style="border:solid 1px #ccc;" >
+				<tbody id="orderdetails">
+				</tbody>
+			</table>
+		</div>   
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="hidOrderId" id="hidOrderId" />
+		<input type="hidden" name="hidtrid" value="{$track_info.tr_id}" />
+      </form>
+</div>
+<script language="JavaScript">
+   function SelectOrderMess()
+   {
+     $statusCode = document.getElementById('ordermenssage').value;
+	 if($statusCode == '1')
+	 {
+	    document.getElementById("Message").value = '订单已至机场，等待登机';
+	 }
+	 else if($statusCode == '2')
+	 {
+	 	document.getElementById("Message").value = '订单已至国内海关，等待处理';
+	 }
+	 else if($statusCode == '3')
+	 {
+	 	document.getElementById("Message").value = '订单已至在海关处理完成，等待转国内快递';
+	 }
+	 else
+	 {
+	 	document.getElementById("Message").value = "";
+	 }
+   }
+   function orderTrack()
+   {
+   	  var OrderNo = document.getElementById('OrderNo').value;
+	  Ajax.call('engrave_order_tracking.php?act=getOrderNo',"orderno="+OrderNo,act_calorderno,"POST","TEXT",true,true);
+	  Ajax.call('engrave_order_tracking.php?act=getOrderDetails',"orderno="+OrderNo,act_calorderdetails,"POST","TEXT",true,true);
+   }
+   function act_calorderno(result)
+   {
+   	  if(result==1)
+	  {
+	  	 gObj('logInfo').style.display = "";
+	  }
+   }
+   function act_calorderdetails(result)
+   {
+   	    var order_text='';
+	    var obj = eval('(' + result + ')');
+		var orderdetails = document.getElementById("orderdetails");
+        order_text = '<tr><th>处理时间</th><th>处理信息</th><th>操作人</th></tr>';
+		for(var index = 0;index < obj.length;index++)
+		{
+			order_text += "<tr>"
+						+"<td style='text-align:center'>"+obj[index].ol_time+"</td>"
+						+"<td style='width:400px;text-align:left;'>"+obj[index].ol_info+"</td>"
+						+"<td style='text-align:center'>"+obj[index].ol_username+"</td>"
+					    +"</tr>";
+		}
+		orderdetails.innerHTML = order_text;
+   }
+   	//是否对相关标签进行隐藏
+	function gObj(obj)
+	{
+	  var theObj;
+	  if (document.getElementById)
+	  {
+	    if (typeof obj=="string") 
+		{
+	      return document.getElementById(obj);
+	    } 
+		else 
+		{
+	      return obj.style;
+	    }
+	  }
+	  return null;
+	}
+</script>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+
+{include file="pagefooter.htm"}

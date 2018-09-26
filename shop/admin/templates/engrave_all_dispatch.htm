@@ -1,0 +1,202 @@
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+<!--页面的查询-->
+<style type="text/css">
+    .order-item:nth-child(even)  {
+        background-color: #ddd2c0;
+    }
+    .order-item:not(:last-child) {
+        border-bottom: 1px solid #ddd2c0;
+        font-size: 12px;
+    }
+</style>
+
+<h4>
+	<span class='span-tip-header'>提醒：</span>
+	<span id="search_id" class="span-tip">
+    欧洲专线的订单将当日要处理的订单生成为一个个的发货单. 每个发货单包含多信订单.根据的选择的发货单自动匹配航班.
+      <br>
+       1: 当日生成的发货单必须在当天匹配航班<br>
+       2:  过期未处理的发货单,请手动 取消,取消后可以重新生成发货单
+      <br>发货单状态:
+      <pre>
+noflight: 未匹配航班
+wps:等待发货
+transporting:运输中
+arrived: 已到港
+
+      </pre>
+      <!-- split :  已拆单 (接下来就是 国外快递公司接单,系统要录入 快递单号, 物品, , 一个订单可能对应多个快递单号) -->
+        <br>优化算法:<br>
+        <pre>
+            每周五下午根据航空公司的报价输入下一周航班数据和运价
+当天下班前进行根据已经收到的包裹的数据进行优化；并向航空公司订次日下午或者后天的航班
+如果有特别紧急的客户要求，一般采取时效优先原则，订次日下午最便宜的直飞航班即可
+如果没有特别紧急的客户要求，一般在次日下午和后天的航班中选择最便宜的航班即可
+计算出本次航班的总的航空运费
+        </pre>
+        
+	</span>
+</h4>
+
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div style="padding :10px">
+    <a  href="javascript:; " target="_blank"  class="link-btn" onclick="mapAirline()">匹配航班</a>
+</div>
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start package list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th style="width:60px;">
+        <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+        编号
+    </th>
+    <th>生成时间</th>
+    <th width="300">包含订单</th>
+    <th>出发城市</th>
+    <th>航班号</th>
+    <th>总重(g)</th>
+    <!--<th>航空发货单号</th>-->
+    <th>时效</th>
+    <th>状态</th>
+    <th>航班匹配时间</th>
+
+    <th style="width:120px;">{$lang.handler}</th>
+  </tr>
+  {foreach from=$data_list item=order}
+  {assign var="temp" value=$allCountries[$order.country_id]}
+  {assign var="tempShipment" value=$allShipments[$order.order_shipmentid]}
+  
+  <tr>
+    <td align="right">
+        {if $order.status =='noflight' }
+        <input type="checkbox" name="checkboxes[]" value="{$order.dispatch_id}" />
+        {/if}
+        {$order.dispatch_id}</td>
+    <td align="center">{$order.create_time}</td>
+    <td align="left" >
+        {foreach from=$order.orders item=sub}
+        <div class="order-item">
+        <a href="engrave_all_orders.php?act=order_view&order_id={$sub.order_id}">({$sub.order_id}){$sub.order_no}</a>[欧洲专线]
+            {assign var='orderInfo' value=$sub}
+            {if $orderInfo.order_paymentstatus}<span style="color:green;">{$lang.paymented}</span>{else}<span style="color:#f60;">{$lang.unpayment}</span>{/if}
+            {if $orderInfo.order_isdelivery eq 0}<span style="color:black;">{$lang.notpick}</span>
+            {elseif $orderInfo.order_isdelivery eq 1}<span style="color:black;">{$lang.pick}</span>
+            {elseif $orderInfo.order_isdelivery eq 2}<span style="color:black;">{$lang.processing}</span>
+            {elseif $orderInfo.order_isdelivery eq 4}<span style="color:black;">{$lang.shipping_ready}</span>
+            {elseif $orderInfo.order_isdelivery eq 51}<span style="color:black;">{$lang.shipping_part}</span>
+            {elseif $orderInfo.order_isdelivery eq 5}<span style="color:green;">{$lang.shipped}</span>
+            {elseif $orderInfo.order_isdelivery eq 6}<span style="color:green;">{$lang.finished}</span>
+            {/if}
+            {if $orderInfo.order_iscolsed}<span style="color:red;">{$lang.colsed} </span>{/if}
+            欧洲专线:{$orderInfo.dispatch_status}
+            {if $sub.ordw_waybillno}
+             <br>快递公司:{$sub.waybill_shipment_name} 快递单号: {$sub.ordw_waybillno}
+                发货时间:{if $sub.ordw_sendtime}{$sub.ordw_sendtime|time}{/if}
+            {/if}
+
+
+
+        </div>
+
+        {/foreach}
+
+
+    </td>
+    <td align="center">{$order.city_name}</td>
+    <td align="center">
+      {if $order.flight_id>0}
+        {assign var="flight_info" value=$order.flight_info}
+        {$flight_info.airline_name}-{$flight_info.flight_no}<br>
+        ({$flight_info.leave_date} {$flight_info.leave_time} 起飞)
+      {/if}
+      {$order.airline_no}
+    </td>
+    <td align="center">{$order.total_weight}</td>
+    <!--<td align="center">{$order.dispath_no}</td>-->
+    <td align=center>
+      {if $order.time_request == 'normal'}正常{else}<b>紧急</b>{/if}
+    </td>
+    <td align="center">{$order.status}</td>
+    <td align="center">
+      {if $order.last_map_status == 'failed'}
+      <font color="red">{$order.last_map_info}</font>
+      {/if}
+      {$order.last_map_time}</td>
+	<td align="center">
+      {if $order.status=='noflight' }
+      <a   href="engrave_all_dispatch.php?act=cancel&dispatch_id={$order.dispatch_id}" target="_blank" class="link-btn">取消</a>
+      {/if}
+      {if $order.status=='wps' }
+        <a   href="engrave_all_dispatch.php?act=sendgoods&dispatch_id={$order.dispatch_id}" target="_blank" class="link-btn">发货</a>
+      {/if}
+      {if $order.status=='transporting' }
+        <a    href="engrave_all_dispatch.php?act=arrival&dispatch_id={$order.dispatch_id}"  target="_blank" class="link-btn">已到港</a>
+      {/if}
+      {if $order.status=='arrived' && !$order.dispatchOrdersAllSended}
+        <a   href="engrave_all_dispatch.php?act=fillexpress&dispatch_id={$order.dispatch_id}"   target="_blank" class="link-btn">录入快递信息</a>
+      {/if}
+      {if $order.status=='split' }
+      <a   href="" target="_blank" class="link-btn">???</a>
+      {/if}
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end package list -->
+
+<!-- 分页-->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+<!-- 批量执行操作 -->
+
+
+{if $full_page}
+</div>
+</form>
+
+<script type="text/javascript">
+{literal}
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+function getCheckedIds() {
+  var $cks = $('input[name^=checkboxes]');
+  var ids = [];
+  $cks.each(function() {
+      if($(this).prop('checked')) {
+          ids.push($(this).val())
+      }
+  });
+  return ids;
+}
+function mapAirline(e) {
+  //e.preventDefault();
+  var ids = getCheckedIds();
+  if(!ids.length) {
+    alert('请选择要处理的发货单');
+    return false;
+  }
+  location.href = "engrave_all_dispatch.php?act=mapairline&ids="+ids.join(',');
+  return false;
+}
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}
+<script>
+
+</script>

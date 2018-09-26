@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<script type="text/javascript" src="themes/default/js/jquery.smallslider.js" /></script>
+<script type="text/javascript" src="themes/default/js/user.js"></script>
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+
+</head>
+<body>
+{include file="header.htm"}
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+		 <div class="msg_cr_bot">
+	   		<div class="list-div">
+				  <div style="background:#FFF; padding: 10px 0px; margin: 2px;">
+				    <table align="center" width="400">
+				      <tr>
+				        <td width="50" valign="top">
+				          {if $msg_type==0}
+				          <img src="images/information.gif" width="32" height="32" border="0" alt="information" />
+				          {elseif $msg_type eq 1}
+				          <img src="images/warning.gif" width="32" height="32" border="0" alt="warning" />
+				          {else}
+				          <img src="images/confirm.gif" width="32" height="32" border="0" alt="confirm" />
+				          {/if}
+				        </td>
+				        <td style="font-size: 14px; font-weight: bold">{$msg_detail}</td>
+				      </tr>
+				      <tr>
+				        <td></td>
+				        <td id="redirectionMsg">
+				          {if $auto_redirect}{$lang.auto_redirection}{/if}
+				        </td>
+				      </tr>
+				      <tr>
+				        <td></td>
+				        <td>
+				          <ul style="margin:0; padding:0 10px" class="msg-link">
+				            {foreach from=$links item=link}
+				            <li><a href="{$link.href}" {if $link.target}target="{$link.target}"{/if}>{$link.text}</a></li>
+				            {/foreach}
+				          </ul>
+				
+				        </td>
+				      </tr>
+				    </table>
+				  </div>
+				  </div>
+			   </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+</div>
+{include file="footer.htm"}
+</body>
+{if $auto_redirect}
+<script language="JavaScript">
+<!--
+var seconds = 5;
+var defaultUrl = "{$default_url}";
+
+{literal}
+if(document.all) 
+{ 
+	window.attachEvent('onload', load);
+}
+else 
+{ 
+	window.addEventListener('load', load);
+}
+
+
+function load()
+{
+  if (defaultUrl == 'javascript:history.go(-1)' && window.history.length == 0)
+  {
+    document.getElementById('redirectionMsg').innerHTML = '';
+    return;
+  }
+  window.setInterval(redirection, 1000);
+}
+function redirection()
+{
+  if (seconds <= 0)
+  {
+    window.clearInterval();
+    return;
+  }
+
+  seconds --;
+  document.getElementById('spanSeconds').innerHTML = seconds;
+
+  if (seconds == 0)
+  {
+    window.clearInterval('redirection');
+    location.href = defaultUrl;
+  }
+}
+//-->
+</script>
+{/literal}
+{/if}

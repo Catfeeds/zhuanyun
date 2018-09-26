@@ -1,0 +1,439 @@
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,../js/region.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+
+<div class="tab-div">
+  <!-- tab bar -->
+ 	<div id="tabbar-div">
+      <p>
+        <span class="tab-front" id="tab_channel_basic-tab">{$lang.tab_channel_basic}</span>
+        <span class="tab-back" id="tab_channel_senior-tab">{$lang.tab_channel_senior}</span>
+        <span class="tab-back" id="tab_channel_advert-tab">{$lang.tab_channel_advert}</span>
+        <span class="tab-back" id="tab_channel_cutform-tab">{$lang.tab_channel_cutform}</span>
+      </p>
+    </div>
+  <!-- tab body -->
+  <div id="tabbody-div">
+    <form enctype="multipart/form-data" name="theForm" action="?act=post" method="post">
+    <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+        <!-- 基础设置 -->
+        <table width="90%" id="tab_channel_basic-table" align="center">
+          <tr>
+            <td class="label">{$lang.tab.parentid}</td>
+            <td>
+            <select name="parentid">
+            	<option value="0">{$lang.tab_content.onelevel}</option>
+            	{$channel_list}
+            </select>
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.tab.classifytype} 
+            </td>
+            <td>
+	            <input type="radio" name="classifytype" value='0' checked="checked">{$lang.tab_content.columntype}
+	            <input type="radio" name="classifytype" value='1'>{$lang.tab_content.frequencychannel}
+	            <input type="radio" name="classifytype" value='2'>{$lang.tab_content.externallink}
+	            <input type="radio" name="classifytype" value='3'>{$lang.tab_content.onshotcontent}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.allowpost}</td>
+            <td>
+	            <input type="radio" name="allowpost" value='0' checked="checked">{$lang.tab_content.allow}
+	            <input type="radio" name="allowpost" value='1'>{$lang.tab_content.notallow}
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.typename}</td>
+            <td>
+              <input type="text" name="typename" value="{$engrave_channel.typename}" size="20" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.channellogo}</td>
+            <td>
+    			<input type="file" name="channellogo" id="channellogo" size="20">
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.abbreviation}</td>
+            <td>
+            	 <input type="text" name="abbreviation" value="{$engrave_channel.abbreviation}" size="20" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.tab.linktip}</td>
+            <td>
+            	 <input type="text" name="linktip" value="{$engrave_channel.linktip}" size="20" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.tab.typesummary}</td>
+            <td>
+            	 <input type="text" name="typesummary" value="{$engrave_channel.typesummary}" size="20" />
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label">{$lang.tab.conentmodel}</td>
+            <td>
+	            <select name="conentmodel">
+	            	<option value="0">{$lang.tab_content.sitchannel}</option>
+	            	<option value="1">{$lang.tab_content.news}</option>
+	            	<option value="2">{$lang.tab_content.course}</option>
+	            </select>
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+			{$lang.tab.rewritecatalogue}</td>
+            <td><input type="text" name="rewritecatalogue" value="{$engrave_channel.rewritecatalogue}" size="20" />
+            <br /><span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="giveIntegral">{$lang.notice_give_integral}</span></td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.tab.outsidelink}</td>
+            <td>
+            	<input type="text" name="outsidelink" value="{$engrave_channel.outsidelink}" size="20" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.tab.sortid}</td>
+            <td>
+            	<input type="text" name="sortid" value="{$engrave_channel.sortid}" size="20" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+				{$lang.tab.columnshowposition}
+			</td>
+            <td>
+	            <input type="radio" name="columnshowposition" value='0' checked="checked">{$lang.tab.topnavigation}
+	            <input type="radio" name="columnshowposition" value='1'>{$lang.tab.leftnavigation}
+	            <input type="radio" name="columnshowposition" value='2'>{$lang.tab.bottomnavigation}
+	            <input type="radio" name="columnshowposition" value='3'>{$lang.tab.parentnavigation}
+	            <input type="radio" name="columnshowposition" value='4'>{$lang.tab.navigation}
+	            <input type="radio" name="columnshowposition" value='5'>{$lang.tab.relevancenavigation}
+	            <input type="radio" name="columnshowposition" value='6'>{$lang.tab.newtabopen}
+			</td>
+          </tr>
+        </table>
+        
+    <!-- 高级设置 -->
+        <table width="90%" id="tab_channel_senior-table" style="display:none" align="center">
+          <tr>
+          	<td class="label">{$lang.tab.metakey}</td>
+          	<td>
+          		<input type="text" name="metakey" value="{$engrave_channel.metakey}" size="20" />
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.metadescription}</td>
+          	<td>
+          		<input type="text" name="metadescription" value="{$engrave_channel.metadescription}" size="20" />
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.pagingsize}</td>
+          	<td>
+          		<input type="text" name="pagingsize" value="{$engrave_channel.pagingsize}" size="20" />
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.contentlink}</td>
+          	<td>
+          		<input type="checkbox" name="contentlink" checked="checked" />{$lang.tab_content.newtabopen}
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.liststyle}</td>
+          	<td>
+          		<select name="liststyle">
+          			<option value='0'>{$lang.tab_content.commonlist}</option>
+          			<option value='0'>{$lang.tab_content.picturelist}</option>
+          		</select>
+          	</td>
+          </tr>
+        </table>
+
+	<!-- 广告设置 -->
+        <table width="90%" id="tab_channel_advert-table" style="display:none">
+          <tr>
+          	<td class="label">{$lang.tab.topadvert}</td>
+          	<td>
+	          	<textarea id="topadvert" name="topadvert" style="width:700px;height:150px;visibility:hidden;">
+	          		{$engrave_channel.topadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.leftadvert}</td>
+          	<td>
+	          	<textarea id="leftadvert" name="leftadvert" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.leftadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.bottomadvert}</td>
+          	<td>
+	          	<textarea id="bottomadvert" name="bottomadvert" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.bottomadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.beforelistadvert}</td>
+          	<td>
+	          	<textarea id="beforelistadvert" name="beforelistadvert" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.beforelistadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.afterlistadvert}</td>
+          	<td>
+	          	<textarea id="afterlistadvert" name="afterlistadvert" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.afterlistadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.beforecontentadvert}</td>
+          	<td>
+	          	<textarea id="beforecontentadvert" name="beforecontentadvert" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.beforecontentadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.contentbottomadvert}</td>
+          	<td>
+	          	<textarea id="contentbottomadvert" name="contentbottomadvert" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.contentbottomadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.leftcontentadvert}</td>
+          	<td>
+	          	<textarea id="leftcontentadvert" name="leftcontentadvert" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.leftcontentadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.beforewritten}</td>
+          	<td>
+	          	<textarea id="beforewritten" name="beforewritten" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.beforewritten}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.aftercontentadvert}</td>
+          	<td>
+	          	<textarea id="aftercontentadvert" name="aftercontentadvert" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.aftercontentadvert}
+	          	</textarea>
+          	</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.innerwritten}</td>
+          	<td>
+	          	<textarea id="innerwritten" name="innerwritten" style="width:700px;height:150px;visibility:hidden;">
+	          	{$engrave_channel.innerwritten}
+	          	</textarea>
+          	</td>
+          </tr>
+        </table>
+        
+        <!-- 单页设定-->
+        <table width="90%" id="tab_channel_cutform-table" style="display:none">
+          <tr>
+          	<td colspan="2">
+          		{$lang.tab.cutformtip}
+   			</td>
+          </tr>
+          <tr>
+          	<td class="label">{$lang.tab.cutformcontent}</td>
+          	<td>
+	          	<textarea id="cutformcontent" name="cutformcontent" style="width:700px;height:300px;visibility:hidden;">
+	          	{$engrave_channel.cutformcontent}
+	          	</textarea>
+          	</td>
+          </tr>
+        </table>
+        
+    <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_act}" />
+        <input type="hidden" name="categoryid" value="{$engrave_channel.categoryid}"/>
+        <input type="hidden" name="oldChannellogo" value="{$engrave_channel.channellogo}"/>
+    </form>
+  </div>
+</div>
+
+{insert_scripts files="tab.js,validator.js"}
+{literal}
+<script language="JavaScript">
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="topadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#topadvert');
+	       },
+       	afterBlur:function(){
+           this.sync('#topadvert');
+        } 
+	});
+	var editor2 = K.create('textarea[id="leftadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#leftadvert');
+	       },
+        afterBlur:function(){
+           this.sync('#leftadvert');
+        } 
+	});
+	var editor3 = K.create('textarea[id="bottomadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#bottomadvert');
+	       },
+        afterBlur:function(){
+           this.sync('#bottomadvert');
+        } 
+	});
+	var editor4 = K.create('textarea[id="beforelistadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#beforelistadvert');
+	       },
+        afterBlur:function(){
+           this.sync('#beforelistadvert');
+        } 
+	});
+	var editor5 = K.create('textarea[id="afterlistadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#afterlistadvert');
+	       },
+        afterBlur:function(){
+           this.sync('#afterlistadvert');
+        } 
+	});
+	var editor6 = K.create('textarea[id="beforecontentadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#beforecontentadvert');
+	       },
+        afterBlur:function(){
+           this.sync('#beforecontentadvert');
+        } 
+	});
+	var editor7 = K.create('textarea[id="contentbottomadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#contentbottomadvert');
+	       },
+        afterBlur:function(){
+           this.sync('#contentbottomadvert');
+        } 
+	});
+	var editor8 = K.create('textarea[id="leftcontentadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#leftcontentadvert');
+	       },
+        afterBlur:function(){
+           this.sync('#leftcontentadvert');
+        } 
+	});
+	var editor9 = K.create('textarea[id="beforewritten"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#beforewritten');
+	       },
+        afterBlur:function(){
+           this.sync('#beforewritten');
+        } 
+	});
+	var editor10 = K.create('textarea[id="aftercontentadvert"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#aftercontentadvert');
+	       },
+        afterBlur:function(){
+           this.sync('#aftercontentadvert');
+        } 
+	});
+	var editor11 = K.create('textarea[id="innerwritten"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#innerwritten');
+	       },
+        afterBlur:function(){
+           this.sync('#innerwritten');
+        } 
+	});
+	var editor12 = K.create('textarea[id="cutformcontent"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#cutformcontent');
+	       },
+        afterBlur:function(){
+           this.sync('#cutformcontent');
+        } 
+	});
+});
+
+//初始化
+if(document.all) { 
+	window.attachEvent('onload', load);
+}
+else { 
+	window.addEventListener('load', load);
+}
+
+/**
+ * 初始化加载
+ */
+function load()
+{
+	document.forms['theForm'].elements['typename'].focus();
+}
+/**
+ * 表单验证
+ */
+function validate()
+{
+  validator = new Validator("theForm");
+  validator.required("CntTitle", CntTitle_notnull);
+  validator.required("CntTime", CntTime_notnull);
+  //validator.required("CntTime", CntTime_typeerror);
+
+  return validator.passed();
+}
+{/literal}
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

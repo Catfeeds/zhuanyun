@@ -1,0 +1,78 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_prepaidcash.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.AdminUser}</td>
+    <td><input type="text" name="AdminUser" maxlength="60" value="{$prepaid.AdminUser}" />{$lang.require_adminuser}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Amount}</td>
+    <td><input type="text" name="Amount" maxlength="60" value="{$prepaid.Amount}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Payment}</td>
+    <td><select name="brand_id" onchange="hideSiteDiv()" ><option value="0">{$lang.select_please}{html_options options=$brand_list selected=$goods.brand_id}</select>
+          {if $is_add}
+          <a href="javascript:void(0)" title="{$lang.rapid_add_brand}" onclick="rapidBrandAdd()" class="special" >{$lang.rapid_add_brand}</a>
+          <span id="brand_add" style="display:none;">
+          <input class="text" size="15" name="addedBrandName" />
+          <a href="javascript:void(0)" onclick="addBrand()" class="special" >{$lang.button_submit}</a>
+          <a href="javascript:void(0)" onclick="return goBrandPage()" title="{$lang.brand_manage}" class="special" >{$lang.brand_manage}</a>
+          <a href="javascript:void(0)" onclick="hideSiteDiv()" title="{$lang.hide}" class="special" ><<</a>
+          </span>
+          {/if}
+      </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.ProcessType}</td>
+    <td><input type="radio" name="ProcessType"  />{$lang.AdvancePay} <input type="radio" name="ProcessType"  />{$lang.CashCredit}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.AdminNote}</td>
+    <td><textarea name="AdminNote" cols="40" rows="3">{$prepaid.AdminNote|escape}</textarea></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.UserNote}</td>
+    <td><textarea name="UserNote" cols="40" rows="3">{$prepaid.UserNote|escape}</textarea></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.IsPaid}</td>
+    <td><input type="radio" name="IsPaid"  />{$lang.UnConfirm} <input type="radio" name="IsPaid"  />{$lang.Completed} <input type="radio" name="IsPaid"  />{$lang.Cancel}</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="old_UserName" value="{$prepaid.UserName}" />
+      <input type="hidden" name="id" value="{$prepaid.Id}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['ClassName'].focus();
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("ClassName",  no_classname);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

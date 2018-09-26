@@ -1,0 +1,207 @@
+<!-- $Id: engrave_shipping.htm 14216 2014-12-05 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+{include file="engrave_tip.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<div class="list-div">
+<form method="post" action="engrave_shipping.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <td width="20%"><div align="right"><strong>{$lang.ShippingName}</strong></div></td>
+    <td><input id="ShippingName" name="ShippingName" type="text" id="host" value="{$shipping.ShippingName}" />
+     <input type="checkbox" id="IsShippingVip" name="IsShippingVip" value="1" {if $shipping.IsShippingVip}checked="checked"{/if} />
+     <label for="IsShippingVip" >{$lang.ShippingVip}</label>
+     </td>
+    <td width="20%"><div align="right"><strong>{$lang.ShippingTemplate}</strong></div></td>
+    <td><select name="ShippingTemplate" >
+	        <option value="0">{$lang.select_please}
+			{$template_option}
+		</select>
+	</td>
+  </tr>
+  <tr>
+  	<td></td>
+  	<td>
+  		<input type="checkbox" id="IsSupPice" name="IsSupPice" value="1" {if $shipping.IsSupPice}checked="checked"{/if} />
+  		<label for="IsSupPice">{$lang.SupPice}</label>
+  	</td>
+  	<td><div align="right"><strong>{$lang.slv_shippinggroupname}</strong></div></td>
+  	<td>
+    	<select name="slp_slpgid">
+    		{$option}
+    	</select>
+  	</td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.ShippingCode}</strong></div></td>
+    <td><input name="ShippingCode" type="text" id="ShippingCode" value="{$shipping.ShippingCode}" /></td>
+    <td><div align="right"><strong>{$lang.OriginDestin}</strong></div></td>
+    <td>
+    	<select name="Origin" >
+	    	<option value="0">
+	    	{$lang.select_please}
+	    	{html_options options=$originarea_list selected=$shipping.Origin}
+    	</select> ---> 
+    	<select name="Destination" >
+    		<option value="0">
+    		{$lang.select_please}
+    		{html_options options=$desarea_list selected=$shipping.Destination}
+    	</select>
+    	</td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.WeightUnit}</strong></div></td>
+    <td><select name="WeightId" ><option value="0">{$lang.select_please}{html_options options=$weight_list selected=$shipping.WeightId}</select></td>
+    <td><div align="right"><strong>{$lang.CurrencyCode}</strong></div></td>
+    <td><select name="CurrencyId" ><option value="0">{$lang.select_please}{html_options options=$currecy_list selected=$shipping.CurrencyId}</select></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.Weight}</strong></div></td>
+    <td><input name="Weight" type="text" id="Weight" value="{$shipping.Weight}" /></td>
+    <td><div align="right"><strong>{$lang.AddWeight}</strong></div></td>
+    <td><input name="AddWeight" type="text" id="AddWeight" value="{$shipping.AddWeight}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.HeavyWeight}</strong></div></td>
+    <td><input name="HeavyVolume" type="text" id="HeavyVolume" value="{$shipping.HeavyVolume}" /></td>
+    <td><div align="right"><strong>{$lang.VolumePrice}</strong></div></td>
+    <td><input name="VolumePrice" type="text" id="VolumePrice" value="{$shipping.VolumePrice}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.MinWeight}</strong></div></td>
+    <td><input name="MinWeight" type="text" id="MinWeight" value="{$shipping.MinWeight}" />{$lang.unlimit}</td>
+    <td><div align="right"><strong>{$lang.MinPrice}</strong></div></td>
+    <td><input name="MinPrice" type="text" id="MinPrice" value="{$shipping.MinPrice}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.MaxWeight}</strong></div></td>
+    <td><input name="MaxWeight" type="text" id="MaxWeight" value="{$shipping.MaxWeight}" />{$lang.unlimit}</td>
+    <td><div align="right"><strong>{$lang.FreeWeight}</strong></div></td>
+    <td><input name="FreeWeight" type="text" id="FreeWeight" value="{$shipping.FreeWeight}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.Price}</strong></div></td>
+    <td><input name="Price" type="text" id="Price" value="{$shipping.Price}" /></td>
+    <td><div align="right"><strong>{$lang.AddPrice}</strong></div></td>
+    <td><input name="AddPrice" type="text" id="AddPrice" value="{$shipping.AddPrice}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.Discount}</strong></div></td>
+    <td><input name="Discount" type="text" id="Discount" value="{$shipping.Discount}" />{$lang.undiscount}</td>
+    <td><div align="right"><strong>{$lang.AddOpations}</strong></div></td>
+    <td><input name="IsRegPrice" onclick="showprice(2);" value="2" type="radio" {if $shipping.IsRegPrice eq 2} checked="true"{/if} />{$lang.RegPrice} <input name="IsRegPrice" onclick="showprice(1);" value="1" type="radio" {if $shipping.IsRegPrice eq 1} checked="true"{/if} />{$lang.EMSPrice} <input name="IsRegPrice" onclick="showprice(0);" value="0" type="radio" {if $shipping.IsRegPrice eq 0} checked="true"{/if} />{$lang.none} <input name="AddCharge" id="AddCharge" style="display:none; float:right; margin-right:120px;"  size="5" type="text" value="{$shipping.AddCharge}" /></td>
+  </tr>
+  <tr>
+  	 <td><div align="right"><strong>{$lang.ShippingDesc}</strong></div></td>
+	 <td colspan="3">
+	 	<textarea id="ShippingDesc" name="ShippingDesc" style="width:800px;height:200px;visibility:hidden;">
+		  {$shipping.ShippingDesc}
+		</textarea>
+	 </td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.Agreement}</strong></div></td>
+    <td><input name="Agreement" type="checkbox" value="1" {if $shipping.Agreement}checked="checked"{/if} />{$lang.Agree}</td>
+    <td><div align="right"><strong>{$lang.RegIntegarl}</strong></div></td>
+    <td><input name="RegIntegarl" type="checkbox" value="1" {if $shipping.RegIntegarl}checked="checked"{/if} />{$lang.Usefull}</td>
+  </tr>
+   <tr>
+  	 <td><div align="right"><strong>{$lang.UseAgreement}</strong></div></td>
+	 <td colspan="3">
+	 	<textarea id="UseAgreement" name="UseAgreement" style="width:800px;height:200px;visibility:hidden;">
+		  {$shipping.UseAgreement}
+		</textarea>
+	 </td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.SortId}</strong></div></td>
+    <td colspan="3"><input name="SortId" type="text" size="5" id="SortId" value="{$shipping.SortId}" /></td>
+  </tr>
+  <tr>
+    <td colspan="4"><div align="center">
+       <input type="submit" class="button" value="{$lang.button_submit}" />
+       <input type="submit" class="button" value="{$lang.back}" />
+	   <input type="hidden" name="act" value="{$form_action}" />
+	   <input type="hidden" name="ShippingId" value="{$shipping.ShippingId}" />
+    </div></td>
+  </tr>
+</table>
+</form>
+</div>
+{literal}
+{insert_scripts files="validator.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+<script language="JavaScript">
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="ShippingDesc"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#ShippingDesc');
+	       },
+       	afterBlur:function(){
+           this.sync('#ShippingDesc');
+        } 
+	});
+});
+
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="UseAgreement"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#UseAgreement');
+	       },
+       	afterBlur:function(){
+           this.sync('#UseAgreement');
+        } 
+	});
+});
+onload = function()
+{
+  {/literal}
+  get_value = '{$shipping.IsRegPrice}';
+  {literal}
+
+  showprice(get_value)
+}
+/* 闁瀚ㄩ悽銊﹀煕閹靛秵妯夌粈锟�*/
+function gObj(obj)
+{
+	var theObj;
+	if (document.getElementById)
+    {
+	   if (typeof obj=="string") {
+	     return document.getElementById(obj);
+	   } else {
+	      return obj.style;
+	   }
+	 }
+	 return null;
+}
+function showprice(get_value)
+{
+   if(get_value!=0)
+   {
+   	 gObj("AddCharge").style.display = "block";
+   }
+   else
+   {
+   	 gObj("AddCharge").style.display = "none";
+   }
+}
+<!--
+document.forms['theForm'].elements['ShippingName'].focus();
+
+/**
+ * 鍒嗛〉楠岃瘉
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("ShippingName",  no_ShippingName);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

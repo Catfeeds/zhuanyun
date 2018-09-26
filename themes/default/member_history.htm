@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+{literal}
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<script type="text/javascript" src="themes/default/js/member/history.js"></script>
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+{/literal}
+ </head>
+ <body>
+  {include file="header.htm"}
+  
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	  {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+		 <div class="member_stock">
+		  <div class="cr_bot">
+		    <div class="mdiv1">
+		    	<span>运单编号：</span><input id="orderno" type="text" />
+				<span>运单状态:</span>
+				  <select id="orderstatus">
+				  	    <option value='-1'>请选择订单状态</option>
+			    		<option value='0'>未配货</option>
+			    		<option value='1'>已配货</option>
+			    		<option value='2'>处理中</option>
+			    		<option value='3'>未付款</option>
+			    		<option value='4'>待发货</option>
+			    		<option value='5'>已发货</option>
+			    		<option value='6'>已完成</option>
+			    		<option value='7'>已删除</option>
+			    	</select>
+				<span>收件人：</span><input id="consigname" type="text" />
+				<button id="btnsearch" type="submit" onclick="search()">搜索</button>
+			</div>
+			<div id="contents">
+			 <table id="currenttable" class="stocktable">
+				<tr>
+					<th><input type="checkbox" /></th><th>运单编号</th><th>运单号</th><th>入库总重量</th><th>扣款重量</th><th>提交时间</th><th>状态</th>
+				</tr>
+			  </table>		  
+			</div>
+			<div class="mentres"> <p>共<span>20</span>条信息</p>
+				<DIV >
+					<A href="#">首页</A>
+					<A href="#">上一页</A>
+					<A href="#">1</A>
+					<A href="#">2</A>
+					<A href="#">3</A>
+					<A href="#">...</A>
+					<A href="#">下一页</A>
+					<A href="#">末页</A>
+				</DIV></div>
+				<div class="clear"></div>
+				<a class="dell" href="#">删除</a><div class="clear"></div>
+		  </div>
+		 </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  <!--footer-->
+   {include file="footer.htm"}
+  <!--/footer-->
+ </body>
+ </html>

@@ -1,0 +1,80 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {font-size:12px;/* background:#f4f4f4; */font-family:"microsoft yahei";}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td,img,i,a{margin:0;padding:0; font-weight:normal;}
+ol,ul,i{list-style:none}
+table{border-collapse:collapse;border-spacing:0;}
+.clear{ clear:both; padding:0; margin:0; border:0;}
+em { font-style:normal}
+img {border:0; }
+a{ text-decoration:none;}
+
+
+/*公用颜色样式*/
+.orange{ color:#ff6d3a}
+
+/*top*/
+.index_top{ width:1111px;  height:36px; border-bottom:1px solid #f0f0f0; line-height:36px; font-family:" simsun"; }
+.index_top .welcome{ font-size:12px; color:#666666; float:left;}
+.index_top  .top_right .a_login{ padding:0 10px; line-height:36px; color:#787676; float:right}
+.index_top  .top_right .a_help{ padding:0 10px 0 30px; line-height:36px; color:#787676; float:right; background:url(../images/icon_help.png) no-repeat left center; margin-left:15px; }
+.index_top  .top_right .a_tel{ padding:0 10px 0 30px; line-height:36px; color:#787676; float:right; background:url(../images/icon_tel.png) no-repeat left center; font-family:Arial; color:#ff6600; font-size:18px;}
+
+.index_top  .a_login:hover{ color:#ff6d3a }
+
+
+/*header*/
+.index_header{ width:1111px; height:100px; overflow:hidden; margin:0 auto;}
+.index_header .logo{  margin-top:10px; display:inline-block; float:left}
+.index_header .header_news{height:30px;padding:0 10px;/* background:#f2efef; */color:#ff6633;float:right;margin-top:41px;}
+.index_header .header_news a{ color:#787676; line-height:30px;}
+.index_header .header_news a:hover{ color:#ff6600; }
+
+/*menu*/
+.section_menu{ height:40px; background:#ff6d3a; min-width:1111px;width:100%;_width:1111px;}
+.menu{ width:1111px; margin:0 auto; z-index:1; /*overflow:hidden*/}
+
+#nav {line-height: 24px;  list-style-type: none;  overflow:hidden}
+#nav a { display: block; width:120px; text-align:center; color:#FFF; line-height:40px;  font-size:16px}
+#nav a:hover  { color:#FFF;text-decoration:none;}
+#nav li { float: left; width: 120px; background:#ff6d3a;}
+#nav li a:hover{ background:#ea5622;}
+#nav li ul { line-height: 27px;  list-style-type: none;text-align:center;left: -999em; width: 120px; position: absolute; z-index:11}
+#nav li ul li{float: left; width: 120px; background: #ea5622;}
+#nav li ul a{display: block; width:100px; padding:0 10px; text-align: center; font-size:14px; }
+#nav li ul a:hover  {color:#F3F3F3;text-decoration:none;font-weight:normal; background:#ff6d3a}
+#nav li:hover ul {left: auto;}
+#nav li.sfhover ul { left: auto;  width: 120px;}
+#content {clear: left;}
+
+
+/*----------------------------------------------------------------*/
+
+/*底部栏目*/
+.section_footer{ width:100%; background:#424242 }
+.footer{ width:1111px; margin:0 auto; overflow:hidden; padding:50px 0; background:url(../images/footer_bg.png) no-repeat right top; }
+.footer dl{ width:180px; float:left; border-left:1px #6c6c6c solid; padding-left:30px; }
+.footer dl dt{ font-size:18px; color:#FFF; line-height:30px }
+.footer dl dd{}
+.footer dl dd a{ line-height:26px; font-size:12px; color:#cccccc; display:block}
+.footer dl dd a:hover{ color:#fff; }
+
+.footer .f_wx{ width:267px; float:right; }
+.f_wx .weixin{ width:102px; height:102px; float:left;}
+.f_wx .weixin p{ text-align:center; line-height:24px; color:#CCC; }
+.f_wx .f_other{  float:right; }
+.f_wx .f_other .p_text{ line-height:24px; color:#999;}
+.f_wx .f_other .pa { padding-top:10px;}
+.f_wx .f_other .pa a{ display:inline-block; text-align:center; width:30px; height:30px; background:url(../images/wx_other.png) no-repeat left top; margin-right:20px; }
+.f_wx .f_other .pa a.a_email{ width:30px; height:30px; background-position:0 0;} 
+.f_wx .f_other .pa a.a_wb{ width:30px; height:30px; background-position:-52px 0;}
+.f_wx .f_other .pa a.a_qq{ width:30px; height:30px; background-position:-156px 0; position:relative;}
+.f_wx .f_other .pa a.a_qq .qq_list{ position:absolute; left:0; top:-100px; width:50p; height:180px; background:#FFF; display:none}
+.f_wx .f_other .pa a.a_qq:hover .qq_list{ display:block}
+
+
+/*底部栏目1*/
+.f_nav{ width:100%; text-align:center; padding:20px 0; color:#333;  line-height:24px }
+.f_nav a{ padding:0 10px; color:#333; line-height:24px}
+

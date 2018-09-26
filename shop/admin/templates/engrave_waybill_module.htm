@@ -1,0 +1,76 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start currecys list -->
+<div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>{$lang.TemplateId}</th>
+	<th>{$lang.temp_name}</th>
+	<th>{$lang.TemplateFileName}</th>
+	<th>{$lang.UpdateTime}</th>
+    <th>{$lang.ManageOperator}</th>
+  </tr>
+  {foreach from=$template_list item=template}
+  <tr>
+    <td style="width:50px;">
+    	{$template.temp_id}
+    </td>
+    <td align="center">
+    	{$template.temp_name}
+    </td>
+    <td align="center">
+    	{$template.temp_filename}
+    </td>
+    </td>
+    <td align="center">
+    	{$template.temp_updatetime}
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_waybill_module.php?act=edit&amp;id={$template.temp_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$template.temp_id},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

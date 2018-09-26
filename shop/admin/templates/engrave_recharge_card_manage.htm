@@ -1,0 +1,83 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start currecys list -->
+<div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('PrepaidId'); ">{$lang.record_id}</a>{$sort_PrepaidId}
+    </th>
+    <th><a href="javascript:listTable.sort('CardName'); ">{$lang.Card_Name}</a></th>
+	<th><a href="javascript:listTable.sort('Price'); ">{$lang.Price}</a>{$sort_Price}</th>
+	<th><a href="javascript:listTable.sort('ParValue'); ">{$lang.Par_Value}</a>{$sort_ParValue}</th>
+	<th><a href="javascript:listTable.sort('Description'); ">{$lang.Description}</a></th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$card_list item=card}
+  <tr>
+    <td style="width:50px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$card.PrepaidId}" />{$card.PrepaidId}
+    </td>
+    <td align="center">
+    	{$card.CardName}
+    </td>
+	<td align="center">
+		{$card.PriceB} 
+	</td>
+	<td align="center">
+    	{$card.ParValueB}
+    </td>
+    <td align="center">
+    	{$card.Description}
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_pre_recharge_card.php?act=edit&amp;id={$card.PrepaidId}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$card.PrepaidId},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

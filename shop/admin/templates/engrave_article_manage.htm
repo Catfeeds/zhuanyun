@@ -1,0 +1,103 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{include file="engrave_tip.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start article list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('CntId'); ">{$lang.CntId}</a>{$sort_CntId}
+    </th>
+    <th><a href="javascript:listTable.sort('CntTitle'); ">{$lang.CntTitle}</a>{$sort_CntTitle}</th>
+      <th>分类</th>
+    <th><a href="javascript:listTable.sort('CntOperatorName'); ">{$lang.CntOperatorName}</a>{$sort_CntOperatorName}</th>
+    <th><a href="javascript:listTable.sort('CntTime'); ">{$lang.CntTime}</a>{$sort_CntTime}</th>
+    <th><a href="javascript:void(0); ">{$lang.CntAuditingStatus}</a>{$sort_CntAuditingStatus}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$article_list item=article}
+  <tr>
+    <td style="width:50px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$article.CntId}" />{$article.CntId}
+    </td>
+    <td>
+    	{$article.CntTitle}
+    </td>
+      <td>
+          {assign var="temp" value=$article.CntCategoryId }
+          {assign var="temp2" value=$channel_list[$temp] }
+          {$temp2.typename}
+    </td>
+    <td>
+    	{$article.CntOperatorName}
+    </td>
+    <td>
+    	<span onclick="">{$article.CntTime}</span>
+    </td>
+    <td align="center">
+    	{if $article.CntAuditingStatus===0}
+    		{$lang.Content.Pendingtrial}
+		{elseif $article.CntAuditingStatus===0}
+    		{$lang.Content.Prime}
+		{else}
+    		{$lang.Content.LastInstance}
+		{/if}
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_article_manage.php?act=edit&CntId={$article.CntId}{if $code neq 'real_currecys'}&CntCategoryId={$article.CntCategoryId}{/if}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$article.CntId}, '{$lang.trash_article_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" width="16" height="16" border="0" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end article list -->
+
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+  /**
+   * @param: bool ext 
+   */
+  function confirmSubmit(frm, ext)
+  {
+      
+  }
+
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

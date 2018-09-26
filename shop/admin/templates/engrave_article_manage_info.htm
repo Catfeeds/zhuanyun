@@ -1,0 +1,206 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_article_manage.php" method="post" name="theForm" onsubmit="return validate()">
+        <!-- �������� -->
+        <table id="tab_channel_basic-table" >
+          <tr>
+            <td class="label">{$lang.CntCategoryId}</td>
+            <td>
+            <select name="CntCategoryId">
+            	{$channel_list}
+            </select>
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.CntTitle} 
+            </td>
+            <td>
+              <input type="text" name="CntTitle" value="{$article_info.CntTitle}" size="50" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.CntTitleImage} 
+            </td>
+            <td>
+              <input name="CntTitleImage" type="file" size="40" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.CntSubhead}</td>
+            <td>
+              <input type="text" name="CntSubhead" value="{$article_info.CntSubhead}" size="50" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.CntAttributes}</td>
+            <td>
+	            <input type="radio" name="CntAttributes" value='0' {if $article_info.CntAttributes eq 0} checked="true"{/if}>{$lang.CntAllowPost}
+	            <input type="radio" name="CntAttributes" value='1' {if $article_info.CntAttributes eq 1} checked="true"{/if}>{$lang.CntNotAllowPost}
+            </td>
+          </tr>
+          <!-- <tr>
+            <td class="label">{$lang.CntTitleImage}</td>
+            <td>
+             <input type="text" name="CntTitleImage" value="" size="50" />
+            </td>
+          </tr> -->
+          <tr>
+            <td class="label">{$lang.CntMetaKey}</td>
+            <td>
+            	 <input type="text" name="CntMetaKey" value="{$article_info.CntMetaKey}" size="50" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.CntMetaDes}</td>
+            <td>
+            	 <input type="text" name="CntMetaDes" value="{$article_info.CntMetaDes}" size="50" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.CntExtLink}</td>
+            <td>
+            	 <input type="text" name="CntExtLink" value="{$article_info.CntExtLink}" size="50" />
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label">{$lang.CntContent}</td>
+            <td>
+	            <textarea id="CntContent" name="CntContent" style="width:700px;height:150px;visibility:hidden;">
+	          		{$article_info.CntContent}
+	          	</textarea>
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+			{$lang.CntBriefIntroduction}</td>
+            <td><input type="text" name="CntBriefIntroduction" value="{$article_info.CntBriefIntroduction}" size="50" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.CntTag}</td>
+            <td><input type="text" name="CntTag" value="{$article_info.CntTag}" size="50" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+				{$lang.CntAuthor}
+			</td>
+            <td>
+	            <input type="text" name="CntAuthor" value="{$article_info.CntAuthor}" size="50" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+				{$lang.CntAuthorEmail}
+			</td>
+            <td>
+	            <input type="text" name="CntAuthorEmail" value="{$article_info.CntAuthorEmail}" size="50" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+				{$lang.CntSourceWeb}
+			</td>
+            <td>
+	            <input type="text" name="CntSourceWeb" value="{$article_info.CntSourceWeb}" size="50" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+				{$lang.CntSourceUrl}
+			</td>
+            <td>
+	            <input type="text" name="CntSourceUrl" value="{$article_info.CntSourceUrl}" size="50" />
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+				{$lang.CntTime}
+			</td>
+            <td>
+	            <input type="text" name="CntTime" id="CntTime" value="{$article_info.CntTime}" size="30" />
+	            <input name="selbtn1" type="button" id="selbtn1" onclick="return showCalendar('CntTime', '%Y-%m-%d', false, false, 'selbtn1');" value="{$lang.btn_select}" class="button"/>
+			</td>
+          </tr>
+          <tr>
+            <td class="label">
+				{$lang.CntAuditingStatus}
+			</td>
+            <td>
+	            <input type="radio" name="CntAuditingStatus" value='0' {if $article_info.CntAuditingStatus eq 0} checked="true"{/if}>{$lang.Content.Pendingtrial}
+	            <input type="radio" name="CntAuditingStatus" value='1' {if $article_info.CntAuditingStatus eq 1} checked="true"{/if}>{$lang.Content.Prime}
+	            <input type="radio" name="CntAuditingStatus" value='2' {if $article_info.CntAuditingStatus eq 2} checked="true"{/if}>{$lang.Content.LastInstance}
+			</td>
+          </tr>
+        </table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_act}" />
+        <input type="hidden" name="CntId" value="{$article_info.CntId}"/>
+        <input type="hidden" name="oldCntTitleImage" value="{$article_info.CntTitleImage}"/>
+      </form>
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+
+<script language="JavaScript">
+{literal}
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="CntContent"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#CntContent');
+	       },
+       	afterBlur:function(){
+           this.sync('#CntContent');
+        } 
+	});
+});
+
+
+//��ʼ��
+if(document.all) { 
+	window.attachEvent('onload', load);
+}
+else { 
+	window.addEventListener('load', load);
+}
+
+/**
+ * ��ʼ������
+ */
+function load()
+{
+	document.forms['theForm'].elements['CntTitle'].focus();
+}
+/**
+ * ����֤
+ */
+function validate()
+{
+  validator = new Validator("theForm");
+  validator.required("CntTitle", CntTitle_notnull);
+  validator.required("CntTime", CntTime_notnull);
+  validator.isDate("CntTime", CntTime_typeerror);
+
+  return validator.passed();
+}
+{/literal}
+</script>
+{include file="pagefooter.htm"}

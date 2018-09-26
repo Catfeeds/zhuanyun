@@ -1,0 +1,108 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start currecys list -->
+<div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th>
+      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+      <a href="javascript:listTable.sort('SN'); ">{$lang.sort_id}</a>{$sort_SN}
+    </th>
+    <th><a href="javascript:listTable.sort('CouponId'); ">{$lang.Coupon_Name}</a>{$sort_CouponId}</th>
+	<th><a href="javascript:listTable.sort('CouponValue'); ">{$lang.Coupon_Value}</a>{$sort_CouponValue}</th>
+	<th><a href="javascript:listTable.sort('RebatePoints'); ">{$lang.Rebate_Points}</a>{$sort_RebatePoints}</th>
+	<th><a href="javascript:listTable.sort('OwnerId'); ">{$lang.Owner}</a>{$sort_OwnerId}</th>
+	<th><a href="javascript:listTable.sort('CreateTime'); ">{$lang.Create_Time}</a>{$sort_CreateTime}</th>
+	<th><a href="javascript:listTable.sort('ExpireTime'); ">{$lang.Expire_Time}</a>{$sort_ExpireTime}</th>
+	<th>{$lang.Description}</th>
+	<th>{$lang.Last_Use}</th>
+	<th><a href="javascript:listTable.sort('CouponId'); ">{$lang.Days}</a>{$sort_Days}</th>
+	<th><a href="javascript:listTable.sort('StatusId'); ">{$lang.Status_Id}</a>{$sort_StatusId}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$issued_list item=issued}
+  <tr>
+    <td style="width:150px;">
+    	<input type="checkbox" name="checkboxes[]" value="{$issued.CUId}" />{$issued.SN}
+    </td>
+    <td align="center">
+    	{$issued.CouponName}
+    </td>
+    <td align="center">
+		{$issued.ReCouponValue}
+    </td>
+	<td align="center">
+		{$issued.RebatePoints}
+	</td>
+	<td align="center">
+    	{$issued.OwnerId}
+    </td>
+    <td align="center">
+		{$issued.CreateTime}
+    </td>
+	<td align="center">
+    	{$issued.ExpireTime}
+    </td>
+	<td align="center">
+    	{$issued.Description}
+    </td>
+    <td align="center">
+    	{$issued.LastUse}
+    </td>
+	<td align="center">
+    	{$issued.UseTime}
+    </td>
+	<td align="center">
+    	{$lang.effective}
+    </td>
+    <td align="center" style="width:60px; padding:0px; margin:0px">
+      <a href="engrave_coupon_manage.php?act=edit&amp;id={$issued.CouponId}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$issued.CUId},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

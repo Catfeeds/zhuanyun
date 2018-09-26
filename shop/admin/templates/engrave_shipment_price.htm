@@ -1,0 +1,190 @@
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+{include file="engrave_tip.htm"}
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+	<!-- start currecys list -->
+	<div class="list-div" id="listDiv">
+		<table cellpadding="3" cellspacing="1">
+		  <tr>
+		    <th>
+		      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+		      <a href="javascript:listTable.sort('CId'); ">{$lang.record_id}</a>{$sort_CId}
+			</th>
+			<th width=100> 出发地</th>
+		    <th  width=100> 物流</th>
+			<th  width=100> 到达地 </th>
+			<th> 类型 </th>
+		    <th>价格配置 </th>
+
+		    <th>{$lang.handler}</th>
+		  </tr>
+		  {foreach from=$data_list  item=shipment}
+		  <tr>
+		    <td style="width:50px;" align="center">
+		    	{$shipment.sp_id}
+			</td>
+			<td align="center">
+
+
+
+
+				{if $shipment.price_type == 'from-china-to-europ-partition'}
+				中国
+				{elseif $shipment.price_type == 'from-china-to-europ-partition-cost'}
+					{assign var="temp" value=$leave_ports[$shipment.lp_id]}
+					{$temp.port_name}
+				{elseif $shipment.price_type == 'from-china-to-europ-port-cost'}
+					{$shipment.leave_port_name}	
+				{else}
+					<!-- <span>{$shipment.leave_port_name}</span> -->
+					{assign var="temp" value=$arrival_ports[$shipment.lp_id]}
+					{$temp.port_name}
+				{/if}
+			</td>
+			<td align="center">
+		    	<span>{$shipment.shipment.shipment_name}</span>
+		    </td>
+	
+		 
+		    <td align="center">
+				{if $shipment.price_type == 'from-china-to-europ-partition'}
+					{assign var="temp" value=$allCountryPartitions[$shipment.cp_id]}
+					{$temp.cp_name} <br>
+					<font color=red>{$temp.country_list}</font>
+				{elseif $shipment.price_type == 'from-china-to-europ-port-cost'}
+					{$shipment.arrival_port_name}	
+				{else}
+					<!-- <span>{$shipment.partition.cp_name}</span> -->
+					{assign var="temp" value=$allCountries[$shipment.country_id]}
+					{$temp.country_name}
+				{/if}
+			</td>
+			<td align="center">
+				{if $shipment.price_type == 'from-china-to-europ-partition'}
+				从中国出发到欧洲国家分区(客户报价)
+				{elseif $shipment.price_type == 'from-china-to-europ-partition-cost'}
+				从中国出发到欧洲国家(成本)<br>(四大国际快递的运输成本)
+				{elseif $shipment.price_type == 'from-china-to-europ-port-cost'}
+				从中国出发到欧洲港口(成本)<br>(欧洲专线的空运成本)
+				{else}
+				从欧洲港口到欧洲国家(成本)<br>(欧洲专线 到港后选择的快递公司的运费)
+				{/if}
+			</td>
+
+
+			<td align="center">
+				{if ($shipment.price_type == 'from-europ-port-to-country' || $shipment.price_type == 'from-china-to-europ-partition-cost' || $shipment.price_type == 'from-china-to-europ-port-cost' )	}
+				<table class="commontable">
+						<thead>
+							<th colspan=1>0kg -- 0.5kg</th>
+							<th colspan=2>0.5kg -- 10kg</th>
+							<th colspan=4>>10kg</th>
+						</thead>
+						<thead>
+								<th>[0, 0.5]kg</th>
+								<th>(0.5, 3.0]kg</th>
+								<th>(3.0, 10.0]kg</th>
+								<th>(10.0, 15.0]kg</th>
+								<th>(15.0, 20.0]kg</th>
+								<th>(20.0, 30.0]kg</th>
+								<th>(30.0, +∞)kg</th>
+						</thead>
+						<tr>
+							<td align=center>
+								{$shipment.config.price0.value}
+							</td>
+							<td align=center>
+									{$shipment.config.price1.value}
+							</td>
+							<td align=center>
+									{$shipment.config.price2.value}
+							</td>
+							<td align=center>
+									
+									{if $shipment.config.price3.add}
+									每0.5kg增加的价格: 
+									{/if}
+									{$shipment.config.price3.value}
+							</td>
+							<td align=center>
+							
+									{if $shipment.config.price4.add}
+									每0.5kg增加的价格: 	
+									{/if}
+									{$shipment.config.price4.value}
+									
+								
+							</td>
+							<td align=center>
+								
+									{if $shipment.config.price5.add}
+									每0.5kg增加的价格: 	
+									{/if}
+									{$shipment.config.price5.value}
+							</td>
+							<td align=center>
+									{if $shipment.config.price6.add}
+									每0.5kg增加的价格: 
+									{/if}
+									{$shipment.config.price6.value}
+							</td>
+						</tr>
+					</table>
+				{else}
+					<table class="commontable">
+						<thead>
+							<th colspan=2>文件和小包裹</th>
+							<th colspan=4>大包裹（每kg/元）</th>
+						</thead>
+						<thead>
+								<th>首重0.5kg</th>
+								<th>续重每0.5kg</th>
+								<th>10~20kg</th>
+								<th>21~50kg</th>
+								<th>51~100kg</th>
+								<th>101kg以上</th>
+						</thead>
+						<tr>
+							<td align=center>
+							{$shipment.config.less_eq_half_kg}
+							</td>
+							<td align=center>
+								{$shipment.config.add_half_kg}
+							</td>
+							<td align=center>
+								{$shipment.config.ten_twenty_kg}
+							</td>
+							<td align=center>
+								{$shipment.config.twentyone_fifty_kg}
+							</td>
+							<td align=center>
+								{$shipment.config.fiftyone_hundred_kg}
+							</td>
+							<td align=center>
+								{$shipment.config.greater_hundredone_kg}
+							</td>
+						</tr>
+					</table>
+				{/if}
+		    </td>
+		    <td align="center" style="width:150px; padding:0px; margin:0px">
+				<a href="engrave_shipment_price.php?act=edit&sp_id={$shipment.sp_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+
+				<a href="javascript:;" onclick="listTable.remove({$country.apt_id},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+		    </td>
+		  </tr>
+		  {foreachelse}
+		  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+		  {/foreach}
+		</table>	
+
+		{include file="engrave_page.htm"}
+
+
+	</div>
+ </form>
+ <script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+</script>
+{include file="engrave_pagefooter.htm"}

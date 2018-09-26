@@ -1,0 +1,130 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_member_manage.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.UserName}</td>
+    <td><input type="text" name="UserName" maxlength="60" value="{$member.UserName}" />{$lang.require_username}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.StorageNo}</td>
+    <td><input type="text" name="StorageNo" maxlength="40" value="{$member.StorageNo}" />{$lang.require_storageno}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.UserNo}</td>
+    <td><input type="text" name="UserNo" maxlength="40" value="{$member.UserNo}" />{$lang.require_userpassword}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.UserMoney}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.ShipDisc}</td>
+    <td><input type="text" name="ShipDisc" maxlength="60" value="{$member.ShipDisc}" />{$lang.require_shipdisc}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Password}</td>
+    <td><input type="text" name="Password" maxlength="60" value="{$member.Password}" />{$lang.require_password}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.ConfirmPassword}</td>
+    <td><input type="text" name="ConfirmPassword" maxlength="60" value="{$member.ConfirmPassword}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Email}</td>
+    <td><input type="text" name="Email" maxlength="60" value="{$member.Email}" /><input type="checkbox" name="is_recesitemail" value="1" {if $member.is_recesitemail}checked="checked"{/if} />{$lang.is_recesitemail}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.PasswordProblem}</td>
+    <td><input type="text" name="PasswordProblem" maxlength="60" value="{$member.PasswordProblem}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.PasswordAnswer}</td>
+    <td><input type="text" name="PasswordAnswer" maxlength="60" value="{$member.PasswordAnswer}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Score}</td>
+    <td><input type="text" name="Score" maxlength="60" value="{$member.Score}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.QQ}</td>
+    <td><input type="text" name="QQ" maxlength="60" value="{$member.QQ}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.ICQ}</td>
+    <td><input type="text" name="ICQ" maxlength="60" value="{$member.ICQ}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.AlipayAccount}</td>
+    <td><input type="text" name="AlipayAccount" maxlength="60" value="{$member.AlipayAccount}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.AlipayPerson}</td>
+    <td><input type="text" name="AlipayPerson" maxlength="60" value="{$member.AlipayPerson}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.WeChat}</td>
+    <td><input type="text" name="WeChat" maxlength="60" value="{$member.WeChat}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.MSN}</td>
+    <td><input type="text" name="MSN" maxlength="60" value="{$member.MSN}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.AllGroup}</td>
+    <td><select name="brand_id" onchange="hideSiteDiv()" ><option value="0">{$lang.select_please}{html_options options=$brand_list selected=$goods.brand_id}</select>
+          {if $is_add}
+          <a href="javascript:void(0)" title="{$lang.rapid_add_brand}" onclick="rapidBrandAdd()" class="special" >{$lang.rapid_add_brand}</a>
+          <span id="brand_add" style="display:none;">
+          <input class="text" size="15" name="addedBrandName" />
+          <a href="javascript:void(0)" onclick="addBrand()" class="special" >{$lang.button_submit}</a>
+          <a href="javascript:void(0)" onclick="return goBrandPage()" title="{$lang.brand_manage}" class="special" >{$lang.brand_manage}</a>
+          <a href="javascript:void(0)" onclick="hideSiteDiv()" title="{$lang.hide}" class="special" ><<</a>
+          </span>
+          {/if}
+      </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.UserType}</td>
+    <td><input type="radio" name="UserType"  value="{$member.CommUser}" />{$lang.CommUser} <input type="radio" name="UserType"  value="{$member.VIPUser}" />{$lang.VIPUser}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.Recommend}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="old_UserName" value="{$admin.UserName}" />
+      <input type="hidden" name="id" value="{$admin.AdminId}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['ClassName'].focus();
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("ClassName",  no_classname);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

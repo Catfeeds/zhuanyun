@@ -1,0 +1,74 @@
+{include file="engrave_pageheader.htm"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+{insert_scripts files="../js/jquery-clock-timepicker.min.js"}
+
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<div class="main-div">
+	<form method="post" action="engrave_airline_price_template.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+	<table cellspacing="1" cellpadding="3" width="100%">
+		<tr>
+			<td class="label">名称</span></td>
+			<td>
+				<input type="text" name="name" id="name"  value="{$data.name}" size="30" />
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong><100Kg价格</strong></td>
+			<td >
+				<input type="text" name="price0" value="{$data.price0}">
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>>=100Kg价格</strong></td>
+			<td >
+				<input type="text" name="price100" value="{$data.price100}">
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>>=300Kg价格</strong></td>
+			<td >
+				<input type="text" name="price300" value="{$data.price300}">
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>>=500Kg价格</strong></td>
+			<td >
+				<input type="text" name="price500" value="{$data.price500}">
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>>=1000Kg 价格</strong></td>
+			<td >
+				<input type="text" name="price1000" value="{$data.price1000}">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><br />
+				<input type="submit" class="button" value="{$lang.button_submit}" />
+				<input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+				<input type="hidden" name="act" value="{$form_action}" />
+				<input type="hidden" name="apt_id" value="{$data.apt_id}" />
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+
+<script language="JavaScript">
+jq(function() {
+	jq('.time').clockTimePicker({});
+});
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required("name",  "够长必须填写");
+
+	return validator.passed();
+}
+</script>
+
+{include file="engrave_pagefooter.htm"}

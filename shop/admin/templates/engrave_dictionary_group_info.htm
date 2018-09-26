@@ -1,0 +1,57 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_dictionary_manage.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.group_in}</td>
+    <td>
+    	<select name="GroupId" ><option value="0">{$lang.select_please}{html_options options=$enum_list selected=$enum.GroupId}</select>
+	</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.itemname}</td>
+    <td><input type="text" name="ItemName" maxlength="40" value="{$enum.ItemName}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.itemvalue}</td>
+    <td><input type="text" name="ItemValue" maxlength="40" value="{$enum.ItemValue}" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.sortid}</td>
+    <td><input type="text" name="SortId" size='5' maxlength="5" value="{$enum.SortId}" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="id" value="{$enum.EnumId}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['ClassName'].focus();
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("ClassName",  no_classname);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

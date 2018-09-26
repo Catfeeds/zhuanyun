@@ -1,0 +1,32 @@
+<ul>
+    <li>
+        <div id="hbjzdh_cbt">转运教程</div>
+    </li>
+
+
+    {foreach from=$article_list item=article name="article_div"}
+    <li>
+        <div class="  {if $article.CntId == $articleid} hbjzdh_curr hbjzdh_flbt {else} hbjzdh_xxbt{/if} ">
+            <a href="article.php?act=article_bidu&amp;articleid={$article.CntId}">
+                {if $article.CntId == $articleid}<div class="cat_before_img"></div>{/if}
+                <div class="hbjzdh_xxbt_txt hbjzdh_flbt_txt">{$article.CntTitle|truncate:36}</div>
+                <div class="clear"></div>
+            </a>
+        </div>
+    </li>
+    {/foreach}
+    {foreach from=$article_buy_list item=article name="article_div"}
+    <li>
+        <div class="  {if $article.CntId == $articleid} hbjzdh_curr hbjzdh_flbt {else} hbjzdh_xxbt{/if} ">
+            <a href="article.php?act=article_bidu&amp;articleid={$article.CntId}">
+                {if $article.CntId == $articleid}<div class="cat_before_img"></div>{/if}
+                <div class="hbjzdh_xxbt_txt hbjzdh_flbt_txt">{$article.CntTitle|truncate:36}</div>
+                <div class="clear"></div>
+            </a>
+        </div>
+    </li>
+    {/foreach}
+    <li>
+        <div id="hbjzdh_kong"></div>
+    </li>
+</ul>

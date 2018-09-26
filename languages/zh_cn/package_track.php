@@ -1,0 +1,1 @@
+<?php /**页面信息 */$_LANG['package_track_search'] = '运单跟踪查询';$_LANG['waybillno'] = '运单号';$_LANG['waybillno_notexist_start'] = '运单';$_LANG['waybillno_notexist_end'] = '不存在！';/** * javascript 提示 */$_LANG['js_languages']['waybillno_notnull'] = '运单不能为空！';

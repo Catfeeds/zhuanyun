@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+{literal}
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<script type="text/javascript" src="themes/default/js/common-userdefined-number.js"></script>
+<script type="text/javascript" src="themes/default/js/member/stock.js"></script>
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+{/literal}
+ </head>
+ <body>
+ {include file="header.htm"}
+ 
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+		 <div class="member_stock">
+		  <div class="cr_bot">
+		    <div class="mdiv1">
+		    	<div>
+			    <span>货运单号：</span><input id="expressnumber" type="text" />
+			    <span>订单状态:</span>
+			    	<select id="packagesatus">
+			    		<option value='0'>全部记录</option>
+			    		<option value='1'>入库途中</option>
+			    		<option value='2'>已入库</option>
+			    		<option value='3'>未到货</option>
+			    		<option value='4'>打包中</option>
+			    		<option value='5'>等待发出</option>
+			    		<option value='6'>已发出</option>
+			    		<option value='7'>历史预报</option>
+			    		<option value='8'>问题件</option>
+			    	</select>
+			    <span>所在仓库：</span>
+			    <select id="warehouse">
+			    	<option value="0">{$lang.select_house}</option>
+			    	{$warehouse_list}
+			    </select>
+			    </div>
+			    <span>商品名称：</span><input id="pckg_name" type="text" />
+			    <button id="btnsearch" type="submit" onclick="search()">搜索</button>
+		    </div>
+			<ul class="checked">
+			 <li id="packagestatus0" {if $type eq -1}class="current"{/if}><a href="#">所有记录</a></li>
+			 <li id="packagestatus1" {if $type eq 0}class="current"{/if}><a href="#">入库途中</a></li>
+			 <li id="packagestatus2" {if $type eq 1}class="current"{/if}><a href="#">已入库</a></li>
+			 <li id="packagestatus3" {if $type eq 2}class="current"{/if}><a href="#">未到货</a></li>
+			 <li id="packagestatus4" {if $type eq 3}class="current"{/if}><a href="#">打包中</a></li>
+			 <li id="packagestatus5" {if $type eq 4}class="current"{/if}><a href="#">等待发出</a></li>
+			 <li id="packagestatus6" {if $type eq 5}class="current"{/if}><a href="#">已发出</a></li>
+			 <li id="packagestatus7" {if $type eq 6}class="current"{/if}><a href="#">历史预报</a></li>
+			 <li id="packagestatus8" {if $type eq 7}class="current"{/if}><a href="#">问题件</a></li>
+			</ul>
+			<div id="contents">
+			 <table id="stocktable0" class="{if $type neq -1}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			  </table>
+			  
+			  <table id="stocktable1" class="{if $type neq 0}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</table>
+			<table id="stocktable2" class="{if $type neq 1}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</table>
+			<table id="stocktable3" class="{if $type neq 2}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+				</tr>
+			</table>
+			<table id="stocktable4" class="{if $type neq 3}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+				</tr>
+			</table>
+			<table id="stocktable5" class="{if $type neq 4}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+				</tr>
+			</table>
+			<table id="stocktable6" class="{if $type neq 5}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+				</tr>
+			</table>
+			<table id="stocktable7" class="{if $type neq 6}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+				</tr>
+			</table>
+			<table id="stocktable8" class="{if $type neq 7}hide{/if} stocktable">
+				<tr>
+					<th>货运单号</th>
+					<th>包裹重量</th>
+					<th>仓库名称</th>
+					<th>备注/属性</th>
+					<th>登记时间</th>
+					<th>库存天数</th>
+					<th>仓储费</th>
+					<th>状态</th>
+				</tr>
+			</table>
+			</div>
+			<input type="hidden" name="type" id="type" value="{$type}" />
+				<div class="clear"></div>
+				<div id='pagecount' class='class_paging'></div>
+				<div class="clear"></div>
+		  </div>
+		 </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  <!--footer-->
+ {include file="footer.htm"}
+  <!--/footer-->
+ </body>
+ </html>

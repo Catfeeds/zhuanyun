@@ -1,0 +1,120 @@
+<!-- $Id: engrave_shipping.htm 14216 2014-12-05 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<div class="list-div">
+<form method="post" action="engrave_shipping_declaredvalue.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <td width="20%"><div align="right"><strong>{$lang.sdv_shippingname}</strong></div></td>
+    <td><input name="sdv_shippingname" type="text" value="{$sdv.ShippingName}{$shippingname}" readonly="readonly" /> 
+	</td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.sdv_minprice}</strong></div></td>
+    <td><input name="sdv_minprice" type="text" value="{$sdv.sdv_minprice}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.sdv_maxprice}</strong></div></td>
+    <td><input name="sdv_maxprice" type="text" value="{$sdv.sdv_maxprice}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.sdv_price}</strong></div></td>
+    <td><input name="sdv_price" type="text"  value="{$sdv.sdv_price}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.sdv_ispercent}</strong></div></td>
+    <td><input name="sdv_ispercent" type="text" value="{$sdv.sdv_ispercent}" /></td>
+  </tr>
+  <tr>
+    <td colspan="4"><div align="center">
+       <input type="submit" class="button" value="{$lang.button_submit}" />
+       <input type="reset" value="{$lang.button_reset}" class="button" />
+	   <input type="hidden" name="act" value="{$form_action}" />
+	   <input type="hidden" name="sdv_id" value="{$sdv.sdv_id}" />
+	   <input type="hidden" name="sdv_shippingid" value="{$sdv_shippingid}" />
+    </div></td>
+  </tr>
+</table>
+</form>
+</div>
+{literal}
+{insert_scripts files="validator.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+<script language="JavaScript">
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="ShippingDesc"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#ShippingDesc');
+	       },
+       	afterBlur:function(){
+           this.sync('#ShippingDesc');
+        } 
+	});
+});
+
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="UseAgreement"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#UseAgreement');
+	       },
+       	afterBlur:function(){
+           this.sync('#UseAgreement');
+        } 
+	});
+});
+onload = function()
+{
+  {/literal}
+  get_value = '{$shipping.IsRegPrice}';
+  {literal}
+
+  showprice(get_value)
+}
+
+function gObj(obj)
+{
+	var theObj;
+	if (document.getElementById)
+    {
+	   if (typeof obj=="string") {
+	     return document.getElementById(obj);
+	   } else {
+	      return obj.style;
+	   }
+	 }
+	 return null;
+}
+function showprice(get_value)
+{
+   if(get_value!=0)
+   {
+   	 gObj("AddCharge").style.display = "block";
+   }
+   else
+   {
+   	 gObj("AddCharge").style.display = "none";
+   }
+}
+<!--
+document.forms['theForm'].elements['sdv_minprice'].focus();
+onload = function()
+{
+    startCheckOrder();
+}
+/**
+ * 
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("Name",  no_name);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

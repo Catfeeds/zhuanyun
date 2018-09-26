@@ -1,0 +1,66 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_menuadd.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+ 
+  <tr>
+    <td class="label">中文标题</td>
+    <td> <input type="text" name="title" maxlength="60" size="28" value="{$title}" /></td>
+  </tr>
+    <tr>
+    <td class="label">英文标题</td>
+    <td> <input type="text" name="titleen" maxlength="60" size="28" value="{$titleen}" /></td>
+  </tr>
+
+
+  <tr>
+    <td class="label">是否显示</td>
+    <td> <input type="radio" name="isshow" value="1" {if $isshow neq 0} checked="true"{/if}/> {$lang.yes}
+      <input type="radio" name="isshow" value="0" {if $isshow eq 0} checked="true"{/if} /> {$lang.no}{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">链接地址</td>
+    <td><input type="text" name="url" maxlength="60" value="{$url}"  style="width:400px;"/></td>
+  </tr>
+   <tr>
+    <td class="label">排序</td>
+    <td> <input type="text" name="paixu" maxlength="60" size="28" value="{$paixu}" />
+    大-->小
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="reset" class="button" value="{$lang.button_reset}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="old_ClassName" value="{$class.ClassName}" />
+      <input type="hidden" name="ids" value="{$id}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['ClassName'].focus();
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("ClassName",  no_classname);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

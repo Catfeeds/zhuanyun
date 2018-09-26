@@ -1,0 +1,84 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_tracking_manage.php" method="post" name="theForm" >
+        <table cellspacing="1" cellpadding="3" width="100%">
+          <tr>
+          	<td class="label">
+          	   {$lang.OrderNo}
+          	</td>
+			<td>
+				<input disabled="false" type="text" id="OrderNo" name="OrderNo" value="{$order_no}" size="15" />
+			</td>
+          </tr>
+		  <tr>
+		  <td class="label">
+          	 {$lang.PackageNo}
+          </td>
+		  <td>
+			 <input disabled="false" type="text" id="PackageNo" name="PackageNo" value="{$ordw_waybillno}" size="15" />
+		  </td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.StatusCode} 
+            </td>
+            <td>
+              <select id="StatusCode" name="StatusCode"><option value="0">{$lang.select_please}{html_options options=$code_list selected=$track_info.tr_statuscode}</select>
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.operatortip}</td>
+            <td>
+              <textarea id="Message" name="Message" cols="40" rows="3">{$track_info.tr_message|escape}</textarea>
+			      ←
+			  <select id="ordermenssage" name="ordermenssage" onchange = "SelectOrderMess();" >
+			  	<option value="0">{$lang.select_please}</option>
+			  	<option value="1">{$lang.message1}</option>
+			  </select>
+            </td>
+          </tr>
+        </table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="hidOrderId" id="hidOrderId" value="{$orderid}" />
+		<input type="hidden" name="hidwaybillno" id="hidwaybillno" value="{$ordw_waybillno}" />
+      </form>
+</div>
+<script language="JavaScript">
+   function SelectOrderMess()
+   {
+     $statusCode = document.getElementById('ordermenssage').value;
+	 if($statusCode == '1')
+	 {
+	    document.getElementById("Message").value = '订单已至机场，等待登机';
+	 }
+   }
+   if(document.all) 
+   { 
+	  window.attachEvent('onload', load); 
+   }
+   else 
+   { 
+	  window.addEventListener('load', load);
+   }
+   function load()
+   {
+   	
+   }
+</script>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+
+{include file="pagefooter.htm"}

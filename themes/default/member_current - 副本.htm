@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+{literal}
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<script type="text/javascript" src="themes/default/js/member/current.js"></script>
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+{/literal}
+ </head>
+ <body>
+ 
+{include file="header.htm"}
+
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+		 <div class="member_stock">
+		  <div class="cr_bot">
+		    <div class="mdiv1">
+		    	<span>运单编号：</span><input id="orderno" type="text" />
+				<span>运单状态:</span>
+				  <select id="orderstatus">
+			    		<option value='0'>所有订单</option>
+			    		<option value='1'>未配货</option>
+			    		<option value='2'>已配货</option>
+			    		<option value='3'>处理中</option>
+			    		<option value='4'>未付款</option>
+			    		<option value='5'>待发货</option>
+			    		<option value='6'>已发货</option>
+			    		<option value='7'>已完成</option>
+			    		<option value='8'>已关闭</option>
+			    	</select>
+				<span>收件人：</span><input id="consigname" type="text" />
+				<button id="btnsearch" type="submit" onclick="search()">搜索</button>
+			</div>
+			<ul class="checked">
+			 <li id="orderstatus0" {if $type eq -1}class="current"{/if}><a href="#">所有订单</a></li>
+			 <li id="orderstatus1" {if $type eq 0}class="current"{/if}><a href="#">未配货</a></li>
+			 <li id="orderstatus2" {if $type eq 1}class="current"{/if}><a href="#">已配货</a></li>
+			 <li id="orderstatus3" {if $type eq 2}class="current"{/if}><a href="#">处理中</a></li>
+			 <li id="orderstatus4" {if $type eq 3}class="current"{/if}><a href="#">未付款</a></li>
+			 <li id="orderstatus5" {if $type eq 4}class="current"{/if}><a href="#">待发货</a></li>
+			 <li id="orderstatus6" {if $type eq 5}class="current"{/if}><a href="#">已发货</a></li>
+			 <li id="orderstatus7" {if $type eq 6}class="current"{/if}><a href="#">已完成</a></li>
+			 <li id="orderstatus8" {if $type eq 7}class="current"{/if}><a href="#">已关闭</a></li>
+			</ul>
+			<div id="contents">
+			 <table id="currenttable-1" class="{if $type neq -1}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			 </table>
+			 <table id="currenttable0" class="{if $type neq 0}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			 </table>
+			  
+			 <table id="currenttable1" class="{if $type neq 1}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			 </table>
+			 <table id="currenttable2" class="{if $type neq 2}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			 </table>
+			 <table id="currenttable3" class="{if $type neq 3}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			 </table>
+			 <table id="currenttable4" class="{if $type neq 4}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			 </table>
+			 <table id="currenttable5" class="{if $type neq 5}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			 </table>
+			 <table id="currenttable6" class="{if $type neq 6}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			  </table>
+			  <table id="currenttable7" class="{if $type neq 7}hide{/if} stocktable">
+				<tr>
+					<th><input type="checkbox" /></th>
+					<th>运单编号</th>
+					<th>运单号</th>
+					<th>入库总重量</th>
+					<th>扣款重量</th>
+					<th>提交时间</th>
+					<th>状态</th>
+					<th>可执行操作</th>
+				</tr>
+			  </table>
+			</div>
+			<input type="hidden" name="type" id="type" value="{$type}" />
+				<div class="clear"></div>
+				<div id='pagecount' class='class_paging'></div>
+				<div class="clear"></div>
+		  </div>
+		 </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  
+{include file="footer.htm"}
+
+ </body>
+ </html>

@@ -1,0 +1,86 @@
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+	<form method="post" action="engrave_shipment.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+	<table cellspacing="1" cellpadding="3" width="100%">
+		<tr>
+			<td class="label"><span class="asterisk">*</span>物流名</span></td>
+			<td><input type="text" name="name" maxlength="60" value="{$data.shipment_name}" />{$lang.require_name}
+			</td>
+		</tr>
+	
+		<tr>
+			<td class="label"><span class="asterisk">*</span>代号</td>
+			<td><input type="text" name="code" style="width:60px" maxlength="40" value="{$data.shipment_code}" /></td>
+		</tr>
+		
+		<tr>
+			<td class="label">类型</td>
+			<td>
+				<label><input type=radio name="shipment_type" value="normal" {if $data.shipment_type=='normal'|| !$data.shipment_type }checked {/if}>正常</label>
+				<label><input type=radio name="shipment_type" value="america" {if $data.shipment_type=='america' }checked {/if}>美洲专线</label>
+				<label><input type=radio name="shipment_type" value="europe" {if $data.shipment_type=='europe'}checked {/if}>欧洲专线</label>
+
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><span class="asterisk">*</span>时效（天）</td>
+			<td>
+				<input type="text" name="min_day" style="width:60px" maxlength="40" value="{$data.min_day}" />
+				-
+				<input type="text" name="max_day" style="width:60px" maxlength="40" value="{$data.max_day}" />
+			</td>
+		</tr>
+		<tr>
+				<td class="label">时效指数 </td>
+				<td><input type=number name=effect_value value="{$data.effect_value}" max=10 min=0 defaultValue=0> [0,10] </td>
+			</tr>
+		<tr>
+			<td class="label">价格折扣 </td>
+			<td><input type=number name=discount value="{$data.discount}">整数1`100</td>
+		</tr>
+		<tr>
+			<td class="label">默认燃油费率% </td>
+			<td><input type=number name=default_oil_fee_rate
+					   value="{$data.default_oil_fee_rate}">0`100</td>
+		</tr>
+		<tr>
+			<td class="label">描述 </td>
+			<td><textarea name="description" >{$data.description}</textarea></td>
+		</tr>
+		<tr>
+			<td class="label">状态  </td>
+			<td>
+				<label><input type=radio value=enabled name=status {if $data.status=='enabled'|| !$data.status }checked {/if}>启用</label>
+				<label><input type=radio value=disabled name=status {if $data.status=='disabled'  }checked {/if}>禁用</label>
+
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><br />
+				<input type="submit" class="button" value="{$lang.button_submit}" />
+				<input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+				<input type="hidden" name="act" value="{$form_action}" />
+				<input type="hidden" name="id" value="{$data.shipment_id}" />
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+
+<script language="JavaScript">
+
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required('name', "物流名必填");
+	validator.required('code', "代号必填");
+
+	return validator.passed();
+}
+</script>
+
+{include file="engrave_pagefooter.htm"}

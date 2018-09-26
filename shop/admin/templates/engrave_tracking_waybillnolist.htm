@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$lang.selectorderno}</title>
+</head>
+<body>
+  {if $full_page}
+  {include file="engrave_pageheader.htm"}
+  {insert_scripts files="../js/utils.js,listtable.js"}
+  <form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <div class="list-div" id="listDiv">
+  {/if}
+  <table cellpadding="3" cellspacing="1">
+  <tr>
+    <th><a href="javascript:listTable.sort('ordw_waybillid'); ">{$lang.Ordw_Waybillid}</a>{$sort_ordw_waybillid}</th>
+	<th>{$lang.Ordw_WaybillNo}</th>
+	<th>{$lang.Consignee}</th>
+  </tr>
+  {foreach from=$waybillno_list item=waybillno}
+  <tr>
+    <td align="center">
+    	<span>{$waybillno.ordw_waybillid}</span>
+    </td>
+    <td align="center">
+    	<span ondblclick="GetWaybillId({$waybillno.ordw_waybillno});">{$waybillno.ordw_waybillno}</span>
+    </td>
+	<td align="center">
+		<span>{$waybillno.da_consignee}</span>
+	</td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+  </table>
+  </div>
+  <script language="JavaScript">
+  	function GetWaybillId(ordw_waybillno)
+	{
+		window.returnValue = ordw_waybillno;
+        window.close();
+	}
+  </script>
+  </form>
+</body>
+</html>

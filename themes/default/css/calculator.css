@@ -1,0 +1,218 @@
+.w{width:100%;background-color:#f7f7f7;padding: 10px 0px;margin-bottom: 10px;}
+.w_1200{width:1200px;margin:0px auto;}
+/*公告*/
+div.calculator{background-color:#fff; padding: 40px;}
+.notice .article_header{text-align:center;}
+.notice .article_header h4{padding:20px; border-bottom:1px solid #ccc; margin:0px auto; width:900px}
+.notice .content{ margin:0px auto; width:900px;    padding: 20px 0px; line-height:28px;}
+/*文章分类*/
+.article{    overflow: hidden;    width: 100%;}
+.article .side{float:left;width:270px;}
+.article .side .sidebar{    width: 100%;    margin-bottom: 30px;    padding-bottom: 20px;    background-color: #fff;    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .2);    box-shadow: 0 1px 4px rgba(0, 0, 0, .2);}
+.sidebar .head-bar { background-color: #6c7887;    overflow: hidden;    color: #fff;    font-size: 15px;}
+.head-bar h3{color:#fff;  float: left;    height: 40px;    line-height: 40px;    vertical-align: middle;    font-size: 100%;    font-weight: normal;}
+.head-bar h3 i{font-size:20px; margin:5px 10px;}
+ul.article_cate li {padding: 10px;  border-top: 1px solid #f0f0f0;  margin-left: 15px; font-size: 14px;}
+/*文章搜索*/
+.article_search{margin:20px 0px; }
+.article_search .search-input{    width: 170px;  padding: 10px 15px;  height: 16px; border: 1px solid #dedede; background-color: #fff; color: #37485b;font-size: 14px; line-height: 16px; vertical-align: top; -webkit-transition: all .2s ease; -o-transition: all .2s ease;
+ transition: all .2s ease;}
+.article_search  .search-btn {display: inline-block; width: 60px; height: 38px; margin-left: 3px; background-color: #4487de; color: #fff;  font-size: 14px; cursor: pointer; line-height: 38px;vertical-align: top; text-align: center; border:0px;}
+/*文章列表*/
+.article .artile_list{float:right;width: 870px; background-color: #fff; margin-bottom: 30px; padding:0px  20px 20px 20px;  background-color: #fff;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .2); box-shadow: 0 1px 4px rgba(0, 0, 0, .2);}
+ .article .artile_list .header-bar{width: 100%;font-size: 15px;}
+ .article .artile_list .header-bar h3{ padding:10px;}
+ ul.news-list li {padding: 15px;border-top: 1px solid #f0f0f0;}
+ ul.news-list li .ntime{float:right;}
+/*分页信息*/
+.navi-list{ border-top:1px solid #f0f0f0; padding:10px 0px;    overflow: hidden;}
+.list-type{padding-left:20px; float:left;}
+/*联系信息*/
+.mm{height:200px; padding-left:10px;}
+.mm li{height: 70px;line-height: 70px;border-bottom:1px solid #e7e7e7}
+.mm a,.mm a:visited{color:#000}
+.mm p{line-height:20px;display:inline-block;vertical-align:middle}
+.mm span{color:#999;padding-left:35px;display: block;}
+.mm i{display:inline-block;width:32px;height:32px;margin-right:15px;vertical-align:middle;background-image:url(../images/common.png)}
+.mm .qq i{background-position:-149px 0}
+.mm .skype i{background-position:-45px -192px}
+.mm .phone{border-bottom:none}
+.mm .phone i{background-position:-213px 0}
+/*文章详细*/
+.article .artile_info{float:right;width: 875px; background-color: #fff; margin-bottom: 30px; padding-bottom: 20px;  background-color: #fff;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .2); box-shadow: 0 1px 4px rgba(0, 0, 0, .2);padding:20px;}
+.artile_info .ainfo_header{}
+.artile_info .ainfo_header h2{color:#6a6a6a;padding:10px; border-bottom:1px solid #e6e6e6;text-align:center;    font-size: 24px;}
+.ainfo_content{padding:10px 0px;line-height:30px;}
+
+/*帮助中心*/
+.help_center{background-color:#fff;}
+
+.help_center_row {	width:990px;	margin:0px auto;}
+
+.help_center_row .header-bar{    height: 58px;
+    line-height: 55px;}
+
+.help_center_row .help_content{    overflow: hidden;
+    zoom: 1;}
+
+.self-service-list {
+	float: left;
+	padding-left: 20px;
+	padding-right: 10px;
+	width: 215px;
+	margin-bottom: 30px
+}
+
+.self-service-list:nth-child(n+5) {
+	margin-bottom: 20px
+}
+
+.self-service-list .ds-icon {
+	float: left;
+	padding-right: 10px;
+	position: relative
+}
+
+.self-service-list .link-img {
+	display: block;
+	width: 61px;
+	height: 61px
+}
+
+.self-service-list .link-img:hover {
+	opacity: .8
+}
+
+.self-service-list .ds-name {
+	font-size: 16px;
+	font-family: "microsoft yahei";
+	margin-bottom: 9px
+}
+
+.self-service-list .ds-name a:hover {
+	color: #4db7eb
+}
+
+.self-service-list .text {
+	color: #b4b7ae;
+	line-height: 14px;
+	height: 28px;
+	overflow: hidden
+}
+.link-img01 {
+	background-image: url("../images/dsicon01.jpg")
+}
+
+.link-img02 {
+	background-image: url("../images/dsicon02.jpg")
+}
+
+.link-img03 {
+	background-image: url("../images/dsicon03.jpg")
+}
+
+.link-img04 {
+	background-image: url("../images/dsicon04.jpg")
+}
+
+.link-img05 {
+	background-image: url("../images/dsicon05.jpg")
+}
+
+.link-img06 {
+	background-image: url("../images/dsicon06.jpg")
+}
+
+.link-img07 {
+	background-image: url("../images/dsicon07.jpg")
+}
+
+.link-img08 {
+	background-image: url("../images/dsicon08.jpg")
+}
+
+.tabs .tab-list {
+	*zoom: 1;
+	font-family: "microsoft yahei"
+}
+
+.tabs .tab-list:after {
+	content: "";
+	display: block;
+	clear: both;
+	height: 0;
+	font-size: 0;
+	overflow: hidden
+}
+
+.tabs .tab-list .list-item {
+	float: left;
+	height: 45px;
+	line-height: 45px;
+	margin-right: 12px;
+	background-color: #e9e9e9;
+	color: #585858;
+	font-size: 16px;
+	width: 150px;
+	text-align: center;
+	font-weight: bold;
+	cursor: default
+}
+.tabs .tab-list .list-item p{cursor:pointer;}
+.tabs .tab-list .list-item.active {
+	background-color: #f3b701;
+	color: #fff;
+	position: relative
+}
+
+.tabs .tab-list .list-item.active .icon01 {
+	width: 12px;
+	height: 7px;
+	position: absolute;
+	left: 70px;
+	bottom: -7px;
+	background: url("../images/icon02.png") no-repeat 0 bottom;
+	line-height: 0
+}
+
+.tabs .tabcons {
+	background-color: #fff
+}
+
+.tabs .tabcon {
+	padding-bottom: 18px
+}
+.hot-topic-list {
+	overflow: hidden;
+	*zoom: 1;
+	padding-left: 20px;
+	font-size: 14px;
+	margin-bottom: 25px
+}
+
+.hot-topic-list .list-item01 {
+	width: 49%;
+	float: left;
+	font-family: "microsoft yahei"
+}
+
+.hot-topic-list a {
+	height: 32px;
+	line-height: 32px;
+	display: block;
+	padding-left: 10px;
+	color: #585858
+}
+
+.hot-topic-list a:hover {
+	color: #ca8b00
+}
+
+.tab-content>.tab-pane {
+    display: none;
+}
+.tab-content>.active {
+    display: block;
+}

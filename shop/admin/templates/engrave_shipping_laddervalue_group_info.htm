@@ -1,0 +1,62 @@
+<!-- $Id: engrave_shipping.htm 14216 2014-12-05 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<div class="list-div">
+<form method="post" action="engrave_shipping_laddervalue_group.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <td width="20%"><div align="right"><strong>{$lang.slpg_name}</strong></div></td>
+    <td><input name="slpg_name" type="text" value="{$shipping_laddervalue_group.slpg_name}"/> 
+	</td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.slpg_des}</strong></div></td>
+    <td>
+	 	<textarea id="slpg_des" name="slpg_des" style="width:800px;height:200px;visibility:hidden;">
+		  {$shipping_laddervalue_group.slpg_des}
+		</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="4"><div align="center">
+       <input type="submit" class="button" value="{$lang.button_submit}" />
+       <input type="reset" value="{$lang.button_reset}" class="button" />
+	   <input type="hidden" name="act" value="{$form_action}" />
+	   <input type="hidden" name="slpg_id" value="{$shipping_laddervalue_group.slpg_id}" />
+    </div></td>
+  </tr>
+</table>
+</form>
+</div>
+{literal}
+{insert_scripts files="validator.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+<script language="JavaScript">
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="slpg_des"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#slpg_des');
+	       },
+       	afterBlur:function(){
+           this.sync('#slpg_des');
+        } 
+	});
+});
+
+<!--
+document.forms['theForm'].elements['slpg_name'].focus();
+
+/**
+ * 表单验证
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

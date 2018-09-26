@@ -1,0 +1,428 @@
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+	<form method="post" action="engrave_shipment_price.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+	<table cellspacing="1" cellpadding="3" width="100%"  >
+		<tr>
+			<td class="label"><span class="asterisk">*</span>物流</span></td>
+			<td>
+				<select name="shipment_id" id="shipment_id">
+					<option value=''>Select a shipment</option>
+					{foreach from=$allShipments item=data_item key=data_key}
+					<option value="{$data_item.shipment_id}" data-stype='{$data_item.shipment_type}'
+					{if $data.shipment_id == $data_item.shipment_id} selected{/if}
+					>{$data_item.shipment_name}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><span class="asterisk">*</span>价格类型</span></td>
+			<td>
+				<label><input type=radio name=price_type class="price_type"
+							  value='from-china-to-europ-partition'
+				{if $data.price_type == 'from-china-to-europ-partition'}  id="selected_price_type" checked{/if}
+				>从中国出发到欧洲国家分区(客户报价)
+				</label>
+				<br>
+				<!-- <label>
+					<input type=radio name=price_type class="price_type"
+						   value='from-china-to-europ-port-cost'
+				{if $data.price_type == 'from-china-to-europ-port-cost'}  id="selected_price_type" checked{/if}
+				>从中国出发到欧洲港口(成本)(欧洲专线的空运成本)
+				</label> 
+				<br>-->
+
+				<label>
+					<input type=radio name=price_type class="price_type"
+						   value='from-europ-port-to-country'
+				{if $data.price_type == 'from-europ-port-to-country'}  id="selected_price_type" checked{/if}
+				>从欧洲港口到欧洲国家(成本)(欧洲专线 到港后选择的快递公司的运输成本)
+				</label>
+				<br>
+
+				<label>
+					<input type=radio name=price_type class="price_type"
+						   value='from-china-to-europ-partition-cost'
+				{if $data.price_type == 'from-china-to-europ-partition-cost'} id="selected_price_type" checked{/if}
+				>从中国出发到欧洲国家(成本)(国际快递的运输成本)
+				</label>
+
+
+			</td>
+		</tr>
+		<!-- <tr id="tab_step_1">
+			<td colspan=2 align=center>
+				<input type=button value="下一步" id="next-step">
+
+			</td>
+		</tr> -->
+	</table>
+	<table cellspacing="1" id="tab_step_2"
+		   style="display:none"
+		    cellpadding="3" width="100%">
+		<tr style="display:none"
+			class="ds_select"
+			id="tr_from_china">
+			<td class="label">出发地</span></td>
+			<td>
+				中国
+			</td>
+		</tr> 
+		<tr class="ds_select"
+				style="display:none"
+				id="tr_country_partitions">
+			<td class="label">国家分区</span></td>
+			<td>
+				<select name="country_partition_id" id="country_partition_id">
+					{foreach from=$allCountryPartitions item=data_item key=data_key}
+					<option value="{$data_item.cp_id}" 
+					{if $data.cp_id == $data_item.cp_id} selected{/if}>{$data_item.cp_name}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="ds_select"
+				style="display:none"
+				id="tr_country_leave_ports">
+			<td class="label">出发口岸(欧洲)</span></td>
+			<td>
+				<select name="lp_id" id="lp_id">
+					{foreach from=$arrival_ports item=data_item key=data_key}
+					<option value="{$data_item.ap_id}" 
+					{if $data.lp_id == $data_item.ap_id} selected{/if}>{$data_item.port_name}({$data_item.port_en_name})</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="ds_select"
+				style="display:none"
+				id="tr_country_leave_ports_cost">
+			<td class="label">出发口岸(中国)</span></td>
+			<td>
+				<select name="lp_id_cost" id="lp_id">
+					{foreach from=$leave_ports item=data_item key=data_key}
+					<option value="{$data_item.lp_id}"
+							{if $data.lp_id == $data_item.lp_id} selected{/if}>{$data_item.port_name}({$data_item.port_en_name})</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr
+			class="ds_select"
+				style="display:none"
+				id="tr_special_arrival_ports">
+			<td class="label">到达口岸(欧洲)</span></td>
+			<td>
+				<select name="ap_id" id="special_ap_id">
+					{foreach from=$arrival_ports item=data_item key=data_key}
+					<option value="{$data_item.ap_id}"
+							{if $data.lp_id == $data_item.ap_id} selected{/if}>{$data_item.port_name}({$data_item.port_en_name})</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+
+
+		<tr 
+			class="ds_select"
+			style="display:none" id="tr_countries">
+			<td class="label"><b>到达国家</b></span></td>
+			<td>
+				<select name="country_id" id="country_id">
+					{foreach from=$allCountries item=data_item key=data_key}
+					<option value="{$data_item.country_id}" 
+					{if $data.country_id == $data_item.country_id} selected{/if}>{$data_item.country_name}({$data_item.country_en_name})</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr style="display:none" id="tr_special_config">
+
+			<td  colspan="2">
+				<strong>价格配置</strong>
+				<span style="font-style: italic; color:green; font-size:14px">(仅用于, 欧洲专线的空运成本,国际快递的运输成本)</span>
+				<table class="commontable">
+					<thead>
+						<th colspan=1>0kg -- 0.5kg</th>
+						<th colspan=2>0.5kg -- 10kg</th>
+						<th colspan=4>>10kg</th>
+					</thead>
+					<thead>
+							<th>[0, 0.5]kg</th>
+							<th>(0.5, 3.0]kg</th>
+							<th>(3.0, 10.0]kg</th>
+							<th>(10.0, 15.0]kg</th>
+							<th>(15.0, 20.0]kg</th>
+							<th>(20.0, 30.0]kg</th>
+							<th>(30.0, +∞)kg</th>
+					</thead>
+					<tr>
+						<td align=center>
+							<input type="number" name="price0[value]" value="{$data.config.price0.value}">
+
+						</td>
+						<td align=center>
+							<input type="number" name="price1[value]" value="{$data.config.price1.value}">
+
+						</td>
+						<td>
+							<input type="number" name="price2[value]" value="{$data.config.price2.value}">
+						</td>
+						<td>
+							<input type="number" name="price3[value]" value="{$data.config.price3.value}">
+							<br>
+							<label>
+								<input type=checkbox  name="price3[add]" value="1" {if $data.config.price3.add}checked{/if}>每0.5kg增加的价格
+							</label>
+						</td>
+						<td>
+							<input type="number" name="price4[value]" value="{$data.config.price4.value}">
+							<br>
+							<label>
+								<input type=checkbox  name="price4[add]" value="1" {if $data.config.price4.add}checked{/if}>每0.5kg增加的价格
+							</label>
+							
+						</td>
+						<td>
+							<input type="number" name="price5[value]" value="{$data.config.price5.value}">
+							<br>
+							<label>
+							<input type=checkbox  name="price5[add]" value="1" {if $data.config.price5.add}checked{/if}>每0.5kg增加的价格
+							</label>
+						</td>
+						<td>
+							<input type="number" name="price6[value]" value="{$data.config.price6.value}">
+							<br>
+							<label>
+							<input type=checkbox  name="price6[add]" value="1" {if $data.config.price6.add}checked{/if}>每0.5kg增加的价格
+							</label>
+						</td>
+					</tr>
+				</table>
+
+			</td>
+		</tr>
+		<tr style="display:none" id="tr_normal_config">
+			<td colspan="2"> <strong>价格配置</strong><span style="font-style: italic; color:green; font-size:14px">(仅用于给客户的报价)</span>
+				<table class="commontable">
+					<thead>
+						<th colspan=2>文件和小包裹</th>
+						<th colspan=4>大包裹（每kg/元）</th>
+					</thead>
+					<thead>
+							<th>首重0.5kg</th>
+							<th>续重每0.5kg</th>
+							<th>10~20kg</th>
+							<th>21~50kg</th>
+							<th>51~100kg</th>
+							<th>101kg以上</th>
+					</thead>
+					<tr>
+						<td align=center>
+							<input type="number" name="less_eq_half_kg" value="{$data.config.less_eq_half_kg}">
+
+						</td>
+						<td>
+							<input type="number" name="add_half_kg" value="{$data.config.add_half_kg}">
+						</td>
+						<td>
+							<input type="number" name="ten_twenty_kg" value="{$data.config.ten_twenty_kg}">
+						</td>
+						<td>
+							<input type="number" name="twentyone_fifty_kg" value="{$data.config.twentyone_fifty_kg}">
+						</td>
+						<td>
+							<input type="number" name="fiftyone_hundred_kg" value="{$data.config.fiftyone_hundred_kg}">
+						</td>
+						<td>
+							<input type="number" name="greater_hundredone_kg" value="{$data.config.greater_hundredone_kg}">
+						</td>
+					</tr>
+				</table>
+
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><br />
+				<input type="submit" class="button" value="{$lang.button_submit}" />
+				<input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+				<input type="hidden" name="act" value="{$form_action}" />
+				<input type="hidden" name="id" value="{$data.sp_id}" />
+				<input type="hidden" name="price_type" id="price_type" value="{$data.sp_id}" />
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+<script>
+	var price_type='{$data.price_type}';
+
+</script>
+{literal}
+<script language="JavaScript">
+var $ = jQuery;
+var price_type_value = "";
+$(function() {
+	jQuery(document).on('click', '.price_type', function(e)  {
+
+	var selVal = $(e.target).val();
+	price_type_value = selVal;
+	$('#price_type').val(selVal);
+
+	if(price_type_value == "from-china-to-europ-port-cost"){
+        $('#shipment_id').val(2);
+	}
+	if(price_type_value == "from-china-to-europ-partition-cost"){
+	    if($('#shipment_id').val() == 2)  {
+            $('#shipment_id').val("");
+		}
+
+	}
+
+     var id = $('#shipment_id').val();
+	if(!id) {
+		alert('请选择物流');
+		return false;
+	}
+	if(!price_type_value) {
+		alert('请选择价格类型');
+		return false;
+	}
+	$('tr.ds_select').hide();
+	$('#tab_step_2').show();
+
+
+	if(price_type_value == 'from-china-to-europ-partition') {
+		//get the country partition of the selected shipmemnt
+		$.getJSON('engrave_country_partition.php?act=getShipmentPartition&id='+id).then(
+			function(result) {
+				var  data = result.content;
+				data=eval('('+data+')');
+				var html = "";
+				for(var i=0;i<data.length;i++) {
+					var item = data[i];
+					html += "<option value='"+item.cp_id+"'>"+item.cp_name+"</option>";
+				}
+				if(!data.length) {
+					alert("没有国家分区数据,请先添加");
+					$('#country_partition_id').html("");
+					return false;
+				}
+				$('#country_partition_id').html(html);
+				
+
+				showFromChina();
+				
+			}, function(result) {
+				console.log(result);
+			}
+		);
+	} else if(price_type_value == "from-china-to-europ-port-cost") {
+
+
+
+        $('#tr_country_leave_ports_cost').show();
+        $('#tr_special_arrival_ports').show();
+	    //special_ap_id
+        $('#tr_normal_config').hide();
+        $('#tr_special_config').show()
+    }
+	else {
+
+
+
+        $('#tr_country_leave_ports_cost').hide();
+        $('#tr_country_leave_ports').hide();
+
+		if(price_type_value == "from-china-to-europ-partition-cost") {
+		    $('#tr_country_leave_ports_cost').show();
+            $('#tr_from_china').hide();
+		} else {
+            $('#tr_country_leave_ports').show();
+		}
+		showFromEurop();
+	}
+
+	//show the price setting table
+});
+
+
+    if(price_type) {
+        $('#selected_price_type').trigger('click');
+    }
+});
+
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	
+
+	return validator.passed();
+}
+
+var shipmentType = "{if $data.sp_id}{$data.shipment_type}{/if}";
+
+jq(function () {
+	var $ = jq;
+	if(shipmentType) {
+		// hideAll();
+		// if(shipmentType == 'normal') {
+		// 	showNormal();
+		// } else {
+		// 	showSpecial();
+		// }
+	}
+	// $('#shipment_id').on('change', function() {
+	// 	var type = $(this).find('option:selected').data('stype');
+		
+	// 	if(!type) return false;
+	// 	if(type == 'normal') {
+	// 		showNormal();
+	// 	} else {
+	// 		showSpecial();
+	// 	}
+	// });
+	
+});
+function hideAll() {
+	$('#tr_country_partitions').hide();
+	$('#tr_normal_config').hide();
+	$('#tr_special_config').hide();
+	$('#tr_country_leave_ports').hide();
+	$('#tr_countries').hide();
+}
+function showNormal() {
+	showFromChina();
+}
+//中国到欧洲分区
+function showFromChina() {
+	$('#tr_from_china').show(); //出发地	中国
+	$('#tr_country_partitions').show(); //国家分区
+	$('#tr_country_leave_ports').hide(); //出发口岸
+
+	$('#tr_countries').hide();
+	
+	$('#tr_normal_config').show();
+	$('#tr_special_config').hide();
+
+}
+function showSpecial() {
+	showFromEurop();
+}
+//欧洲口岸 到 欧洲国家
+function showFromEurop() {
+	//$('#tr_country_leave_ports').show();
+	$('#tr_countries').show(); 
+
+
+	$('#tr_normal_config').hide();
+	$('#tr_special_config').show()
+}
+
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

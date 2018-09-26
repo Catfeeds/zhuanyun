@@ -1,0 +1,2 @@
+Line 3: Unrecognized string: RewriteEngine On
+Line 29: Unrecognized string: RewriteRule ^(.*)/auction-([0-9]+)\.html$                                    $1/auction\.php\?act=view&id=$2                      [I]$1  [QSA,L]

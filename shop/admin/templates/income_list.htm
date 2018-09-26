@@ -1,0 +1,189 @@
+<!-- $Id: snatch_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+<style type="text/css">
+    {literal}
+    .table-header th{
+        text-align: left;
+    }
+    {/literal}
+</style>
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div class="form-div">
+    <form action="javascript:searchForm()" name="searchForm">
+        <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+        状态： <select name="income_status">
+        <option value="">不限</option>
+        <option value="未收">未收</option>
+        <option value="已收">已收</option>
+
+    </select>
+        &nbsp;支付类型：<select name="income_user_payment_type">
+        <option value="">不限</option>
+        <option value="月结">月结</option>
+        <option value="普通">普通</option>
+    </select>
+
+        用户id：<input type="text" name="income_user_id"   size="10" />
+        <!--订单id：<input type="text" name="income_order_id"   size="10" />-->
+        订单sn：<input type="text" name="income_order_sn"   size="10" />
+
+        <input type="submit" value="{$lang.button_search}" class="button" />
+        <input name="submit" type="button" id="export" value="导出查询" class="button" />
+    </form>
+</div>
+
+<form method="post" action="" name="listForm">
+    <div class="list-div" id="listDiv">
+        <input name="submit" type="button" id="batch-edit" value="批量支付" class="button" />
+        {/if}
+
+        <table cellpadding="3" cellspacing="1" class="table-header">
+            <tr>
+                <th><input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" /><a href="javascript:listTable.sort('act_id'); ">{$lang.record_id}</a>{$sort_act_id}</th>
+                <th><a href="javascript:listTable.sort('income_user_id'); ">用户</a></th>
+                <th><a href="javascript:listTable.sort('income_order_id'); ">订单</a>{$sort_goods_name}</th>
+                <th><a href="javascript:listTable.sort('income_status'); ">状态</a>{$sort_start_time}</th>
+                <th><a href="javascript:listTable.sort('income_add_time'); ">添加时间</a>{$sort_end_time}</th>
+
+
+
+                <th>总额</th>
+                <th>操作信息</th>
+                <th>操作备注</th>
+                <th>{$lang.handler}</th>
+            </tr>
+            {foreach from=$data_list item=data}
+            <tr>
+                <td align="center">
+                    <label>
+                        {if $data.income_status != "已付" && $data.income_user_payment_type != "普通"}
+                        <input type="checkbox" name="checkboxes" value="{$data.income_id}">
+                        {/if}
+                        {$data.income_id}
+
+                    </label>
+
+                    </td>
+                <td class="first-cell">{$data.income_username}</td>
+                <td><span>{$data.income_order_sn}</span></td>
+                <td align="left"
+                    style="font-weight:bold;color:
+                    {if $data.income_status != "已收"}red
+                {else}green
+                {/if}
+                "
+                >{$data.income_status}</td>
+                <td align="left">
+                    {$data.income_add_time}<br>
+                    用户类型：{$data.income_user_payment_type}
+                </td>
+
+
+
+                <td align="left">{$data.income_amount}</td>
+                <td align="left" >
+                    {if $data.income_status == "已收" && $data.income_user_payment_type != "普通"}
+                    时间: {$data.income_pay_change_time}<br>
+                    操作: {$data.income_admin_name} 于{$data.income_pay_change_time}
+                    {/if}
+                </td>
+                <td align="left">{$data.income_pay_memo}</td>
+                <td align="center">
+                    {if $data.income_user_payment_type != "普通"}
+                        {if $data.income_status != "已收"}
+                        <a href="income.php?act=edit&amp;id={$data.income_id}"  style="border-radius: 30px; background-color: seagreen; color:#fff; padding: 5px 10px;  " title="{$lang.edit}">录入支付</a>
+                        {else}
+                        <a href="income.php?act=edit&amp;id={$data.income_id}" style="border-radius: 30px; background-color: seagreen; color:#fff; padding: 5px 10px;  " title="{$lang.edit}">编辑支付</a>
+                        {/if}
+                    {/if}
+                </td>
+            </tr>
+            {foreachelse}
+            <tr><td class="no-records" colspan="12">{$lang.no_records}</td></tr>
+            {/foreach}
+            <tr>
+                <td align="right" nowrap="true" colspan="12">{include file="page.htm"}</td>
+            </tr>
+        </table>
+
+        {if $full_page}
+    </div>
+</form>
+<!-- end article list -->
+
+<script type="text/javascript" language="JavaScript">
+    <!--
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+
+    {foreach from=$filter item=item key=key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+
+        {literal}
+        onload = function()
+        {
+            //document.forms['searchForm'].elements['keyword'].focus();
+            // 开始检查订单
+            startCheckOrder();
+        }
+        $(document).on('click', "#batch-edit", function() {
+            var ids = check();
+            if(!ids) {
+                alert("没有选择记录");
+                return false;
+            }
+            location.href = "income.php?act=edit&id="+ids;
+        });
+        $(document).on('click', '#export', function() {
+            searchForm(true);
+        });
+        function check()
+        {
+            var snArray = new Array();
+            var eles = document.forms['listForm'].elements;
+            for (var i=0; i<eles.length; i++)
+            {
+                if (eles[i].tagName == 'INPUT' && eles[i].type == 'checkbox' && eles[i].checked && eles[i].value != 'on')
+                {
+                    snArray.push(eles[i].value);
+                }
+            }
+            if (snArray.length == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return snArray.toString();
+            }
+        }
+
+        /**
+         * 搜索
+         */
+        function searchForm(isExport)
+        {
+            var income_status = Utils.trim(document.forms['searchForm'].elements['income_status'].value);
+            var income_user_payment_type = Utils.trim(document.forms['searchForm'].elements['income_user_payment_type'].value);
+            var income_user_id = Utils.trim(document.forms['searchForm'].elements['income_user_id'].value);
+           // var income_order_id = Utils.trim(document.forms['searchForm'].elements['income_order_id'].value);
+            var income_order_sn = Utils.trim(document.forms['searchForm'].elements['income_order_sn'].value);
+
+            listTable.filter.income_status = income_status;
+            listTable.filter.income_user_payment_type = income_user_payment_type;
+            listTable.filter.income_user_id = income_user_id;
+            //  listTable.filter.income_order_id = income_order_id;
+            listTable.filter.income_order_sn = income_order_sn;
+
+            listTable.filter.page = 1;
+            if(isExport) {
+                listTable.loadExport('export');
+            }  else  listTable.loadList();
+        }
+        {/literal}
+    //-->
+</script>
+{include file="pagefooter.htm"}
+{/if}

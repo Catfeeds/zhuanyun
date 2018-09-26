@@ -1,0 +1,171 @@
+<!-- $Id: user_rank_info.htm 15053 2008-10-25 03:07:46Z testyang $ -->
+{include file="pageheader.htm"}
+
+<div class="main-div">
+<form action="user_rank.php" method="POST" enctype="multipart/form-data"  name="theForm" onsubmit="return validate()">
+<table width="100%">
+  <tr>
+    <td class="label">{$lang.rank_name}: </td>
+    <td><input type="text" name="rank_name" value="{$rank.rank_name}" maxlength="20" />{$lang.require_field}</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.integral_min}: </td>
+    <td><input type="text" name="min_points" value="{$rank.min_points}" size="10" maxlength="20" /></td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.integral_max}: </td>
+    <td><input type="text" name="max_points" value="{$rank.max_points}" size="10" maxlength="20" /></td>
+  </tr>
+  <tr>
+    <td class="label"></td>
+    <td>
+    <input type="checkbox" name="show_price" value="1" {if $rank.show_price eq 1} checked="true"{/if} /> {$lang.show_price}</td>
+  </tr>
+  <tr>
+    <td class="label"></td>
+    <td>
+    <input type="checkbox" name="special_rank" value="1" {if $rank.special_rank eq 1} checked="true"{/if} onClick="javascript:doSpecial()" /> {$lang.special_rank} <a href="javascript:showNotice('notice_special');" title="{$lang.form_notice}"><img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}"></a>
+    <br /><span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="notice_special">{$lang.notice_special}</span></td>
+  </tr>
+  
+  <tr>
+    <td class="label">{$lang.ur_desc}: </td>
+    <td>
+	    <textarea id="ur_desc" name="ur_desc" style="width:700px;height:150px;visibility:hidden;">
+		    {$rank.ur_desc}
+		</textarea>
+	</td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.ur_color}: </td>
+    <td>
+    	<input type="text" name="ur_color" value="{$rank.ur_color}" size="10" maxlength="20" />
+    	<a href="javascript:showNotice('notice_ur_color');" title="{$lang.form_notice}"><img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}"></a>
+    <br /><span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="notice_ur_color">{$lang.ur_color_des}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.ur_icon}: </td>
+    <td>
+    	<input name="ur_icon" type="file" />
+    	{if $rank.ur_icon}
+    	<a href="{$rank.ur_icon}" target="_blank">
+    		<img src="{$rank.ur_icon}">
+    	</a>
+    	{/if}
+    </td>
+  </tr>
+  <tr>
+    <td class="label">{$lang.ur_notice}: </td>
+    <td>
+    	<input type="radio" value='0' name="ur_notice" {if $rank.ur_notice eq 0} checked{/if}>{$lang.ur_notice_email}
+    	<input type="radio" value='1' name="ur_notice" {if $rank.ur_notice eq 1} checked{/if}>{$lang.ur_notice_sms}
+    	<input type="radio" value='2' name="ur_notice" {if $rank.ur_notice eq 2} checked{/if}>{$lang.ur_notice_over}
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="label"><a href="javascript:showNotice('notice_discount');" title="{$lang.form_notice}"><img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}"></a>{$lang.discount}: </td>
+    <td><input type="text" name="discount" value="{$rank.discount}" size="10" maxlength="20" />{$lang.require_field}
+    <br /><span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="notice_discount">{$lang.notice_discount}</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="id" value="{$rank.rank_id}" />
+      <input type="hidden" name="old_rank_name" value="{$rank.rank_name}" />
+      <input type="hidden" name="old_min_points" value="{$rank.min_points}" />
+      <input type="hidden" name="old_max_points" value="{$rank.max_points}" />
+      <input type="hidden" name="old_ur_icon" value="{$rank.ur_icon}"/>
+      <input type="submit" value="{$lang.button_submit}" class="button" />
+      <input type="reset" value="{$lang.button_reset}" class="button" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['rank_name'].focus();
+
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="ur_desc"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#ur_desc');
+	       },
+       	afterBlur:function(){
+           this.sync('#ur_desc');
+        } 
+	});
+});
+	
+onload = function()
+{
+  startCheckOrder();
+}
+
+/**
+ * 验证
+ */
+function validate()
+{
+    if (!document.forms['theForm'].elements['special_rank'].checked)
+    {
+        if (Utils.trim(document.forms['theForm'].elements['min_points'].value) == '' ||
+            !Utils.isInt(document.forms['theForm'].elements['min_points'].value))
+        {
+            alert(integral_min_invalid);
+            return false;
+        }
+
+        if (Utils.trim(document.forms['theForm'].elements['max_points'].value) == '' ||
+            !Utils.isInt(document.forms['theForm'].elements['max_points'].value))
+        {
+            alert(integral_max_invalid);
+            return false;
+        }
+
+        if (!document.forms['theForm'].elements['special_rank'].checked &&
+            (parseInt(document.forms['theForm'].elements['max_points'].value) <=
+            parseInt(document.forms['theForm'].elements['min_points'].value)))
+        {
+            alert(integral_max_small);
+            return false;
+        }
+        if (parseInt(document.forms['theForm'].elements['discount'].value) < 1 ||
+          parseInt(document.forms['theForm'].elements['discount'].value) > 100)
+        {
+          alert(discount_invalid);
+          return false;
+        }
+    }
+
+    validator = new Validator("theForm");
+    validator.required('rank_name', rank_name_empty);
+    validator.isInt('discount', discount_invalid, true);
+    return validator.passed();
+}
+
+function doSpecial()
+{
+  if(document.forms['theForm'].elements['special_rank'].checked)
+  {
+      document.forms['theForm'].elements['max_points'].disabled = "true";
+      document.forms['theForm'].elements['min_points'].disabled = "true";
+  }
+  else
+  {
+      document.forms['theForm'].elements['max_points'].disabled = "";
+      document.forms['theForm'].elements['min_points'].disabled = "";
+  }
+}
+//-->
+</script>
+{/literal}
+{include file="pagefooter.htm"}

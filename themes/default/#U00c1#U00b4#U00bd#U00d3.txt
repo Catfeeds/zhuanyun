@@ -1,0 +1,26 @@
+会员登录：logo.htm
+会员注册：register.htm
+费用估算：list_cost.htm
+文章内容页：article_news.htm
+新闻列表页：list_news.htm
+其他文章页：(切关于我们)list_about.htm
+会员中心-包裹管理-到货预报：    menber_forecast.htm
+会员中心-包裹管理-问题件  ：    menber_question.htm
+会员中心-包裹管理-库存列表：    menber_stock.htm
+会员中心-运单管理-当前运单：    menber_current.htm
+会员中心-运单管理-提交发货：    menber_submit.htm
+会员中心-运单管理-历史运单：    menber_history.htm
+会员中心-增值服务-提交增值服务：menber_appreciation.htm
+会员中心-增值服务-我的增值服务：menber_myapp.htm
+会员中心-财务管理-我的账户：    menber_myacc.htm
+会员中心-财务管理-我的优惠券：  menber_preferential.htm
+会员中心-财务管理-我的积分：    menber_integral.htm
+会员中心-财务管理-我的信息：    menber_myinfo.htm
+会员中心-财务管理-我的推广：    menber_FAD.htm
+会员中心-资料管理-账户总览：    menber_account.htm
+会员中心-资料管理-资料修改：    menber_datum.htm
+会员中心-资料管理-修改密码：    menber_revisepass.htm
+会员中心-资料管理-收货地址维护：menber_Address.htm
+会员中心-资料管理-修改收货地址：menber_Addressalt.htm
+会员中心-客服中心-有问必答：    menber_Insider.htm
+会员中心-客服中心-有问必答操作：menber_integralalt.htm

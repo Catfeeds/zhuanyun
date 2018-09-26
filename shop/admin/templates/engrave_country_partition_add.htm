@@ -1,0 +1,110 @@
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+	<form method="post" action="engrave_country_partition.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+	<table cellspacing="1" cellpadding="3" width="100%">
+        <tr>
+            <td class="label"><span class="asterisk">*</span>物流名</span></td>
+            <td>
+                <select name=shipment_id>
+                    {foreach from=$allShipments item=shipment}
+                    <option value="{$shipment.shipment_id}">{$shipment.shipment_name}</option>
+                    {/foreach}
+                </select>
+            </td>
+        </tr>
+		<tr>
+			<td class="label"><span class="asterisk">*</span>分区名</span></td>
+			<td><input type="text" name="name" maxlength="60" value="{$data.cp_name}" />{$lang.require_name}
+			</td>
+        </tr>
+        <tr>
+            <td class="label">时效（天）</span></td>
+            <td><input type="number" name="min_day" maxlength="2" value="{$data.min_day}" /> - 
+                <input type="number" name="max_day" maxlength="2" value="{$data.max_day}" />
+            </td>
+        </tr>
+        
+        <tr>
+            <td class="label">说明</span></td>
+            <td><input type="text" name="description" maxlength="60" value="{$data.description}" />{$lang.require_name}
+            </td>
+        </tr>
+		<tr>
+			<td class="label">国家</td>
+			<td>
+                <select id="countries" name="leftids[]"  style="height:100px;width:200px" multiple>
+                    {foreach from=$allCountries item=country}
+                    <option value="{$country.cid}">{$country.country_name}({$country.country_en_name})</option>
+                    {/foreach}
+
+                </select>
+                <br>
+                <button id="add" type="button">+</button>
+                <button id="remove" type="button">-</button>
+                <br>
+                <select id="currentCountries" name="selids[]" style="height:100px;width:200px" multiple>
+                    {foreach from=$data.countries key=key  item=country}
+                    <option value="{$key}">{$country.country_name}({$country.country_en_name})</option>
+                    {/foreach}
+                </select>
+            </td>
+		</tr>
+	
+	
+		<tr>
+			<td colspan="2" align="center"><br />
+				<input type="submit" class="button" value="{$lang.button_submit}" />
+				<input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+				<input type="hidden" name="act" value="{$form_action}" />
+				<input type="hidden" name="id" value="{$data.cp_id}" />
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+
+<script language="JavaScript">
+
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required('name', "分区名必填");
+
+	var ret = validator.passed();
+    if(ret) {
+        jq('#countries').find('option').prop('selected', true);
+        jq('#currentCountries').find('option').prop('selected', true);
+    }
+    return ret;
+}
+jq(function() {
+    jq('#add').on('click', function(e) {
+        var $options = jq('#countries').find('option');
+        var $seloptions = [];
+        $options.each(function() {
+            if(jq(this).prop('selected') == true) {
+                //$seloptions.push(jq(this));
+                jq(this).remove();
+                jq('#currentCountries').append(jq(this));
+            }
+        });
+    });
+    jq('#remove').on('click', function(e) {
+        var $options = jq('#currentCountries').find('option');
+        var $seloptions = [];
+        $options.each(function() {
+            if(jq(this).prop('selected') == true) {
+                //$seloptions.push(jq(this));
+                jq(this).remove();
+                jq('#countries').append(jq(this));
+            }
+        });
+    });
+});
+</script>
+
+{include file="engrave_pagefooter.htm"}

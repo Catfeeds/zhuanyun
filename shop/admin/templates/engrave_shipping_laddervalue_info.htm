@@ -1,0 +1,90 @@
+<!-- $Id: engrave_shipping.htm 14216 2014-12-05 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+<div class="list-div">
+<form method="post" action="engrave_shipping_laddervalue.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <td width="20%"><div align="right"><strong>{$lang.slv_shippinggroupname}</strong></div></td>
+    <td>
+    	<select name="slp_slpgid">
+    		{$option}
+    	</select>
+	</td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.slv_minweight}</strong></div></td>
+    <td><input name="slp_minweight" type="text" value="{$slv.slp_minweight}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.slv_maxweight}</strong></div></td>
+    <td><input name="slp_maxweight" type="text" value="{$slv.slp_maxweight}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.slv_price}</strong></div></td>
+    <td><input name="slp_price" type="text"  value="{$slv.slp_price}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.slv_discount}</strong></div></td>
+    <td><input name="slp_discount" type="text"  value="{$slv.slp_discount}" /></td>
+  </tr>
+  <tr>
+    <td><div align="right"><strong>{$lang.slv_serviceprice}</strong></div></td>
+    <td><input name="slp_serviceprice" type="text" value="{$slv.slp_serviceprice}" /></td>
+  </tr>
+  <tr>
+    <td colspan="4"><div align="center">
+       <input type="submit" class="button" value="{$lang.button_submit}" />
+       <input type="reset" value="{$lang.button_reset}" class="button" />
+	   <input type="hidden" name="act" value="{$form_action}" />
+	   <input type="hidden" name="slp_id" value="{$slv.slp_id}" />
+	   <input type="hidden" name="slp_shippingid" value="{$slp_shippingid}" />
+    </div></td>
+  </tr>
+</table>
+</form>
+</div>
+{literal}
+{insert_scripts files="validator.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+<script language="JavaScript">
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="ShippingDesc"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#ShippingDesc');
+	       },
+       	afterBlur:function(){
+           this.sync('#ShippingDesc');
+        } 
+	});
+});
+
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="UseAgreement"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#UseAgreement');
+	       },
+       	afterBlur:function(){
+           this.sync('#UseAgreement');
+        } 
+	});
+});
+<!--
+document.forms['theForm'].elements['slp_minweight'].focus();
+
+/**
+ * 表单验证
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}

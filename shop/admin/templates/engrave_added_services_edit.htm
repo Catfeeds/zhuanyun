@@ -1,0 +1,151 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,../js/region.js"}
+{insert_scripts files="../js/editor/kindeditor.js,../js/editor/lang/zh_CN.js,../js/editor/plugins/code/prettify.js"}
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_added_services.php" method="post" name="theForm" >
+        <table cellspacing="1" cellpadding="3" width="100%">
+          <tr>
+            <td class="label">
+              {$lang.RecordNo} 
+            </td>
+            <td>
+              <span>{$services.RecordNo}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">
+              {$lang.ShippingOrder} 
+            </td>
+            <td>
+              <span><a href="engrave_package_list.php?act=edit&id={$pck_id}">{$services.ShippingOrder}</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">
+            	{$lang.HouseName}
+			</td>
+            <td>
+              <span>{$services.HouseName}</span>
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">
+            	{$lang.ServiceName}
+			</td>
+            <td>
+              <span>{$services.ServiceName}</span>
+            </td>
+          </tr>
+		  <tr>
+		    <td class="label">{$lang.checkresult}</td>
+		    <td>
+		  <textarea id="CheckResult" name="CheckResult" style="width:700px;height:200px;visibility:hidden;">
+		   {$services.CheckResult|escape}
+		   </textarea>
+		    <!-- <textarea name="CheckResult" cols="40" rows="3"></textarea>
+		     -->
+		    </td>
+		  </tr>
+          <tr>
+            <td class="label">
+            	{$lang.Weight}
+			</td>
+            <td>
+              <span>{$services.pck_weight}</span>
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">
+            	{$lang.ServicePrice}
+			</td>
+            <td>
+              <span>{$services.Price}</span>
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">
+            	{$lang.Description}
+			</td>
+            <td>
+              <span>{$services.Description}</span>
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">
+            	{$lang.UserInformation}
+			</td>
+            <td>
+              <span>{$lang.User}{$services.user_name}锛寋$lang.Tel}{$services.Tel}</span>
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">
+            	{$lang.AddTime}
+			</td>
+            <td>
+              <span>{$services.AddTime}</span>
+            </td>
+          </tr>
+        </table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="RecordId" value="{$services.RecordId}"/>
+      </form>
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+
+
+<script language="JavaScript">
+{literal}
+KindEditor.ready(function(K) {
+	var editor1 = K.create('textarea[id="CheckResult"]', {
+		cssPath : '../plugins/code/prettify.css',
+		allowFileManager : true,
+		afterCreate : function() {
+	        this.sync('#CheckResult');
+	       },
+       	afterBlur:function(){
+           this.sync('#CheckResult');
+        } 
+	});
+});
+
+
+//鍒濆鍖�
+if(document.all) { 
+	window.attachEvent('onload', load);
+}
+else { 
+	window.addEventListener('load', load);
+}
+
+/**
+ * 鍒濆鍖栧姞杞�
+ */
+function load()
+{
+	document.forms['theForm'].elements['CheckResult'].focus();
+}
+/**
+ * 琛ㄥ崟楠岃瘉
+ */
+function validate()
+{
+  validator = new Validator("theForm");
+  validator.required("CntTitle", CntTitle_notnull);
+  validator.required("CntTime", CntTime_notnull);
+  validator.isDate("CntTime", CntTime_typeerror);
+
+  return validator.passed();
+}
+{/literal}
+</script>
+{include file="pagefooter.htm"}

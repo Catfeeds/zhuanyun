@@ -1,0 +1,65 @@
+{include file="header_user.htm"}
+ 
+   <!--conter-->
+    <div class="conter">
+		<div class="member">
+			{include file="member_menu.htm"}
+		</div>
+
+
+	   <div class="conter_right">
+		   <div class="cost myacc member_sub">
+		   <div class="cr_bot">
+			    <h2>修改头像<span></span></h2>
+		 		<div class="cost myacc">
+				  <div class="cr_bot">
+					<div id="contents">
+					<form enctype="multipart/form-data" action="user.php?act=member_hsupdate" method="post" name="theForm" onsubmit="return validate()">
+					<table cellspacing="10px;">
+					   <tr>
+						 <td width="100px" style="text-align:right;">现有头像：</td>
+						 <td><img src="{$users.user_headsculpture}" height="68px" width="68px"></img></td>
+					   </tr>
+					   <tr>
+						 <td width="100px" style="text-align:right;">上传头像：</td>
+						 <td><input type="file" name="user_headsculpture"/></td>
+					   </tr>
+						<tr>
+						 <td></td>
+						 <td>上传头像文件请不要超过200KB！头像尺寸为82像素X82像素，大尺寸图像将会自动进行裁剪缩小。</td>
+					   </tr>
+					   <tr>
+						 <td></td>
+						 <td>
+							<input type="submit"  class=dell style="color :#fff; padding: 0 20px; float:left" value="提交"></input>
+						 </td>
+					   </tr>
+					</table>
+					</form>
+					</div>
+				   </div>
+				  </div>
+				</div>
+	   		</div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  <!--footer-->
+   {include file="footer.htm"}
+  <!--/footer-->
+ </body>
+ </html>
+ {literal}
+  
+<script type="text/javascript">
+
+function validate()
+{
+  validator = new Validator("theForm");
+  validator.required("user_headsculpture", user_headsculpture_notnull);
+  
+  return validator.passed();
+}
+</script>
+  {/literal}

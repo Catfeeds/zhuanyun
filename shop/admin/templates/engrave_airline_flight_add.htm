@@ -1,0 +1,135 @@
+{include file="engrave_pageheader.htm"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+{insert_scripts files="../js/jquery-clock-timepicker.min.js"}
+
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<div class="main-div">
+	<form method="post" action="engrave_airline_flight.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+	<table cellspacing="1" cellpadding="3" width="100%">
+		<tr>
+			<td class="label">航空公司</span></td>
+			<td>
+				<select name="airline_id" id="airline_id">
+					{foreach from=$airlines item=data_item key=data_key}
+					<option value="{$data_item.airline_id}"
+						{if $data.airline_id == $data_item.airline_id} selected{/if}
+						>{$data_item.airline_name}
+					</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr id="trans_city_tr">
+			<td class="label" ><span class="asterisk">*</span><strong>航班号</strong></td>
+			<td >
+				<input type="text" name="flight_no" id="flight_no"   value="{$data.flight_no}" size="30" />
+			</td>
+		</tr>
+		<tr>
+			<td class="label">出发口岸</span></td>
+			<td>
+				<select name="lp_id" id="lp_id">
+					{foreach from=$leave_ports item=data_item key=data_key}
+					<option value="{$data_item.lp_id}"
+						{if $data.lp_id == $data_item.lp_id} selected{/if}>{$data_item.port_name}
+					</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="label">到达口岸</span></td>
+			<td>
+				<select name="ap_id" id="ap_id">
+					{foreach from=$arrival_ports item=data_item key=data_key}
+					<option value="{$data_item.ap_id}"
+						{if $data.ap_id == $data_item.ap_id} selected{/if}>{$data_item.port_name}
+					</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>直达/转机</strong></td>
+			<td >
+				<label><input type="radio" value="D" name="is_direct" {if $data.is_direct=='D'}checked{/if}>直达</label>
+				<label><input type="radio" value="T" name="is_direct" {if $data.is_direct=='T'}checked{/if}>转机</label>
+			</td>
+		</tr>
+		<tr id="trans_city_tr">
+			<td class="label" ><strong>中转城市</strong></td>
+			<td >
+				<input type="text" name="trans_city" id="trans_city"   value="{$data.trans_city}" size="30" />
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>出发日期</strong></td>
+			<td >
+				<input type="text" name="leave_date" value="{$data.leave_date}"  readonly id="leave_date"  size="30" onclick="return showCalendar(this, '%Y-%m-%d', false, false, this);" />
+			</td>
+		</tr><tr>
+			<td class="label" ><strong>出发时间</strong></td>
+			<td >
+				<input type="text" name="leave_time" value="{$data.leave_time}"  readonly id="leave_time" class="time"  size="30" />
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>到达时间</strong></td>
+			<td >
+				<input type="text" name="arrival_time" value="{$data.arrival_time}"  readonly id="arrival_time" class="time"  size="30" />
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>天数</strong></td>
+			<td >
+				<input type="text" name="days" id="days"  value="{$data.days}"  >
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>飞行时长（小时）</strong></td>
+			<td >
+				<input type="text" name="hours" id="hours"  value="{$data.hours}"  >
+			</td>
+		</tr>
+		<tr>
+			<td class="label" ><strong>价格模板</strong></td>
+			<td >
+				<select name="apt_id" id="apt_id">
+					{foreach from=$allPriceTemplate  item=country}
+					<option value="{$country.apt_id}" {if $data.apt_id == $country.apt_id} selected{/if}>{$country.name}</option>
+					{/foreach}
+
+				</select>
+
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><br />
+				<input type="submit" class="button" value="{$lang.button_submit}" />
+				<input type="button" name="reset" onclick="history.go(-1)" value="{$lang.back}" class="button" />
+				<input type="hidden" name="act" value="{$form_action}" />
+				<input type="hidden" name="id" value="{$data.flight_id}" />
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+
+<script language="JavaScript">
+jq(function() {
+	jq('.time').clockTimePicker({});
+});
+/**
+ * 添加验证
+ */
+function validate()
+{
+	var validator = new Validator('theForm');
+	validator.required('flight_no', "航班号必填");
+
+	return validator.passed();
+}
+</script>
+
+{include file="engrave_pagefooter.htm"}

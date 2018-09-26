@@ -1,0 +1,52 @@
+{include file="engrave_pageheader.htm"}
+{include file="engrave_tip.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<form method="post" action="" name="listForm" >
+	<!-- start currecys list -->
+	<div class="list-div" id="listDiv">
+		<table cellpadding="3" cellspacing="1">
+		  <tr>
+		    <th>
+		      <input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox" />
+		      <a  >{$lang.record_id}</a>
+		    </th>
+		    <th> 名称</th>
+		    <th> 简称</th>
+			
+				<th> 备注 </th>
+		    <th>{$lang.handler}</th>
+		  </tr>
+		  {foreach from=$data_list  item=country}
+		  <tr>
+		    <td style="width:50px;" align="center">
+		    	{$country.airline_id}
+		    </td>
+		    <td align="center">
+		    	<span>{$country.airline_name} </span>
+		    </td>
+		 
+		    <td align="center">
+		    	<span>{$country.airline_short_name}</span>
+		    </td>
+            <td align="center">
+                <span>{$country.comment}</span>
+            </td>
+		    <td align="center" style="width:150px; padding:0px; margin:0px">
+		      
+		    </td>
+		  </tr>
+		  {foreachelse}
+		  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+		  {/foreach}
+		</table>	
+
+		{include file="engrave_page.htm"}
+
+
+	</div>
+ </form>
+ <script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+</script>
+{include file="engrave_pagefooter.htm"}

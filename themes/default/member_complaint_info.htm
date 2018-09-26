@@ -1,0 +1,97 @@
+
+ {include file="header_user.htm"}
+ {literal}
+ <script type="text/javascript">
+     $(function(){
+         var $lis=$(".checked li");
+         $lis.click(function(){
+             $(this).addClass("current").siblings().removeClass("current");
+             var index=$lis.index(this);
+             $("#contents div").eq(index).show().siblings().hide();
+         })
+     })
+ </script>
+ <style type="text/css">
+	 .detail-tab tr{
+		 height:30px;
+		 line-height: 30px;
+	 }
+	 .detail-tab tr td:first-child {
+		 padding-right:15px;
+	 }
+ </style>
+ {/literal}
+   <!--conter-->
+    <div class="conter">
+	 <div class="member_sub">
+	   {include file="member_menu.htm"}
+	   <div class="conter_right">
+	    <!--<div class="cr_top">{$weizhi}：{$ur_here}</div>-->
+		   <div class="cr_bot">
+			  	 <h2>编辑投诉理赔</h2>
+				 <div class="cost myacc">
+				  <div class="cr_bot">
+					<div id="contents">
+					 <form enctype="multipart/form-data" action="member_customservice.php?act=member_complaint" method="post" name="theForm" onsubmit="return validate()">
+					   <table class="datum detail-tab" cellspacing="10px;">
+						   <tr>
+							 <td class="datd">标题:</td>
+							 <td><input class="textdatum" type="text" name="cmp_title" value="{$cmp.cmp_title}"/></td>
+						   </tr>
+						   <tr>
+							 <td class="datd">相关包裹单号:</td>
+							 <td><input class="textdatum" type="text" name="cmp_expressnumber" value="{$cmp.cmp_expressnumber}"/></td>
+						   </tr>
+							<tr>
+							 <td class="datd">相关转运单号:</td>
+							 <td><input class="textdatum" type="text" name="cmp_orderno" value="{$cmp.cmp_orderno}"/></td>
+						   </tr>
+							<tr>
+							 <td class="datd">相关发货单号:</td>
+							 <td><input class="textdatum" type="text" name="cmp_deliverynumber" value="{$cmp.cmp_deliverynumber}"/></td>
+						   </tr>
+						   <tr>
+							 <td class="datds" style="padding-top:5px;"><p>问题详细描述:<p></td>
+							 <td style="padding-top:0px;">
+								<textarea name="cmp_remark">{$cmp.cmp_remark}</textarea>
+							 </td>
+						   </tr>
+					  </table>
+					  <!--
+					  <div class="mdiv1 ins"><span>问题详细描述：</span><textarea></textarea></div>
+					   -->
+					 <button type="submit">提交问题</button>
+					 <input type="hidden" name="operate" value="update"></input>
+					 <input type="hidden" name="cmp_id" value="{$cmp.cmp_id}"></input>
+					 </form>
+					</div>
+				   </div>
+				 </div>
+				</div>
+	  	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  <!--footer-->
+   {include file="footer_user.htm"}
+  <!--/footer-->
+ </body>
+ </html>
+ 
+ <script language="JavaScript">
+{literal}
+document.forms['theForm'].elements['cmp_title'].focus();
+
+/**
+ * 表单验证
+ */
+function validate()
+{
+  validator = new Validator("theForm");
+  validator.required("cmp_title",  title_notnull);
+  validator.required("cmp_remark", remark_notnull);
+
+  return validator.passed();
+}
+{/literal}
+</script>

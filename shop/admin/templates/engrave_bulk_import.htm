@@ -1,0 +1,41 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_bulk_import.php" method="post" name="theForm" >
+        <!-- ������ -->
+        <table width="90%" id="tab_channel_basic-table" align="center">
+          <tr>
+            <td class="label">
+             {$lang.import} 
+            </td>
+            <td>
+              <input name="Import" type="file" size="20" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.template}</td>
+            <td>
+               <a href="../admin/upFile/template/sample.xls">{$lang.download}</a>
+			   <span style="color:red;">{$lang.waretip}</span>
+            </td>
+		  </tr>
+        </table>     
+        <div class="button-div">
+          <input type="submit" name="import" value="{$lang.button_import}" class="button" />
+        </div>
+		<input type="hidden" name="act" value="{$form_action}" />
+      </form>
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+
+{include file="pagefooter.htm"}

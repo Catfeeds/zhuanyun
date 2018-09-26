@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$lang.selectuser}</title>
+</head>
+<body>
+  {if $full_page}
+  {include file="engrave_pageheader.htm"}
+  {insert_scripts files="../js/utils.js,listtable.js"}
+  <form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <div class="list-div" id="listDiv">
+  {/if}
+  <table cellpadding="3" cellspacing="1">
+  <tr>
+    <th><a href="javascript:listTable.sort('user_id'); ">{$lang.User_Id}</a>{$sort_user_id}</th>
+	<th><a href="javascript:listTable.sort('user_name'); ">{$lang.User_Name}</a>{$sort_user_name}</th>
+  </tr>
+  {foreach from=$user_list item=user}
+  <tr>
+    <td align="center">
+    	<span>{$user.user_id}</span>
+    </td>
+    <td align="center">
+    	<span ondblclick="GetUserId({$user.user_id});">{$user.user_name}</span>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+  </table>
+  </div>
+  <script language="JavaScript">
+  	function GetUserId(user_id)
+	{
+		window.returnValue = user_id;
+        window.close();
+	}
+  </script>
+  </form>
+</body>
+</html>

@@ -1,0 +1,350 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+<title></title>
+<script language="javascript" type="text/javascript">
+   window.print();
+</script>
+<style>
+@media print
+{
+.table_break {page-break-after:always;}
+}
+
+* { margin:0px; padding:0px; }
+body { margin:0px; font-family:Microsoft JhengHei,Arial,Helvetica,sans-serif; }
+img { vertical-align:middle; }
+table {border-collapse: collapse; width:100%;}
+td {vertical-align:top;} /* height:8px; */
+.td_itemnumber
+{
+	width:420px; height: 40px; 
+}
+.td_desption
+{
+	border-top:2px solid #008000; border-left:2px solid #008000; border-right:2px solid #008000;
+    border-top-left-radius:10px; border-top-right-radius:10px;
+}
+.td_from
+{
+	height:200px;
+    border:2px solid #008000; border-right:1px solid;
+	border-top-left-radius:10px;border-bottom-left-radius:10px;
+}
+.td_telehoneandcountry
+{
+	border-bottom:2px solid #008000;border-right:2px solid #008000;
+	border-bottom-right-radius:10px;
+}
+.td_goodsdesc
+{
+	height:180px;
+	border:2px solid #008000;
+	border-top-right-radius:10px;border-top-left-radius:10px;border-bottom-right-radius:10px;
+}
+.td_insurance
+{
+	height:40px;
+	border:2px solid #008000;
+	border-top-right-radius:10px;border-bottom-left-radius:10px;border-bottom-right-radius:10px;
+}
+.td_note
+{
+    height:50px;
+	border:2px solid #008000; border-bottom:1px solid;
+	border-top-left-radius:10px;
+}
+.td_signature
+{
+	border:2px solid #008000;
+	border-top-right-radius:10px;border-bottom-right-radius:10px;
+}
+.td_description
+{
+	height:100px;
+}
+.address
+{
+	width:350px;
+	border-bottom:2px solid #008000; border-left:2px solid #008000; border-right:1px dashed;
+	border-bottom-left-radius:10px;
+}
+.treat
+{
+	width:150px;
+	border-bottom:2px solid #008000;border-right:1px dashed;
+}
+.shipping
+{
+	width:150px;
+	border-bottom:2px solid #008000;border-right:2px solid #008000;
+	border-bottom-right-radius:10px;
+}
+.td_totalweight
+{
+	border:1px solid;	
+	border-top-right-radius:10px;border-top-left-radius:10px;
+}
+.ul_address{list-style-type:none}
+.li_address{
+	font-size:18px;font-weight:bold;padding-left:10px;padding-top:5px;
+}
+.font_address{font-size:18px;font-weight:bold;}
+</style>
+</head>
+<body style="width:1070px; margin-left:auto;margin-right:auto;margin-top:auto;">
+{foreach from=$order_list item=order name="name_order"}
+<table style="height:200px; width:1070px; margin:25px 0px 0px 10px;" class="table_break">
+  <!--第一列-->
+  <tr>
+    <td class="td_itemnumber">
+	   <span style="font-size:10pt;">プロジェクト番号</span><br/>
+	   <span style="font-size:10pt;">Item Number</span>
+    </td>
+	<td class="td_desption">
+	   <span style="font-size:10pt; margin-left:12px;">友情提示：包裹到达时如果有破损少件，请联系派送人员或派件局做CN24破损报</span>
+	   <span style="font-size:10pt; margin-left:12px;">告，请核对重量与单面重量是否一致，不一致可能内件缺损。</span>
+	   
+	</td>
+	<td rowspan="5" style="width:250px;">
+	<!-- 右侧 -->
+		<table style="width:230px; margin:0px 0px 0px 10px;">
+			<tr height="50px;">
+			   <td colspan="2" class="td_totalweight">
+			   	<ul class="ul_address">
+			   		<li>重量</li>
+			   		<li style="text-align:center;">{$order.ordw_deductweight} g</li>
+			   	</ul>
+			   </td>
+			</tr>
+			<tr height="20px;">
+				<td style="border:1px solid;text-align:center;">固定信息</td>
+				<td style="border:1px solid;text-align:center;">固定信息</td>
+			</tr>
+			<tr height="40px;">
+				<td style="border:1px solid;"></td>
+				<td style="border:1px solid;"></td>
+			</tr>
+			<tr height="20px;">
+			   <td colspan="2" style="border:1px solid;text-align:center;">合计金额</td>
+			</tr>
+			<tr height="40px;">
+			   <td colspan="2" style="border:1px solid; vertical-align:bottom;text-align:center;padding-bottom:5px;">
+			   	{$order.order_goodsprice}
+			   	<span style="float:right;">円 yen</span>
+			   </td>
+			</tr>
+			<tr height="120px;">
+			   <td colspan="2" style="border:2px solid red;">
+			   固定信息
+			   	<ul class="ul_address" style="padding-left:20px;">
+			   		<li><input type="checkbox" id="aviation"></input><label for="aviation">航空便</label></li>
+			   		<li><input type="checkbox" id="sal"></input><label for="sal">SAL</label></li>
+			   		<li><input type="checkbox" id="ship"></input><label for="ship">船便</label></li>
+			   	</ul>
+			   </td>
+			</tr>
+			<tr height="60px;">
+			   <td colspan="2" style="border:1px solid;">
+			   	固定信息
+			   </td>
+			</tr>
+			<tr height="60px;">
+			   <td colspan="2" style="border:1px solid;border-bottom-right-radius:10px;border-bottom-left-radius:10px;">
+			   	<ul class="ul_address">
+			   		<li>受付時刻</li>
+			   		<li style="text-align:center;">{$time_now}</li>
+			   	</ul>
+			   </td>
+			</tr>
+		</table>
+		<table style="width:230px; margin:10px 0px 0px 10px;">
+			<tr height="80px;">
+				<td style="border:1px solid red; border-radius:10px;">
+					固定信息
+				</td>
+			</tr>
+		</table>
+	</td>
+  </tr>
+  <!--第二列-->
+  <tr>
+    <td class="td_from">
+        <span style="font-size:20pt; color:#008000; margin-left:12px;">FROM</span>
+		<span style="font-size:10pt; margin-left:12px;">(と依頼主  住所·氏名)</span>
+		<span style="font-size:10pt; margin-left:12px;">Name & Address</span><br/>
+		<!--需要填写的发件人的地址-->
+		<ul class="ul_address" style="height:120px;">
+			<li class="li_address">メィトゥ（カ</li>
+			<li class="li_address">大阪市西區西本町1-14-9</li>
+			<li class="li_address">返送先 大班東郵編局 
+				<span style="font-size:16px;">入库码：{$member.storage_code}</span>
+			</li>
+			<li class="li_address" style="padding-left:70px;">營業部集合推送部
+			<span style="font-size:16px;">订单号：{$order.ordw_assistno}</span>
+			</li>
+		</ul>
+		<span style="font-size:12pt; margin-left:12px;">(郵便番号)</span><!--邮编填写-->
+		<span style="position:relative;top:8px;" class="font_address">550-0005</span>
+		<span style="font-size:12pt; margin-left:12px;">(電話番号)</span><!--电话号码填写--->
+		<span style="position:relative;top:8px;" class="font_address">06-6616-9082</span>
+		
+		<div style="margin-top:8px;"></div>
+		<span style="font-size:10pt; margin-left:12px;">Postal Code</span>
+		<span style="font-size:13pt; margin-left:40px;">JAPAN</span>
+		<span style="font-size:10pt; margin-left:2px;">Telephone number</span>
+    </td>
+	<td class="td_telehoneandcountry">
+	   <div style="height:160px;">
+		   <ul class="ul_address">
+				<li class="li_address" >收件人：{$order.da_name}</li>
+				<li class="li_address" >城市：{$order.da_area_province},{$order.da_area_city}</li>
+				<li class="li_address" >邮编：{$order.da_zipcode}</li>
+				<li class="li_address" >地址：{$order.da_address}</li>
+			</ul>
+	   </div>
+	   <div style="border-top:1px dashed;">
+	      <div style="border-right:1px solid; width:45%; height:51px; float:left;">
+		     <span style="font-size:10pt;">(電話番号)</span>
+			 <span style="font-size:10pt;">Telephone number</span>
+			 <ul class="ul_address" >
+	           	<li style="margin-top:6px;">&nbsp;&nbsp;&nbsp;&nbsp;{$order.da_sparetelephone}</li>
+	         </ul>
+		  </div>
+		  <div>
+		       <span style="font-size:10pt; margin-left:12px;">(国    名)</span>
+	           <span style="font-size:10pt;">Country</span>
+	           <ul class="ul_address" >
+	           	<li style="margin-top:6px;">&nbsp;&nbsp;&nbsp;&nbsp;{$order.da_area_country}</li>
+	           </ul>
+		  </div>
+	   </div>
+	</td>
+  </tr>
+  <!--第三列-->
+  <tr>
+  	<td colspan="2" class="td_goodsdesc">
+  		<div style="width:76%; height:180px; border-right:2px solid #008000; float:left;">	   
+		    <div style="height:140px;">
+			  <table height="100%;" >
+			  	<tr style="height:20px;text-align:center;">
+			  	   <td style="border-right:1px solid; width:200px;">固定信息</td>
+				   <td style="border-right:1px solid; width:96px;">固定信息</td>
+				   <td colspan="2" style="border-right:1px dashed; border-bottom:1px solid;width:96px;">固定信息</td>
+				   <td colspan="2" style="border-right:1px dashed;">固定信息</td>
+				   <td>固定信息</td>
+			  	</tr>
+			  	{foreach from=$order.order_goods item=order_good name="name_order_goods"}
+				<tr>
+				   <td style="border-right:1px solid;">{$order_good.ordg_goodname}</td>
+				   <td style="border-right:1px solid;">{$order_good.ordg_goodnumber}</td>
+				   <td style="border-right:1px dashed; width:62px;">{$order_good.ordg_goodprice}</td>
+				   <td style="border-right:1px dashed; width:75px;">{$order_good.ordg_goodname}</td>
+				   <td style="border-right:1px dashed;border-bottom:1px solid;">{$order.ordw_goodweight}</td>
+				   <td style="border-right:1px dashed;border-bottom:1px solid;">{$order.ordw_goodweight}</td>
+				   <td style="border-bottom:1px solid;">{$order.ordw_goodweight}</td>
+				</tr>
+				{/foreach}
+			  </table>
+			</div>
+			<div>
+				<div style="border-top:2px solid #008000; border-right:2px solid #008000; width:425px; 
+					float:left; height:40px; padding-left:10px;">
+					<input type="checkbox" style="position:relative;top:10px;"/> 
+					<span>上記內容</span>
+				</div>
+				<div style="">
+					<p>日本</p>
+					<p>￥ {$order.ordw_applyprice}</p>
+				</div>
+			</div>
+		</div>
+		<div style="float:right;width:194px;">
+			<div style="height:90px;">
+				固定信息
+				<ul class="ul_address" style="padding-left:20px;">
+			   		<li>
+			   			<input type="checkbox" id="sal1"></input><label for="sal1">固定信息</label>
+			   			<input type="checkbox" id="sal2"></input><label for="sal2">固定信息</label>
+			   		</li>
+			   		<li>
+			   			<input type="checkbox" id="sal3"></input><label for="sal3">固定信息</label>
+			   			<input type="checkbox" id="sal4"></input><label for="sal4">固定信息</label>
+			   		</li>
+			   	</ul>
+			</div>
+			<div style="border-top:1px solid; ">
+			  固定信息
+			</div>	
+		</div>
+  	</td>
+  </tr>
+  <!--第四列-->
+  <tr>
+  	<td colspan="2" class="td_insurance">
+  		<table style="height:100%;">
+  			<tr style="height:100%;">
+  				<td style="height:100%; width:160px;">固定信息</td>
+  				<td style="border-right:1px dashed #008000;width:80px;">
+					<span style="position:relative;top:10px;">
+						<input type="checkbox"></input> 保险
+					</span>
+				</td>
+  				<td style="height:100%; width:220px;border-right:1px dashed #008000;">
+					<span>固定信息</span>
+					<span></span>
+				</td>
+  				<td style="height:100%;width:200px;border-right:1px dashed #008000;">
+					<span>保险金额</span>
+					<span>{$order.ordw_insurprice}</span>
+				</td>
+  				<td style="height:100%;">固定信息</td>
+  			</tr>
+  		</table>
+  	</td>
+  </tr>
+  <!--第五列-->
+  <tr>
+  	<td class="td_note">
+  		固定信息
+  	</td>
+	<td class="td_signature">
+		<table style="height:100%;">
+			<tr>
+				<td style="border-right:1px dashed #008000; width:150px;padding-left:10px;">受付年月日（）</td>
+				<td style="padding-left:10px;">署名</td>
+			</tr>
+			<tr>
+				<td style="border-right:1px dashed #008000;text-align:center;">{$date_now}</td>
+				<td style="text-align:center;font-size:20px;font-weight:bold;">銘東</td>
+			</tr>
+		</table>
+	</td>
+  </tr>
+  <!--第六列-->
+  <tr>
+  	<td colspan="3" class="td_description">
+  		<table style="height:100%;width:100%;">
+  			<tr>
+  			  <td class="address">
+  			  	<ul class="ul_address">
+  			  		<li><input type="checkbox"></input></li>
+  			  		<li><input type="checkbox"></input></li>
+  			  		<li><input type="checkbox"></input></li>
+  			  	</ul>
+			  </td>
+			  <td class="treat"></td>
+			  <td class="shipping"></td>
+			  <td style="vertical-align:bottom;padding-bottom:5px;">
+			  	<img src="barcode.php?codebar=BCGcode39&text={$order.ordw_waybillno}&fontsize=12&scale=2" style="margin:10px 0px 0px 10px;">
+			  </td>
+  			</tr>
+  		</table>
+  	</td>
+  </tr>
+</table>
+{/foreach}
+</body>
+</html>

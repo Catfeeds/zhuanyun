@@ -1,0 +1,128 @@
+<!-- $Id: currecys_list.htm 17126 2010-04-23 10:30:26Z zhangxingpeng $ -->
+
+{if $full_page}
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm" onsubmit="return confirmSubmit(this)">
+  <!-- start class list -->
+  <div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th><a href="javascript:listTable.sort('AdminName'); ">{$lang.AdminName}</a>{$sort_AdminName}</th>
+	<th><a href="javascript:listTable.sort('AuthorName'); ">{$lang.AuthorName}</a>{$sort_AuthorName}</th>
+	<th><a href="javascript:listTable.sort('TypeName'); ">{$lang.TypeName}</a>{$sort_TypeName}</th>
+	<th><a href="javascript:listTable.sort('LastIp'); ">{$lang.LastIp}</a>{$sort_LastIp}</th>
+	<th><a href="javascript:listTable.sort('LoginTimes'); ">{$lang.LoginTimes}</a>{$sort_LoginTimes}</th>
+	<th><a href="javascript:listTable.sort('LoginTime'); ">{$lang.LastTime}</a>{$sort_LastTime}</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$admin_list item=admin}
+  <tr>
+    <td align="center">
+    	<span onclick="listTable.edit(this, 'edit_admin_name', {$admin.AdminId})">{$admin.AdminName}</span>
+    </td>
+	<td align="center">
+    	<span onclick="listTable.edit(this, 'edit_author_name', {$admin.AdminId})">{$admin.AuthorName}</span>
+    </td>
+	<td align="center">
+    	<span onclick="listTable.edit(this, 'edit_type_name', {$admin.AdminId})">{$admin.TypeName}</span>
+    </td>
+	<td align="center">
+    	<span onclick="listTable.edit(this, 'edit_lastip', {$admin.AdminId})">{$admin.LastIp}</span>
+    </td>
+	<td align="center">
+    	<span onclick="listTable.edit(this, 'edit_logintimes', {$admin.AdminId})">{$admin.LoginTimes}</span>
+    </td>
+	<td align="center">
+    	<span onclick="listTable.edit(this, 'edit_logintime', {$admin.AdminId})">{$admin.LastTime}</span>
+    </td>
+    <td align="center" style="width:150px; padding:0px; margin:0px">
+      <a href="engrave_administrator_manage.php?act=edit&amp;id={$admin.AdminId}" title="{$lang.edit}"><img src="images/icon_edit.gif" width="16" height="16" border="0" /></a>
+      <a href="javascript:;" onclick="listTable.remove({$admin.AdminId},'{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    </td>
+  </tr>
+  {foreachelse}
+  <tr><td class="no-records" colspan="10">{$lang.no_records}</td></tr>
+  {/foreach}
+</table>
+<!-- end currecys list -->
+
+<!-- 分页 -->
+<table id="page-table" cellspacing="0">
+  <tr>
+    <td align="right" nowrap="true">
+    {include file="page.htm"}
+    </td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+
+</form>
+
+<script type="text/javascript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+
+  {literal}
+  onload = function()
+  {
+    startCheckOrder(); 
+    document.forms['listForm'].reset();
+  }
+
+  /**
+   * @param: bool ext 
+   */
+  function confirmSubmit(frm, ext)
+  {
+      if (frm.elements['type'].value == 'trash')
+      {
+          return confirm(batch_trash_confirm);
+      }
+      else if (frm.elements['type'].value == 'not_on_sale')
+      {
+          return confirm(batch_no_on_sale);
+      }
+      else if (frm.elements['type'].value == 'move_to')
+      {
+          ext = (ext == undefined) ? true : ext;
+          return ext && frm.elements['target_cat'].value != 0;
+      }
+      else if (frm.elements['type'].value == '')
+      {
+          return false;
+      }
+      else
+      {
+          return true;
+      }
+  }
+
+  function changeAction()
+  {
+      var frm = document.forms['listForm'];
+
+      frm.elements['target_cat'].style.display = frm.elements['type'].value == 'move_to' ? '' : 'none';
+			
+			{if $suppliers_list > 0}
+      frm.elements['suppliers_id'].style.display = frm.elements['type'].value == 'suppliers_move_to' ? '' : 'none';
+			{/if}
+
+      if (!document.getElementById('btnSubmit').disabled &&
+          confirmSubmit(frm, false))
+      {
+          frm.submit();
+      }
+  }
+{/literal}
+</script>
+{include file="engrave_pagefooter.htm"}
+{/if}

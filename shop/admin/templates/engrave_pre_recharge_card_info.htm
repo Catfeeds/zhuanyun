@@ -1,0 +1,108 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+{include file="engrave_pageheader.htm"}
+{insert_scripts files="../js/utils.js,selectzone.js,colorselector.js"}
+
+{if $warning}
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >{$warning}</li>
+</ul>
+{/if}
+
+<!-- start goods form -->
+<div class="main-div">
+      <form enctype="multipart/form-data" action="engrave_pre_recharge_card.php" method="post" name="theForm" onsubmit="return validate()">
+        <!-- table -->
+        <table cellspacing="1" cellpadding="3" width="100%">
+          <tr>
+            <td class="label">
+            {$lang.cardname} 
+            </td>
+            <td>
+              <input type="text" name="CardName" value="{$card_info.CardName}" size="30" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">
+            {$lang.coverimage} 
+            </td>
+            <td>
+              <input name="CoverImage" type="file" size="20" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">{$lang.price}</td>
+            <td>
+              <input type="text" name="Price" value="{$card_info.Price}" size="15" />
+            </td>
+          </tr>
+		  <tr>
+            <td class="label">{$lang.parvalue}</td>
+            <td>
+              <input type="text" name="ParValue" value="{$card_info.ParValue}" size="15" />
+            </td>
+          </tr>
+		  <tr>
+		    <td class="label">{$lang.description}</td>
+		    <td><textarea name="Description" cols="40" rows="3">{$card_info.Description|escape}</textarea></td>
+		  </tr>
+		  <tr>
+            <td class="label">{$lang.sortid}</td>
+            <td>
+              <input type="text" name="SortId" value="{$card_info.SortId}" size="10" />
+            </td>
+          </tr>
+        </table>
+        
+        <div class="button-div">
+          <input type="submit" value="{$lang.button_submit}" class="button" />
+          <input type="reset" value="{$lang.button_reset}" class="button" />
+        </div>
+        <input type="hidden" name="act" value="{$form_action}" />
+        <input type="hidden" name="PrepaidId" value="{$card_info.PrepaidId}"/>
+		<input type="hidden" name=="fileurl" value="{$card_info.CoverImage}" />
+      </form>
+</div>
+<!-- end goods form -->
+{insert_scripts files="validator.js"}
+
+<script language="JavaScript">
+{literal}
+	//初始化
+	if(document.all) { 
+		window.attachEvent('onload', load);
+	}
+	else { 
+		window.addEventListener('load', load);
+	}
+	
+	/**
+	 * 初始化加载
+	 */
+	function load()
+	{
+		document.forms['theForm'].elements['CardName'].focus();
+	}
+	/**
+	 * 表单验证
+	 */
+	function validate()
+	{
+	  validator = new Validator("theForm");
+	  
+	  validator.required("CardName", CardName_notnull);
+	  validator.required("Price", Price_notnull);
+	  validator.required("ParValue", ParValue_notnull);
+	  
+	  validator.isNumber("Price", Price_isnumber);
+	  validator.isNumber("ParValue", ParValue_isnumber);
+	  
+	  validator.gtInt("Price",0, Price_gtint);
+	  validator.gtInt("ParValue", 0,ParValue_gtint);
+	  
+
+	  return validator.passed();
+	}
+
+	{/literal}
+</script>
+{include file="pagefooter.htm"}

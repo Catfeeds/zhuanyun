@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>铭东物流转运系统</title>
+<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="themes/default/css/common.css" rel="stylesheet" type="text/css" />
+<link href="themes/default/css/page.css" rel="stylesheet" type="text/css" />
+{literal}
+<script type="text/javascript" src="themes/default/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="themes/default/js/common.js"></script>
+<!--[if IE 6]>
+<script src="js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+  DD_belatedPNG.fix('.ie6png,.ie6png:hover');
+</script>
+<![endif]-->
+
+{/literal}
+
+
+ </head>
+ <body id="listDiv">
+ {include file="header.htm"}
+   <!--conter-->
+    <div class="conter">
+	 <div class="member">
+	   {include file="member_menu.htm"}</div>
+	   <div class="conter_right">
+	    <div class="cr_top">{$weizhi}：{$ur_here}</div>
+		 <div class="cost myacc">
+		  <div class="cr_bot">
+			<div id="contents">
+			 <table id="table_recharge" class="stocktable">
+		      
+			 </tr>
+		     </table>
+ 					<div id="pagecount" class="class_paging"></div>
+			</div>
+		   </div>
+		 </div>
+	   </div>
+	   <div class="clear"></div>
+	 </div>
+	</div>
+  <!--footer-->
+   {include file="footer.htm"}
+  <!--/footer-->
+ {literal}
+	<script type="text/javascript">
+	var curPage = 1; //当前页码
+	var total,pageSize,totalPage;
+	//获取数据
+	function getData(page){ 
+		$.ajax({
+			type: 'POST',
+			url: 'member_jpy.php?act=jpy_query_json',
+			data: {'pageNum':page-1},
+			dataType:'json',
+			beforeSend:function(){
+				$("#list ul").append("<li id='loading'>loading...</li>");
+			},
+			success:function(json){
+				$("#table_recharge").empty();
+				$("#list ul").empty();
+				total = json.total; //总记录数
+				pageSize = json.pageSize; //每页显示条数
+				curPage = page; //当前页
+				totalPage = json.totalPage; //总页数
+				var list = json.list;
+				var tr='<tr><th>记录号</th><th>操作时间</th><th>确认时间</th><th>类型</th><th>金额</th><th>状态</th><th>操作</th></tr>';
+				$.each(list,function(index,array){ //遍历json数据列
+					tr += "<tr>";
+					tr += "<td>"+array['id']+"</td>";
+					tr += "<td>"+array['add_time']+"</td>";
+					tr += "<td>"+array['paid_time']+"</td>";
+					tr += "<td>"+array['process_type']+"</td>";
+					tr += "<td>"+array['amount']+"</td>";
+					tr += "<td>"+array['is_paid']+","+array['status']+"</td>";
+					
+					tr += '<td>';
+					if(array['is_paid']=='已完成')
+					{
+						//完成充值后，方可兑换人民币和日元
+						if(array['ischange'] == 'true')
+						{
+							tr+='<a title="将此次充值金额兑换为日元" href="member_jpy.php?act=info&id='+array["id"]+'">兑换日元</a>';
+						}else{
+							tr+='<a title="此充值金额已兑换为日元，撤销之前充值金额兑换" href="member_jpy.php?act=changeRMB&id='+array["id"]+'">放弃兑换</a>';
+						}
+					}
+					tr += '</td>';
+					tr += "</tr>";
+				});
+
+				$("#table_recharge").append(tr);
+			},
+			complete:function(){ //生成分页条
+				getPageBar();
+			},
+			error:function(){
+				//alert("数据加载失败");
+			}
+		});
+	}
+
+	//获取分页条
+	function getPageBar(){
+		//页码大于最大页数
+		if(curPage>totalPage) curPage=totalPage;
+		//页码小于1
+		if(curPage<1) curPage=1;
+		pageStr = "<span>共"+total+"条</span><span>"+curPage+"/"+totalPage+"</span>";
+		
+		//如果是第一页
+		if(curPage==1){
+			pageStr += "<span>首页</span><span>上一页</span>";
+		}else{
+			pageStr += "<span><a href='javascript:void(0)' rel='1'>首页</a></span><span><a href='javascript:void(0)' rel='"+(curPage-1)+"'>上一页</a></span>";
+		}
+		
+		//如果是最后页
+		if(curPage>=totalPage){
+			pageStr += "<span>下一页</span><span>尾页</span>";
+		}else{
+			pageStr += "<span><a href='javascript:void(0)' rel='"+(parseInt(curPage)+1)+"'>下一页</a></span><span><a href='javascript:void(0)' rel='"+totalPage+"'>尾页</a></span>";
+		}
+			
+		$("#pagecount").html(pageStr);
+	}
+
+	$(function(){
+		getData(1);
+		$("#pagecount span a").live('click',function(){
+			var rel = $(this).attr("rel");
+			if(rel){
+				getData(rel);
+			}
+		});
+		
+		var $lis=$(".checked li");
+		$lis.click(function(){
+			$(this).addClass("current").siblings().removeClass("current");
+			var index=$lis.index(this);
+			$("#contents div").eq(index).show().siblings().hide();
+		})
+	})
+	</script>
+ {/literal}
+ </body>
+ </html>

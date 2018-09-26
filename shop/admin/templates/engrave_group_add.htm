@@ -1,0 +1,64 @@
+<!-- $Id: brand_info.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="engrave_pageheader.htm"}
+<div class="main-div">
+<form method="post" action="engrave_manage_group_settings.php" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+<table cellspacing="1" cellpadding="3" width="100%">
+  <tr>
+    <td class="label">{$lang.UserGroupId}</td>
+    <td><input type="text" name="UserGroupId" maxlength="60" value="{$group.UserGroupId}" />{$lang.require_field}</td>
+  </tr>
+  <tr>
+  	{$lang.UserGroup_Tip}
+  </tr>
+  <tr>
+  	<td class="label">{$lang.UserGroupName}</td>
+    <td><input type="text" name="UserGroupName" maxlength="60" value="{$group.UserGroupName}" /></td> 
+  </tr>
+  <tr>
+    <td class="label">{$lang.SpePriv}</td>
+    <td><input type="checkbox" name="SpePriv" value="1" {if $group.SpePriv}checked="checked"{/if} />{$lang.AllSpePriv}</td>
+  </tr>
+  <tr>
+  	{$lang.UserGroup_Priv_Tip}
+  </tr>
+  <tr>
+  	<td><input type="checkbox" name="channel_manage" /></td>
+  	<td class="label">{$lang.channel_manage}</td>
+    <td><input type="checkbox" name="channel_list" value="1" {if $group.channel_list}checked="checked"{/if} />{$lang.channel_list} <input type="checkbox" name="new_channel" value="1" {if $group.new_channel}checked="checked"{/if} />{$lang.new_channel} <input type="checkbox" name="edit_channel" value="1" {if $group.edit_channel}checked="checked"{/if} />{$lang.edit_channel} 
+	    <input type="checkbox" name="delete_channel" value="1" {if $group.delete_channel}checked="checked"{/if} />{$lang.delete_channel} <input type="checkbox" name="class_manage" value="1" {if $group.class_manage}checked="checked"{/if} />{$lang.class_manage}</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><br />
+      <input type="submit" class="button" value="{$lang.button_submit}" />
+      <input type="submit" class="button" value="{$lang.back}" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="old_UserGroupName" value="{$group.UserGroupName}" />
+      <input type="hidden" name="id" value="{$group.UserGroupId}" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['UserGroupName'].focus();
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("UserGroupId",  no_usergroupid);
+    return validator.passed();
+}
+//-->
+</script>
+{/literal}
+{include file="engrave_pagefooter.htm"}
