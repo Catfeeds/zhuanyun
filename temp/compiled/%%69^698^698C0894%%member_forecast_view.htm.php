@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2018-07-08 15:14:14
+<?php /* Smarty version 2.6.26, created on 2018-10-05 14:43:56
          compiled from member_forecast_view.htm */ ?>
 <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "header_user.htm", 'smarty_include_vars' => array()));

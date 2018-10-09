@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2018-09-26 21:52:49
+<?php /* Smarty version 2.6.26, created on 2018-10-05 14:48:27
          compiled from header_user.htm */ ?>
 <html>
 <head>
@@ -12,6 +12,7 @@
 
 
 <link href="themes/default/css/index.css" rel="stylesheet" type="text/css" />
+<link href="bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="themes/default/css/rbhm/public.css" rel="stylesheet" type="text/css" />
 <link href="themes/default/css/rbhm/style.css" rel="stylesheet" type="text/css" />
 <link href="themes/default/css/rbhm/member.css" rel="stylesheet" type="text/css" />

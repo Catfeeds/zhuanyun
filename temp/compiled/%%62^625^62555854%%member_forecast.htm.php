@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.26, created on 2018-09-24 17:39:13
+<?php /* Smarty version 2.6.26, created on 2018-10-05 14:47:38
          compiled from member_forecast.htm */ ?>
 
  <?php $_smarty_tpl_vars = $this->_tpl_vars;
